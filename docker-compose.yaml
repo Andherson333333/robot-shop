@@ -1,0 +1,190 @@
+version: '3'
+services:
+ mongodb:
+   build:
+     context: mongo
+   image: ${REPO}/ad-mongodb:${TAG}
+   networks:
+     - robot-shop
+   logging: &logging
+     driver: "json-file" 
+     options:
+       max-size: "25m"
+       max-file: "2"
+
+ redis:
+   image: redis:6.2-alpine
+   networks:
+     - robot-shop  
+   logging:
+     <<: *logging
+
+ rabbitmq:
+   image: rabbitmq:4.0.3-management
+   networks:
+     - robot-shop
+   ports:
+     - "5672:5672"
+     - "15672:15672"
+   logging:
+     <<: *logging
+
+ mysql:
+   build:
+     context: mysql
+   image: ${REPO}/ad-mysql-db:${TAG}
+   cap_add:
+     - NET_ADMIN
+   environment:
+     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+     - MYSQL_DATABASE=cities
+     - MYSQL_USER=shipping
+     - MYSQL_PASSWORD=secret
+   networks:
+     - robot-shop
+   logging:
+     <<: *logging
+
+ shipping:
+   build:
+     context: shipping
+   image: ${REPO}/ad-shipping:${TAG}
+   depends_on:
+     - mysql
+   environment:
+     - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/cities?useSSL=false&allowPublicKeyRetrieval=true
+     - SPRING_DATASOURCE_USERNAME=shipping
+     - SPRING_DATASOURCE_PASSWORD=secret
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+     interval: 10s
+     timeout: 10s
+     retries: 3
+   logging:
+     <<: *logging
+
+ ratings:
+   build:
+     context: ratings
+   image: ${REPO}/ad-ratings:${TAG}
+   environment:
+     APP_ENV: prod
+     MYSQL_HOST: mysql
+     MYSQL_USERNAME: ratings  
+     MYSQL_PASSWORD: iloveit
+     MYSQL_DATABASE: ratings
+   networks:
+     - robot-shop
+   depends_on:
+     - mysql
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost/_health"]
+     interval: 10s  
+     timeout: 10s
+     retries: 3
+   logging:
+     <<: *logging
+
+ catalogue:
+   build:
+     context: catalogue
+   image: ${REPO}/ad-catalogue:${TAG}
+   depends_on:
+     - mongodb
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+     interval: 10s
+     timeout: 10s
+     retries: 3
+   logging:
+     <<: *logging
+
+ cart:
+   build: 
+     context: cart
+   image: ${REPO}/ad-cart:${TAG}
+   depends_on:
+     - redis
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+     interval: 10s
+     timeout: 10s
+     retries: 3
+   logging:
+     <<: *logging
+
+ payment:
+   build:
+     context: payment  
+   image: ${REPO}/ad-payment:${TAG}
+   depends_on:
+     - rabbitmq
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+     interval: 10s
+     timeout: 10s
+     retries: 3
+   logging:
+     <<: *logging
+
+ user:
+   build:
+     context: user
+   image: ${REPO}/ad-user:${TAG}
+   depends_on:
+     - mongodb
+     - redis
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+     interval: 10s
+     timeout: 10s
+     retries: 3
+   logging:
+     <<: *logging
+
+ dispatch:
+   build:
+     context: dispatch
+   image: ${REPO}/ad-dispatch:${TAG}  
+   depends_on:
+     - rabbitmq
+   networks:
+     - robot-shop
+   logging:
+     <<: *logging
+
+ web:
+   build:
+     context: web
+     args:
+       KEY: ${INSTANA_AGENT_KEY}
+   image: ${REPO}/ad-web:${TAG}
+   depends_on:
+     - catalogue
+     - user
+     - shipping
+     - payment
+   ports:
+     - "8080:8080"
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/"]
+     interval: 10s
+     timeout: 10s
+     retries: 3
+   logging:
+     <<: *logging
+
+networks:
+ robot-shop:
