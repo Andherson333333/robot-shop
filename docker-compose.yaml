@@ -1,4 +1,4 @@
-version: '3'
+name: robot-shop
 
 x-healthcheck: &default-healthcheck
  interval: 10s
@@ -12,166 +12,165 @@ x-logging: &default-logging
    max-file: "2"
 
 services:
- # Databases
- mongodb:
-   build:
-     context: mongo
-   image: ${REPO}/ad-mongodb:${TAG}
-   networks:
-     - robot-shop
-   logging: *default-logging
+  # Databases
+  mongodb:
+    build:
+      context: ./mongo
+    image: rs-mongodb:latest
+    networks:
+      - robot-shop
+    logging: *default-logging
 
- redis:
-   image: redis:6.2-alpine
-   networks:
-     - robot-shop
-   logging: *default-logging
+  redis:
+    image: redis:6.2-alpine
+    networks:
+      - robot-shop
+    logging: *default-logging
 
- mysql:
-   build:
-     context: mysql
-   image: ${REPO}/ad-mysql-db:${TAG}
-   cap_add:
-     - NET_ADMIN
-   environment:
-     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-     - MYSQL_DATABASE=cities
-     - MYSQL_USER=shipping
-     - MYSQL_PASSWORD=secret
-   networks:
-     - robot-shop
-   logging: *default-logging
+  mysql:
+    build:
+      context: ./mysql
+    image: rs-mysql-db:latest
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=cities
+      - MYSQL_USER=shipping
+      - MYSQL_PASSWORD=secret
+    networks:
+      - robot-shop
+    logging: *default-logging
 
- # Message Broker
- rabbitmq:
-   image: rabbitmq:4.0.3-management
-   ports:
-     - "5672:5672"
-     - "15672:15672"
-   networks:
-     - robot-shop
-   logging: *default-logging
+  # Message Broker
+  rabbitmq:
+    image: rabbitmq:4.0.3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - robot-shop
+    logging: *default-logging
 
- # Core Services
- catalogue:
-   build:
-     context: catalogue
-   image: ${REPO}/ad-catalogue:${TAG}
-   depends_on:
-     - mongodb
-   networks:
-     - robot-shop
-   healthcheck:
-     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
-     <<: *default-healthcheck
-   logging: *default-logging
+  # Core Services
+  catalogue:
+    build:
+      context: ./catalogue
+    image: rs-catalogue:latest
+    depends_on:
+      - mongodb
+    networks:
+      - robot-shop
+    healthcheck:
+      test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+      <<: *default-healthcheck
+    logging: *default-logging
 
- user:
-   build:
-     context: user
-   image: ${REPO}/ad-user:${TAG}
-   depends_on:
-     - mongodb
-     - redis
-   networks:
-     - robot-shop
-   healthcheck:
-     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
-     <<: *default-healthcheck
-   logging: *default-logging
+  user:
+    build:
+      context: ./user
+    image: rs-user:latest
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - robot-shop
+    healthcheck:
+      test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+      <<: *default-healthcheck
+    logging: *default-logging
 
- cart:
-   build:
-     context: cart
-   image: ${REPO}/ad-cart:${TAG}
-   depends_on:
-     - redis
-   networks:
-     - robot-shop
-   healthcheck:
-     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
-     <<: *default-healthcheck
-   logging: *default-logging
+  cart:
+    build:
+      context: ./cart
+    image: rs-cart:latest
+    depends_on:
+      - redis
+    networks:
+      - robot-shop
+    healthcheck:
+      test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+      <<: *default-healthcheck
+    logging: *default-logging
 
- # Shipping and Rating Services
- shipping:
-   image: abhishek8shankar/robot-shop:shipping
-   depends_on:
-     - mysql
-   environment:
-     - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/cities?useSSL=false&allowPublicKeyRetrieval=true
-     - SPRING_DATASOURCE_USERNAME=shipping
-     - SPRING_DATASOURCE_PASSWORD=secret
-   networks:
-     - robot-shop
-   healthcheck:
-     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
-     <<: *default-healthcheck
-   logging: *default-logging
+  # Shipping and Rating Services
+  shipping:
+    image: abhishek8shankar/robot-shop:shipping
+    depends_on:
+      - mysql
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/cities?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=shipping
+      - SPRING_DATASOURCE_PASSWORD=secret
+    networks:
+      - robot-shop
+    healthcheck:
+      test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+      <<: *default-healthcheck
+    logging: *default-logging
 
- ratings:
-   build:
-     context: ratings
-   image: ${REPO}/ad-ratings:${TAG}
-   environment:
-     APP_ENV: prod
-     MYSQL_HOST: mysql
-     MYSQL_USERNAME: ratings
-     MYSQL_PASSWORD: iloveit
-     MYSQL_DATABASE: ratings
-   depends_on:
-     - mysql
-   networks:
-     - robot-shop
-   healthcheck:
-     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost/_health"]
-     <<: *default-healthcheck
-   logging: *default-logging
+  ratings:
+    build:
+      context: ./ratings
+    image: rs-ratings:latest
+    environment:
+      APP_ENV: prod
+      MYSQL_HOST: mysql
+      MYSQL_USERNAME: ratings
+      MYSQL_PASSWORD: iloveit
+      MYSQL_DATABASE: ratings
+    depends_on:
+      - mysql
+    networks:
+      - robot-shop
+    healthcheck:
+      test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost/_health"]
+      <<: *default-healthcheck
+    logging: *default-logging
 
- # Payment and Dispatch Services
- payment:
-   build:
-     context: payment
-   image: ${REPO}/ad-payment:${TAG}
-   depends_on:
-     - rabbitmq
-   networks:
-     - robot-shop
-   healthcheck:
-     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
-     <<: *default-healthcheck
-   logging: *default-logging
+  # Payment and Dispatch Services
+  payment:
+    build:
+      context: ./payment
+    image: rs-payment:latest
+    depends_on:
+      - rabbitmq
+    networks:
+      - robot-shop
+    healthcheck:
+      test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+      <<: *default-healthcheck
+    logging: *default-logging
 
- dispatch:
-   build:
-     context: dispatch
-   image: ${REPO}/ad-dispatch:${TAG}
-   depends_on:
-     - rabbitmq
-   networks:
-     - robot-shop
-   logging: *default-logging
+  dispatch:
+    build:
+      context: ./dispatch
+    image: rs-dispatch:latest
+    depends_on:
+      - rabbitmq
+    networks:
+      - robot-shop
+    logging: *default-logging
 
- # Frontend
- web:
-   build:
-     context: web
-     args:
-       KEY: ${INSTANA_AGENT_KEY}
-   image: ${REPO}/ad-web:${TAG}
-   ports:
-     - "8080:8080"
-   depends_on:
-     - catalogue
-     - user
-     - shipping
-     - payment
-   networks:
-     - robot-shop
-   healthcheck:
-     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/"]
-     <<: *default-healthcheck
-   logging: *default-logging
+  # Frontend
+  web:
+    build:
+      context: ./web
+    image: rs-web:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - catalogue
+      - user
+      - shipping
+      - payment
+    networks:
+      - robot-shop
+    healthcheck:
+      test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/"]
+      <<: *default-healthcheck
+    logging: *default-logging
 
 networks:
- robot-shop:
+  robot-shop:
+    name: robot-shop
