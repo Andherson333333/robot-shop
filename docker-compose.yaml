@@ -1,33 +1,31 @@
 version: '3'
+
+x-healthcheck: &default-healthcheck
+ interval: 10s
+ timeout: 10s
+ retries: 3
+
+x-logging: &default-logging
+ driver: "json-file"
+ options:
+   max-size: "25m"
+   max-file: "2"
+
 services:
+ # Databases
  mongodb:
    build:
      context: mongo
    image: ${REPO}/ad-mongodb:${TAG}
    networks:
      - robot-shop
-   logging: &logging
-     driver: "json-file" 
-     options:
-       max-size: "25m"
-       max-file: "2"
+   logging: *default-logging
 
  redis:
    image: redis:6.2-alpine
    networks:
-     - robot-shop  
-   logging:
-     <<: *logging
-
- rabbitmq:
-   image: rabbitmq:4.0.3-management
-   networks:
      - robot-shop
-   ports:
-     - "5672:5672"
-     - "15672:15672"
-   logging:
-     <<: *logging
+   logging: *default-logging
 
  mysql:
    build:
@@ -42,51 +40,19 @@ services:
      - MYSQL_PASSWORD=secret
    networks:
      - robot-shop
-   logging:
-     <<: *logging
+   logging: *default-logging
 
- shipping:
-   build:
-     context: shipping
-   image: abhishek8shankar/robot-shop:shipping
-   depends_on:
-     - mysql
-   environment:
-     - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/cities?useSSL=false&allowPublicKeyRetrieval=true
-     - SPRING_DATASOURCE_USERNAME=shipping
-     - SPRING_DATASOURCE_PASSWORD=secret
+ # Message Broker
+ rabbitmq:
+   image: rabbitmq:4.0.3-management
+   ports:
+     - "5672:5672"
+     - "15672:15672"
    networks:
      - robot-shop
-   healthcheck:
-     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
-     interval: 10s
-     timeout: 10s
-     retries: 3
-   logging:
-     <<: *logging
+   logging: *default-logging
 
- ratings:
-   build:
-     context: ratings
-   image: ${REPO}/ad-ratings:${TAG}
-   environment:
-     APP_ENV: prod
-     MYSQL_HOST: mysql
-     MYSQL_USERNAME: ratings  
-     MYSQL_PASSWORD: iloveit
-     MYSQL_DATABASE: ratings
-   networks:
-     - robot-shop
-   depends_on:
-     - mysql
-   healthcheck:
-     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost/_health"]
-     interval: 10s  
-     timeout: 10s
-     retries: 3
-   logging:
-     <<: *logging
-
+ # Core Services
  catalogue:
    build:
      context: catalogue
@@ -97,43 +63,8 @@ services:
      - robot-shop
    healthcheck:
      test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
-     interval: 10s
-     timeout: 10s
-     retries: 3
-   logging:
-     <<: *logging
-
- cart:
-   build: 
-     context: cart
-   image: ${REPO}/ad-cart:${TAG}
-   depends_on:
-     - redis
-   networks:
-     - robot-shop
-   healthcheck:
-     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
-     interval: 10s
-     timeout: 10s
-     retries: 3
-   logging:
-     <<: *logging
-
- payment:
-   build:
-     context: payment  
-   image: ${REPO}/ad-payment:${TAG}
-   depends_on:
-     - rabbitmq
-   networks:
-     - robot-shop
-   healthcheck:
-     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
-     interval: 10s
-     timeout: 10s
-     retries: 3
-   logging:
-     <<: *logging
+     <<: *default-healthcheck
+   logging: *default-logging
 
  user:
    build:
@@ -146,45 +77,101 @@ services:
      - robot-shop
    healthcheck:
      test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
-     interval: 10s
-     timeout: 10s
-     retries: 3
-   logging:
-     <<: *logging
+     <<: *default-healthcheck
+   logging: *default-logging
 
- dispatch:
+ cart:
    build:
-     context: dispatch
-   image: ${REPO}/ad-dispatch:${TAG}  
+     context: cart
+   image: ${REPO}/ad-cart:${TAG}
+   depends_on:
+     - redis
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+     <<: *default-healthcheck
+   logging: *default-logging
+
+ # Shipping and Rating Services
+ shipping:
+   image: abhishek8shankar/robot-shop:shipping
+   depends_on:
+     - mysql
+   environment:
+     - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/cities?useSSL=false&allowPublicKeyRetrieval=true
+     - SPRING_DATASOURCE_USERNAME=shipping
+     - SPRING_DATASOURCE_PASSWORD=secret
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+     <<: *default-healthcheck
+   logging: *default-logging
+
+ ratings:
+   build:
+     context: ratings
+   image: ${REPO}/ad-ratings:${TAG}
+   environment:
+     APP_ENV: prod
+     MYSQL_HOST: mysql
+     MYSQL_USERNAME: ratings
+     MYSQL_PASSWORD: iloveit
+     MYSQL_DATABASE: ratings
+   depends_on:
+     - mysql
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost/_health"]
+     <<: *default-healthcheck
+   logging: *default-logging
+
+ # Payment and Dispatch Services
+ payment:
+   build:
+     context: payment
+   image: ${REPO}/ad-payment:${TAG}
    depends_on:
      - rabbitmq
    networks:
      - robot-shop
-   logging:
-     <<: *logging
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+     <<: *default-healthcheck
+   logging: *default-logging
 
+ dispatch:
+   build:
+     context: dispatch
+   image: ${REPO}/ad-dispatch:${TAG}
+   depends_on:
+     - rabbitmq
+   networks:
+     - robot-shop
+   logging: *default-logging
+
+ # Frontend
  web:
    build:
      context: web
      args:
        KEY: ${INSTANA_AGENT_KEY}
    image: ${REPO}/ad-web:${TAG}
+   ports:
+     - "8080:8080"
    depends_on:
      - catalogue
      - user
      - shipping
      - payment
-   ports:
-     - "8080:8080"
    networks:
      - robot-shop
    healthcheck:
      test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/"]
-     interval: 10s
-     timeout: 10s
-     retries: 3
-   logging:
-     <<: *logging
+     <<: *default-healthcheck
+   logging: *default-logging
 
 networks:
  robot-shop:
