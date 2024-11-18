@@ -1,0 +1,190 @@
+version: '3'
+services:
+ mongodb:
+   build:
+     context: mongo
+   image: rs-mongodb
+   networks:
+     - robot-shop
+   logging: &logging
+     driver: "json-file" 
+     options:
+       max-size: "25m"
+       max-file: "2"
+ 
+ redis:
+   image: redis:alpine3.20
+   networks:
+     - robot-shop
+   logging:
+     <<: *logging
+ 
+ rabbitmq:
+   image: rabbitmq:4.0.3-management-alpine
+   ports:
+     - "5672:5672"
+     - "15672:15672"
+   networks:
+     - robot-shop
+   logging:
+     <<: *logging
+ 
+ catalogue:
+   build:
+     context: catalogue
+   image: rs-catalogue
+   depends_on:
+     - mongodb
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+     interval: 10s
+     timeout: 10s
+     retries: 3
+   logging:
+     <<: *logging
+ 
+ user:
+   build:
+     context: user
+   image: rs-user
+   depends_on:
+     - mongodb
+     - redis
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+     interval: 10s
+     timeout: 10s
+     retries: 3
+   logging:
+     <<: *logging
+ 
+ cart:
+   build:
+     context: cart
+   image: rs-cart
+   depends_on:
+     - redis
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+     interval: 10s
+     timeout: 10s
+     retries: 3
+   logging:
+     <<: *logging
+ 
+ mysql:
+   build:
+     context: mysql
+   image: rs-mysql-db
+   environment:
+     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+     - MYSQL_DATABASE=cities
+     - MYSQL_USER=shipping
+     - MYSQL_PASSWORD=secret
+   cap_add:
+     - NET_ADMIN
+   networks:
+     - robot-shop
+   logging:
+     <<: *logging
+ 
+ shipping:
+   build:
+     context: shipping
+   image: rs-shipping
+   depends_on:
+     - mysql
+   environment:
+     - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/cities?useSSL=false&allowPublicKeyRetrieval=true
+     - SPRING_DATASOURCE_USERNAME=shipping
+     - SPRING_DATASOURCE_PASSWORD=secret
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+     interval: 10s
+     timeout: 10s
+     retries: 3
+   logging:
+     <<: *logging
+ 
+ ratings:
+   build:
+     context: ratings
+   image: rs-ratings
+   environment:
+     APP_ENV: prod
+     MYSQL_HOST: mysql
+     MYSQL_USERNAME: ratings
+     MYSQL_PASSWORD: iloveit
+     MYSQL_DATABASE: ratings
+   networks:
+     - robot-shop
+   depends_on:
+     - mysql
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost/_health"]
+     interval: 10s
+     timeout: 10s
+     retries: 3
+   logging:
+     <<: *logging
+ 
+ payment:
+   build:
+     context: payment
+   image: rs-payment
+   depends_on:
+     - rabbitmq
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/health"]
+     interval: 10s
+     timeout: 10s
+     retries: 3
+   logging:
+     <<: *logging
+ 
+ dispatch:
+   build:
+     context: dispatch
+   image: rs-dispatch
+   depends_on:
+     - rabbitmq
+   networks:
+     - robot-shop
+   logging:
+     <<: *logging
+ 
+ web:
+   build:
+     context: web
+     args:
+       KEY: ${INSTANA_AGENT_KEY}
+   image: rs-web
+   depends_on:
+     - catalogue
+     - user
+     - shipping
+     - payment
+   ports:
+     - "8080:8080"
+   networks:
+     - robot-shop
+   healthcheck:
+     test: ["CMD", "curl", "-H", "X-INSTANA-SYNTHETIC: 1", "-f", "http://localhost:8080/"]
+     interval: 10s
+     timeout: 10s
+     retries: 3
+   logging:
+     <<: *logging
+
+networks:
+ robot-shop:
