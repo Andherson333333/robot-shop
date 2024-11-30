@@ -48,8 +48,8 @@ K8s/
 
 ## Instalación
 
-1. Crear el namespace:
 ```
+# Namespace
 kubectl apply -f app-services/namespace.yaml
 
 # MongoDB
@@ -64,6 +64,7 @@ kubectl apply -f redis/
 # Rabbitmq
 kubectl apply -f rabbitmq/
 
+# App-services
 kubectl apply -f app-services/cart/
 kubectl apply -f app-services/catalogue/
 kubectl apply -f app-services/payment/
