@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-config
+  namespace: robot-shop
+data:
+  CATALOGUE_HOST: "catalogue"
+  USER_HOST: "user"
+  CART_HOST: "cart"
+  SHIPPING_HOST: "shipping"
+  PAYMENT_HOST: "payment"
+  RATINGS_HOST: "ratings"

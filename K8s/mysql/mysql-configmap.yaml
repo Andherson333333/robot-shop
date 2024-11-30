@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+  namespace: robot-shop
+data:
+  MYSQL_DATABASE: "cities"
+  MYSQL_USER: "shipping"

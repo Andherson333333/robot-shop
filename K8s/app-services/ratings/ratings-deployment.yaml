@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: ratings
+ namespace: robot-shop
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: ratings
+ template:
+   metadata:
+     labels:
+       app: ratings
+   spec:
+     containers:
+     - name: ratings
+       image: andherson1039/rs-ratings:latest
+       ports:
+       - containerPort: 80
+       livenessProbe:
+         tcpSocket:
+           port: 80
+         initialDelaySeconds: 60
+         periodSeconds: 20
+         timeoutSeconds: 5
+         failureThreshold: 5
+       readinessProbe:
+         tcpSocket:
+           port: 80
+         initialDelaySeconds: 30
+         periodSeconds: 10
+         timeoutSeconds: 3
+         failureThreshold: 3
+       envFrom:
+       - configMapRef:
+           name: ratings-config
+       - secretRef:
+           name: ratings-secrets
+       resources:
+         requests:
+           cpu: "50m"
+           memory: "64Mi"
+         limits:
+           cpu: "100m"
+           memory: "128Mi"
