@@ -21,6 +21,33 @@ K8s/
 └── redis/               # Cache Redis
 </pre>
 
+## Requistos
+
+- Cluster Kubernetes funcionando (v1.19+)
+- kubectl instalado y configurado
+- 4GB RAM disponible en el cluster
+- Soporte para LoadBalancer (acceso al frontend)
+- Soporte para PersistentVolumes (bases de datos)
+  
+## Despligue
+
+Si quieres desplegar toda la aplicación de una vez:
+
+```
+kubectl apply -f .
+```
+
+Si prefieres más control sobre el proceso:
+
+1. Crear Namespace y Configuraciones Base
+2. Bases de Datos y Almacenamiento
+3. Message Broker
+4. Microservicios de la Aplicación
+5. Frontend Web
+
+
+
+
 ## Tecnologías de Kubernetes Utilizadas
 
 ### Core Resources (v1)
