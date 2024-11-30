@@ -21,8 +21,6 @@ K8s/
 └── redis/               # Cache Redis
 </pre>
 
-cat << 'EOF' >> README.md
-
 ## Tecnologías de Kubernetes Utilizadas
 
 ### Core Resources (v1)
@@ -78,8 +76,3 @@ cat << 'EOF' >> README.md
   - RabbitMQ (Deployment + ClusterIP)
   - Microservicios (Deployments + ClusterIP)
   - Web UI (Deployment + LoadBalancer)
-EOF
-
-
-
-
