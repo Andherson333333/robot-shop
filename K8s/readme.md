@@ -21,59 +21,64 @@ K8s/
 └── redis/               # Cache Redis
 </pre>
 
-## Componentes
+cat << 'EOF' >> README.md
 
-### Bases de Datos
-- **MongoDB**: Base de datos NoSQL para el catálogo de productos
-- **MySQL**: Base de datos relacional para usuarios y envíos
-- **Redis**: Sistema de caché para el carrito de compras
+## Tecnologías de Kubernetes Utilizadas
 
-### Message Broker
-- **RabbitMQ**: Sistema de mensajería para comunicación asíncrona
+### Core Resources (v1)
+- **Namespace**: Aislamiento de recursos y organización del proyecto
+- **ConfigMap**: Configuraciones no sensibles de la aplicación
+- **Secret**: Almacenamiento seguro de credenciales y datos sensibles
+- **Service**: Exposición y descubrimiento de servicios
+  - ClusterIP: Comunicación interna
+  - LoadBalancer: Exposición externa (Web UI)
+  - Headless: Usado por StatefulSets (MongoDB, MySQL)
+- **PersistentVolume (PV)**: Almacenamiento persistente para bases de datos
+- **PersistentVolumeClaim (PVC)**: Solicitudes de almacenamiento para MongoDB y MySQL
 
-### Microservicios
-- **Cart**: Gestión del carrito de compras
-- **Catalogue**: Gestión del catálogo de productos
-- **Payment**: Procesamiento de pagos
-- **Ratings**: Sistema de calificaciones
-- **Shipping**: Gestión de envíos
-- **User**: Gestión de usuarios
-- **Web**: Interfaz web de usuario
+### Workloads (apps/v1)
+- **Deployment**: Aplicaciones stateless
+  - Redis, RabbitMQ
+  - Servicios web (cart, catalogue, payment, etc.)
+- **StatefulSet**: Aplicaciones stateful
+  - MongoDB
+  - MySQL
 
-## Requisitos Previos
+### Autoscaling (autoscaling/v2)
+- **HorizontalPodAutoscaler (HPA)**: Autoescalado automático
+  - Configurado para todos los servicios
+  - Basado en CPU (70%) y Memoria (70%)
+  - Escala de 1 a 5 réplicas
 
-- Kubernetes v1.19 o superior
-- Kubectl configurado para tu cluster
-- Almacenamiento disponible para PersistentVolumes
+### Características de Resiliencia
+- **Init Containers**: Verificación de dependencias
+- **Resource Management**:
+  - Requests: Recursos mínimos garantizados
+  - Limits: Límites máximos de recursos
+- **Health Checks**:
+  - Liveness Probe: Verificación de salud
+  - Readiness Probe: Verificación de disponibilidad
 
-## Instalación
+### Configuración y Seguridad
+- **Environment Variables**: Variables de entorno desde:
+  - ConfigMaps
+  - Secrets
+  - Valores directos
+- **Volume Management**: 
+  - PersistentVolumes
+  - Volume Mounts
+  - Volume Claims
 
-```
-# Namespace
-kubectl apply -f app-services/namespace.yaml
-
-# MongoDB
-kubectl apply -f mongodb/
-
-# MySQL
-kubectl apply -f mysql/
-
-# Redis
-kubectl apply -f redis/
-
-# Rabbitmq
-kubectl apply -f rabbitmq/
-
-# App-services
-kubectl apply -f app-services/cart/
-kubectl apply -f app-services/catalogue/
-kubectl apply -f app-services/payment/
-kubectl apply -f app-services/ratings/
-kubectl apply -f app-services/shipping/
-kubectl apply -f app-services/user/
-kubectl apply -f app-services/web/
-
-```
+### Distribución de Servicios
+- **Stateful Services**:
+  - MongoDB (StatefulSet + Headless Service)
+  - MySQL (StatefulSet + Headless Service)
+- **Stateless Services**:
+  - Redis (Deployment + ClusterIP)
+  - RabbitMQ (Deployment + ClusterIP)
+  - Microservicios (Deployments + ClusterIP)
+  - Web UI (Deployment + LoadBalancer)
+EOF
 
 
 
