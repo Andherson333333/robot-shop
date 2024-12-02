@@ -45,8 +45,8 @@ kubectl get secret prometheus-grafana -n monitoring -o jsonpath="{.data.admin-pa
 
 ## Referencias
 
-[Documentación oficial de Prometheus](https://prometheus.io/docs/introduction/overview/)
-[Documentación de Istio](https://istio.io/latest/docs/ops/integrations/prometheus/)
-[Helm Charts de Prometheus](https://github.com/prometheus-community/helm-charts)
-[Documentación de Grafana](https://grafana.com/docs/grafana/latest/)
+- [Documentación oficial de Prometheus](https://prometheus.io/docs/introduction/overview/)
+- [Documentación de Istio](https://istio.io/latest/docs/ops/integrations/prometheus/)
+- [Helm Charts de Prometheus](https://github.com/prometheus-community/helm-charts)
+- [Documentación de Grafana](https://grafana.com/docs/grafana/latest/)
 
