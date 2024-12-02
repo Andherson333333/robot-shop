@@ -21,12 +21,12 @@ K8s/
 └── redis/               # Cache Redis
 </pre>
 
+![estructura](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-1.png)
+
 ## Requistos
 
 - Cluster Kubernetes funcionando (v1.19+)
 - kubectl instalado y configurado
-- 4GB RAM disponible en el cluster
-- Soporte para LoadBalancer (acceso al frontend)
 - Soporte para PersistentVolumes (bases de datos)
   
 ## Despligue
@@ -88,7 +88,19 @@ kubectl apply -f app-services/ratings/
 kubectl apply -f app-services/web/
 ```
 
+## Verificacion
 
+- Pod y servicio
+![pod-service](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-app-6.png)
+
+- deployment y statefulser
+![deployment](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-app-7.png)
+
+- HAP
+![HPA](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-app-5.png)
+
+- PV 
+![estructura](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-1.png)
 
 ## Tecnologías de Kubernetes Utilizadas
 
