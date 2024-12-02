@@ -1,7 +1,19 @@
+## Indice
+
+## Índice de contenidos
+* [Robot Shop Kubernetes Manifests](#item1)
+* [Estructura del Proyecto](#item2)
+* [Requistos](#item3)
+* [Despligue](#item4)
+* [Verificacion](#item5)
+* [Tecnologías de Kubernetes Utilizadas](#item6)
+
+<a name="item1"></a>
 # Robot Shop Kubernetes Manifests
 
 Este repositorio contiene los manifiestos de Kubernetes necesarios para desplegar la aplicación Robot Shop, una tienda de robots de demostración que utiliza una arquitectura de microservicios.
 
+<a name="item2"></a>
 ## Estructura del Proyecto
 
 <pre>
@@ -23,12 +35,14 @@ K8s/
 
 ![estructura](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-1.png)
 
+<a name="item3"></a>
 ## Requistos
 
 - Cluster Kubernetes funcionando (v1.19+)
 - kubectl instalado y configurado
 - Soporte para PersistentVolumes (bases de datos)
-  
+
+<a name="item4"></a>
 ## Despligue
 
 Si quieres desplegar toda la aplicación de una vez:
@@ -87,7 +101,7 @@ kubectl apply -f app-services/ratings/
 ```
 kubectl apply -f app-services/web/
 ```
-
+<a name="item4"></a>
 ## Verificacion
 
 - Pod y servicio
@@ -102,6 +116,7 @@ kubectl apply -f app-services/web/
 - PV 
 ![pv](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-app-8.png)
 
+<a name="item5"></a>
 ## Tecnologías de Kubernetes Utilizadas
 
 ### Core Resources (v1)
