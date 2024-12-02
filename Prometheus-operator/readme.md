@@ -43,11 +43,16 @@ kubectl apply -f pv-prometheus.yaml
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 ```
-4. Configurar Integración con Istio
+4. Aplicar el values , esta configurado para la integracion istio y un pv
+```
+helm install prometheus prometheus-community/kube-prometheus-stack -f values.yaml -n monitoring
+```
+
+6. Configurar Integración con Istio
 ```
 kubectl apply -f prometheus-operator.yaml
 ```
-5. Acceso a Interfaces
+6. Acceso a Interfaces
 ```
 kubectl get secret prometheus-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 -d; echo
 ```
