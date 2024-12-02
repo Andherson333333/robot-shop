@@ -1,7 +1,17 @@
+## Índice de contenidos
+* [Monitoreo con Prometheus & Istio](#item1)
+* [Características](#item2)
+* [Requistos](#item3)
+* [Instalacion](#item4)
+* [Verificacion](#item5)
+* [Referencias](#item6)
+
+<a name="item1"></a>
 # Monitoreo con Prometheus & Istio
 
 Este repositorio contiene la configuración necesaria para implementar Prometheus junto con Istio, proporcionando una solución robusta de monitoreo para clusters de Kubernetes.
- 
+
+<a name="item2"></a>
 ## Características
 
 - Monitoreo automatizado de servicios Istio
@@ -9,6 +19,7 @@ Este repositorio contiene la configuración necesaria para implementar Prometheu
 - Dashboards preconfigurados en Grafana
 - Recolección de métricas de Envoy Proxy
 
+<a name="item3"></a>
 ## Requistos
 
 - Helm
@@ -16,6 +27,7 @@ Este repositorio contiene la configuración necesaria para implementar Prometheu
 - Kubernetes Cluster
 - Istio 
 
+<a name="item4"></a>
 ## Instalacion
 
 1. Crear Namespace
@@ -39,6 +51,8 @@ kubectl apply -f prometheus-operator.yaml
 ```
 kubectl get secret prometheus-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 -d; echo
 ```
+
+<a name="item5"></a>
 ## Verificacion
 - Prometheus pod 
 ![pod-prometheus](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-prometues-1.png)
@@ -50,6 +64,7 @@ kubectl get secret prometheus-grafana -n monitoring -o jsonpath="{.data.admin-pa
 ![grapahan-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-graphana-2.png)
 ![graphana-2](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-graphana-1.png)
 
+<a name="item7"></a>
 ## Referencias
 
 - [Documentación oficial de Prometheus](https://prometheus.io/docs/introduction/overview/)
