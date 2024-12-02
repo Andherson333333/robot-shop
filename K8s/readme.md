@@ -101,7 +101,7 @@ kubectl apply -f app-services/ratings/
 ```
 kubectl apply -f app-services/web/
 ```
-<a name="item4"></a>
+<a name="item5"></a>
 ## Verificacion
 
 - Pod y servicio
@@ -116,7 +116,7 @@ kubectl apply -f app-services/web/
 - PV 
 ![pv](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-app-8.png)
 
-<a name="item5"></a>
+<a name="item6"></a>
 ## Tecnologías de Kubernetes Utilizadas
 
 ### Core Resources (v1)
