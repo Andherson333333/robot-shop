@@ -40,8 +40,15 @@ kubectl apply -f prometheus-operator.yaml
 kubectl get secret prometheus-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 -d; echo
 ```
 ## Verificacion
+- Prometheus pod 
+![pod-prometheus](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-prometues-1.png)
 
+- Promethues con istio Dashbord
+![dashbord](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-prometues-3.png)
 
+- Graphana 
+![grapahan-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-graphana-2.png)
+![graphana-2](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-graphana-1.png)
 
 ## Referencias
 
