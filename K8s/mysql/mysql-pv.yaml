@@ -8,6 +8,9 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
-  hostPath:
+  nfs:
+    server: 172.16.0.142
     path: /data/mysql
+ # hostPath:
+ #   path: /data/mysql   # Ruta específica para MySQL
   persistentVolumeReclaimPolicy: Retain
