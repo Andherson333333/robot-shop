@@ -100,7 +100,7 @@ kubectl apply -f app-services/web/
 ![HPA](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-app-5.png)
 
 - PV 
-![estructura](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-1.png)
+![pv](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-app-8.png)
 
 ## Tecnologías de Kubernetes Utilizadas
 
