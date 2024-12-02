@@ -93,10 +93,10 @@ kubectl apply -f app-services/web/
 - Pod y servicio
 ![pod-service](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-app-6.png)
 
-- deployment y statefulser
+- deployment y statefulset
 ![deployment](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-app-7.png)
 
-- HAP
+- Hpa
 ![HPA](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-app-5.png)
 
 - PV 
