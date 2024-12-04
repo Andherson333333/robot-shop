@@ -1,0 +1,19 @@
+serviceMonitor:
+  metadata:
+    labels:
+      release: prometheus
+podMonitor:
+  metadata:
+    labels:
+      release: prometheus
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: ""  
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 15Gi
+
