@@ -43,7 +43,7 @@ kubectl apply -f pv-prometheus.yaml
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 ```
-4. Aplicar el values , esta configurado para la integracion istio y un pv
+4. Aplicar el values , esta configurado para la integracion con istio y crear un pv , para guardar los datos en un NFS o ruta
 ```
 helm install prometheus prometheus-community/kube-prometheus-stack -f values.yaml -n monitoring
 ```
