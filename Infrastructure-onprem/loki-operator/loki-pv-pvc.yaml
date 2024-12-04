@@ -17,7 +17,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: loki-pvc
-  namespace: monitoring
+  namespace: loki-system
 spec:
   accessModes:
     - ReadWriteOnce
