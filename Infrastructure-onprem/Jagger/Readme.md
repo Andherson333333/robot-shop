@@ -34,6 +34,13 @@ kubectl apply -f telemetry.yaml
 
 ## Verificacion
 
+pod y svc
+![jagger-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-jagger-1.png)
+
+Dashbord
+![jagger-2](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-jagger-2.png)
+![jagger-3](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-jagger-3.png)
+
 ## Componentes
 
 ### Almacenamiento Persistente
