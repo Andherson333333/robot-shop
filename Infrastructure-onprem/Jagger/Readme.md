@@ -21,16 +21,18 @@ Esta implementación incluye:
 
 1. Aplicar la configuración de almacenamiento
 ```
-kubectl apply -f 
+kubectl apply -f jagger-deploy-svc.yaml
 ```
 2. Aplicar los manifiestos de Jaeger
 ```
-kubectl apply -f 
+kubectl apply -f jagger-pv-pvc.yaml
 ```
 3. Aplicar la configuración de telemetría de Istio
 ```
-kubectl apply -f 
+kubectl apply -f telemetry.yaml
 ```
+
+## Verificacion
 
 ## Componentes
 
@@ -57,14 +59,14 @@ kubectl apply -f
 - Mantenimiento programado cada 15 minutos
 
 ### Servicios
-1. **tracing** (Puerto 80, 16685)
+1.`tracing` (Puerto 80, 16685)
    - Interfaz de usuario y consultas
    - Soporte para gRPC
 
-2. **zipkin** (Puerto 9411)
+2. `zipkin` (Puerto 9411)
    - Compatibilidad con formato Zipkin
 
-3. **jaeger-collector** (Puertos múltiples)
+3. `jaeger-collector` (Puertos múltiples)
    - HTTP: 14268
    - gRPC: 14250
    - Zipkin: 9411
@@ -72,8 +74,11 @@ kubectl apply -f
 
 ## Configuración de Istio Telemetry
 
-La telemetría de Istio está configurada mediante un recurso Telemetry personalizado:
+1. `Recopilación de Datos`
+   - Istio captura automáticamente métricas, trazas y logs de todo el tráfico que pasa por el mesh
+   - Los sidecars de Envoy actúan como puntos de recopilación de datos
 
-## Verificacion
+
+
 
 
