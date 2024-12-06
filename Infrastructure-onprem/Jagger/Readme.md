@@ -1,7 +1,17 @@
+## Índice de contenidos
+* [Jaeger con Persistencia en Kubernetes](#item1)
+* [Descripción](#item2)
+* [Requistos](#item3)
+* [Instalacion](#item4)
+* [Verificacion](#item5)
+* [Componentes](#item6)
+
+<a name="item1"></a>
 # Jaeger con Persistencia en Kubernetes
 
 Este repositorio contiene la configuración necesaria para desplegar Jaeger con almacenamiento persistente en Kubernetes, integrado con Istio para la recopilación de telemetría.
 
+<a name="item2"></a>
 ## Descripción
 
 Esta implementación incluye:
@@ -10,6 +20,7 @@ Esta implementación incluye:
 - Servicios para Zipkin, recopilación y consulta
 - Persistencia mediante NFS
 
+<a name="item3"></a>
 ## Reequisitos
 
 - Kubernetes cluster
@@ -17,6 +28,7 @@ Esta implementación incluye:
 - Servidor NFS configurado y accesible (172.16.0.142)
 - Directorio NFS creado (/data/jagger)
 
+<a name="item4"></a>
 ## Instalacion
 
 1. Aplicar la configuración de almacenamiento
@@ -31,7 +43,7 @@ kubectl apply -f jagger-pv-pvc.yaml
 ```
 kubectl apply -f telemetry.yaml
 ```
-
+<a name="item5"></a>
 ## Verificacion
 
 pod y svc
@@ -41,6 +53,7 @@ Dashbord
 ![jagger-2](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-jagger-2.png)
 ![jagger-3](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-jagger-3.png)
 
+<a name="item6"></a>
 ## Componentes
 
 ### Almacenamiento Persistente
