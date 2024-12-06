@@ -17,13 +17,14 @@ Este repositorio contiene la configuración para implementar un stack de logging
 - Helm 3.x (para Promtail)
 - StorageClass para NFS configurada
 
-## Instalación
+## Instalación de loki
 
 ### 1. Configuración de Almacenamiento NFS
 
-Crear el PersistentVolume para Loki:
-
-
+Crear el PersistentVolume para Loki
+```
+kubectl apply -f pv-loki.yaml
+```
 
 # Configuración e Instalación de Promtail
 
@@ -50,13 +51,23 @@ La configuración incluye reglas especializadas de reetiquetado que:
 - ServiceMonitor habilitado para Prometheus
 - Métricas de rendimiento de Promtail
 
-## Instalación con Helm
+## Instalación promtail con helm
 
-1. Crear el namespace:
-```bash
+Para instalar Promtail usando esta configuración:
+1. Crear un archivo `values.yaml` con la configuración proporcionada
+2. Crear el namespace para Promtail:
+```
 kubectl create namespace promtail
-
-
+```
+3. Instalar el repo de promtail
+```
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+```
+4. Instalar protail con helm
+```
+helm install promtail grafana/promtail -f values.yaml -n istio-system
+```
 
 
 
