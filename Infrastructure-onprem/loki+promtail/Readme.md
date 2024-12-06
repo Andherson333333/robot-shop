@@ -1,21 +1,25 @@
+## Indice
+
+
+
 # Configuración de Logging con Loki y Promtail para Istio
 
 Este repositorio contiene la configuración para implementar un stack de logging completo usando Loki como backend de almacenamiento y Promtail como agente de recolección de logs, optimizado para trabajar con Istio service mesh.
 
-## Arquitectura
-
-- **Loki**: Sistema de agregación de logs instalado en el namespace `istio-system` (instalado via manifiestos)
-- **Promtail**: Agente de recolección de logs en namespace dedicado (instalado via Helm)
-- **Almacenamiento**: NFS para persistencia de datos (10GB)
-- **Service Mesh**: Integración con Istio
-
-## Requisitos Previos
+## Requisitos 
 
 - Cluster de Kubernetes
 - Service mesh Istio instalado
 - Servidor NFS configurado y accesible
 - Helm 3.x (para Promtail)
 - StorageClass para NFS configurada
+
+## Arquitectura
+
+- `**Loki**:` Sistema de agregación de logs instalado en el namespace `istio-system` (instalado via manifiestos)
+- `**Promtail**:` Agente de recolección de logs en namespace dedicado (instalado via Helm)
+- `**Almacenamiento**:` NFS para persistencia de datos (10GB)
+- `**Service Mesh**:` Integración con Istio
 
 ## Instalación de loki
 
@@ -27,7 +31,7 @@ kubectl apply -f pv-loki.yaml
 ```
 kubectl apply -f loki.yaml
 ```
-
+## Verificacion
 
 
 # Configuración e Instalación de Promtail
@@ -72,6 +76,5 @@ helm repo update
 ```
 helm install promtail grafana/promtail -f values.yaml -n istio-system
 ```
-
-
+## Verificacion 
 
