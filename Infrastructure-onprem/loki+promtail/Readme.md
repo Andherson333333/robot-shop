@@ -37,19 +37,21 @@ La configuración incluye reglas especializadas de reetiquetado que:
 - ServiceMonitor está habilitado para la integración con Prometheus
 - Se pueden recolectar métricas para monitorear el rendimiento de Promtail
 
-## Instalación
+## Instalación promtail con helm
 
 Para instalar Promtail usando esta configuración:
 
 1. Crear un archivo `values.yaml` con la configuración proporcionada
-2. Crear namespace para promtail
-3. Crear el namespace para Promtail:
+2. Crear el namespace para Promtail:
 ```
 kubectl create namespace promtail
 ```
-4. Instalar el repo de promtail
-
-5. Instalar protail con helm
+3. Instalar el repo de promtail
+```
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+```
+4. Instalar protail con helm
 ```
 helm install promtail grafana/promtail -f values.yaml -n istio-system
 ```
