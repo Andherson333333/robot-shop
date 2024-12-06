@@ -33,6 +33,13 @@ kubectl apply -f loki.yaml
 ```
 ## Verificacion
 
+pv
+
+![loki-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-loki-2.png)
+
+pod y svc
+![loki-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-loki-2.png)
+
 
 
 # Configuración e Instalación de Promtail
@@ -78,4 +85,12 @@ helm repo update
 helm install promtail grafana/promtail -f values.yaml -n istio-system
 ```
 ## Verificacion 
+
+- Helm
+![promtail-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-promtail-2.png)
+
+- pod y svc
+![promtail-2](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-promtail-1.png)
+
+
 
