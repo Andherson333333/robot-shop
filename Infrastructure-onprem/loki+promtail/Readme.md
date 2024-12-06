@@ -34,6 +34,7 @@ kubectl apply -f loki.yaml
 ## Verificacion
 
 
+
 # Configuración e Instalación de Promtail
 
 ## Recolección y Etiquetado de Logs
