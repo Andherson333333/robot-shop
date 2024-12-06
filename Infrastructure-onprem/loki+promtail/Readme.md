@@ -16,10 +16,10 @@ Este repositorio contiene la configuración para implementar un stack de logging
 
 ## Arquitectura
 
-- `**Loki**:` Sistema de agregación de logs instalado en el namespace `istio-system` (instalado via manifiestos)
-- `**Promtail**:` Agente de recolección de logs en namespace dedicado (instalado via Helm)
-- `**Almacenamiento**:` NFS para persistencia de datos (10GB)
-- `**Service Mesh**:` Integración con Istio
+- `Loki:` Sistema de agregación de logs instalado en el namespace `istio-system` (instalado via manifiestos)
+- `Promtail:` Agente de recolección de logs en namespace dedicado (instalado via Helm)
+- `Almacenamiento:` NFS para persistencia de datos (10GB)
+- `Service Mesh:` Integración con Istio
 
 ## Instalación de loki
 
