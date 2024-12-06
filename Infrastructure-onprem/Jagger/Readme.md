@@ -6,6 +6,8 @@
 * [Verificacion](#item5)
 * [Componentes](#item6)
 
+
+
 <a name="item1"></a>
 # Jaeger con Persistencia en Kubernetes
 
@@ -20,8 +22,11 @@ Esta implementación incluye:
 - Servicios para Zipkin, recopilación y consulta
 - Persistencia mediante NFS
 
+## Acerca de Jaeger
+Jaeger es una herramienta de rastreo distribuido de código abierto utilizada para monitorear y solucionar problemas en sistemas distribuidos y microservicios. Esta implementación está integrada con Istio v[versión] para proporcionar capacidades completas de observabilidad.
+
 <a name="item3"></a>
-## Reequisitos
+## Requisitos
 
 - Kubernetes cluster
 - Istio instalado y configurado
