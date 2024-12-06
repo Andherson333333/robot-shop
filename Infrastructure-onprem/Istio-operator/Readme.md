@@ -9,13 +9,13 @@
 
 Este repositorio contiene la configuración necesaria para implementar Istio con helm , configurando los values para recoletar telemetria para que funcione con jagger , lo demas que por defecto
 
-<a name="item1"></a>
+<a name="item2"></a>
 ## Requisitos
 
 - Helm
 - Kubernetes Cluster
 
-<a name="item1"></a>
+<a name="item3"></a>
 ## Instalacion
 
 1. Primero, agregue el repositorio de Helm de Istio
@@ -50,7 +50,8 @@ helm install istiod istio/istiod \
 - `extensionProviders:` Configura Jaeger como proveedor de trazabilidad
 - `Puerto 4317:` Puerto estándar para OpenTelemetry
 - El servicio apunta al colector de Jaeger en el namespace istio-system
-
+- 
+<a name="item4"></a>
 ## Verificacion
 
 Una ves instalado verificamos pod y servicio , si hay algun error revisar logs y los pod
