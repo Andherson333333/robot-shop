@@ -19,12 +19,16 @@ Este repositorio contiene la configuración para implementar un stack de logging
 
 ## Instalación de loki
 
-### 1. Configuración de Almacenamiento NFS
-
-Crear el PersistentVolume para Loki
+1. Configuración de Almacenamiento NFS ,crear el PersistentVolume para Loki
 ```
 kubectl apply -f pv-loki.yaml
 ```
+2. Desplegar manifiesto loki.yaml se modifico para crear el pv(fuente original https://github.com/istio/istio/blob/master/samples/addons/loki.yaml)
+```
+kubectl apply -f loki.yaml
+```
+
+
 
 # Configuración e Instalación de Promtail
 
