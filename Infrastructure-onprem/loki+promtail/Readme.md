@@ -22,7 +22,7 @@ Este repositorio contiene la configuración para implementar un stack de logging
 - Servidor NFS configurado y accesible
 - Helm 3.x (para Promtail)
 - StorageClass para NFS configurada
-- 
+  
 <a name="item3"></a>
 ## Arquitectura
 
