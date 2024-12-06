@@ -14,7 +14,7 @@ Este repositorio contiene la configuración necesaria para implementar Istio con
 
 - Helm
 - Kubernetes Cluster
-- 
+
 <a name="item1"></a>
 ## Instalacion
 
@@ -52,6 +52,11 @@ helm install istiod istio/istiod \
 - El servicio apunta al colector de Jaeger en el namespace istio-system
 
 ## Verificacion
+
+Una ves instalado verificamos pod y servicio , si hay algun error revisar logs y los pod
+
+![istio-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-prometues-3.png)
+
 
 
 
