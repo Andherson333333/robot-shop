@@ -1,6 +1,12 @@
 ## Indice
+* [Monitoreo con Prometheus & Istio](#item1)
+* [Características](#item2)
+* [Requistos](#item3)
+* [Instalacion](#item4)
+* [Verificacion](#item5)
+* [Referencias](#item6)
 
-
+<a name="item1"></a>
 
 # Configuración de Logging con Loki y Promtail para Istio
 
@@ -35,7 +41,7 @@ kubectl apply -f loki.yaml
 
 pv
 
-![loki-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-loki-2.png)
+![loki-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-loki-3.png)
 
 pod y svc
 ![loki-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-loki-2.png)
@@ -93,6 +99,28 @@ pod y svc
 ![promtail-2](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-promtail-1.png)
 
 # Configuracion Graphana
+
+Luego de configurar se verifica que esta funcionando , se puede hacer de varias maneras pero se va realizar a traves graphana 
+
+1 - Se agrega al data source Loki
+2 - Luego se realiza alguna consulta de prueba
+3 - Creacion query para el dashbord
+```
+{namespace="robot-shop", pod=~"web.*"}
+{namespace="robot-shop", pod=~"cart.*"}
+{namespace="robot-shop", pod=~"catalogue.*"}
+{namespace="robot-shop", pod=~"user.*"}
+{namespace="robot-shop", pod=~"payment.*"}
+{namespace="robot-shop", pod=~"shipping.*"}
+{namespace="robot-shop", pod=~"ratings.*"}
+{namespace="robot-shop", pod=~"dispatch.*"}
+{namespace="robot-shop", pod=~"mysql.*"}
+{namespace="robot-shop", pod=~"mongodb.*"}
+{namespace="robot-shop", pod=~"redis.*"}
+{namespace="robot-shop", pod=~"rabbitmq.*"}
+```
+4 - Creacion dashbord para graphana para la aplicacion
+![graphana-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-loki-1.png)
 
 
 
