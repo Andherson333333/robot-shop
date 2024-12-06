@@ -86,11 +86,15 @@ helm install promtail grafana/promtail -f values.yaml -n istio-system
 ```
 ## Verificacion 
 
-- Helm
+ Helm
 ![promtail-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-promtail-2.png)
 
-- pod y svc
+pod y svc
 ![promtail-2](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-promtail-1.png)
+
+# Configuracion Graphana
+
+
 
 
 
