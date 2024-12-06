@@ -8,6 +8,8 @@
 * [Instalación promtail con helm](#item7)
 * [Verificacion promtail](#item8)
 * [Configuracion Graphana](#item9)
+* [Funcionalidades final](#item10)
+
 
 <a name="item1"></a>
 # Configuración de Logging con Loki y Promtail para Istio
@@ -132,7 +134,14 @@ Luego de configurar se verifica que esta funcionando , se puede hacer de varias 
 4. Creacion dashbord para graphana para la aplicacion
 ![graphana-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-loki-1.png)
 
-
+<a name="item10"></a>
+## Funcionalidades final
+- Recolección automática de logs de pods con Istio
+- Clasificación de logs (envoy/application)
+- Persistencia de datos en NFS
+- Monitoreo vía ServiceMonitor
+- DNS interno para service discovery
+- Alta disponibilidad con StatefulSet
 
 
 
