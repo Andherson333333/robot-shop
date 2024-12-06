@@ -8,7 +8,15 @@ Este repositorio implementa un ambiente de práctica orientado a producción, ut
 
 ## Estructura de Directorios
 
-├── Argo-cd-Operator/ # Gestión de despliegues GitOps ├── Flagger-operator/ # Automatización de despliegues canary ├── Istio-operator/ # Service mesh ├── Jaeger/ # Distributed tracing ├── Kiali/ # Visualización de service mesh ├── Prometheus-operator/ # Monitoreo y alertas ├── loki+promtail/ # Agregación de logs └── K8s/ # Configuraciones base de Kubernetes └── onpremise/ # Específico para despliegues on-premise
+├── Argo-cd-Operator/          # Gestión de despliegues GitOps
+├── Flagger-operator/          # Automatización de despliegues canary
+├── Istio-operator/           # Service mesh 
+├── Jaeger/                   # Distributed tracing
+├── K8s/                      # Configuraciones base de Kubernetes
+│   └── onpremise/           # Específico para despliegues on-premise
+├── Kiali/                    # Visualización de service mesh
+├── Prometheus-operator/      # Monitoreo y alertas
+└── loki+promtail/           # Agregación de logs
 ---
 
 ## Arquitectura General
