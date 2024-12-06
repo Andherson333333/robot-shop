@@ -4,8 +4,6 @@
 
 Este repositorio implementa un ambiente de práctica orientado a producción, utilizando **Robot Shop** como aplicación de ejemplo para demostrar las mejores prácticas en Kubernetes. La implementación integra una suite completa de herramientas de observabilidad, monitoreo y despliegue continuo.
 
----
-
 ## Estructura de Directorios
 ```
 ├── Argo-cd-Operator/          # Gestión de despliegues GitOps
@@ -18,7 +16,6 @@ Este repositorio implementa un ambiente de práctica orientado a producción, ut
 ├── Prometheus-operator/       # Monitoreo y alertas
 └── loki+promtail/             # Agregación de logs
 ```
----
 
 ## Arquitectura General
 
@@ -26,8 +23,6 @@ Este repositorio implementa un ambiente de práctica orientado a producción, ut
 - Aplicación de microservicios que simula una tienda en línea.
 - Implementa múltiples tecnologías y patrones de diseño.
 - Ideal para demostrar capacidades de Kubernetes en producción.
-
----
 
 ## Stack de Observabilidad y Operaciones
 
@@ -78,8 +73,6 @@ Este repositorio implementa un ambiente de práctica orientado a producción, ut
 - Recursos de infraestructura.
 - Políticas de red y seguridad.
 
----
-
 ## Integración de Componentes
 
 ### Flujo de Operaciones
@@ -103,8 +96,6 @@ Este repositorio implementa un ambiente de práctica orientado a producción, ut
    - Recolección con Promtail.
    - Análisis y búsqueda.
 
----
-
 ## Beneficios de la Integración
 
 - Observabilidad **end-to-end**.
@@ -112,8 +103,6 @@ Este repositorio implementa un ambiente de práctica orientado a producción, ut
 - Control granular de despliegues.
 - Monitoreo comprehensivo.
 - Debugging efectivo.
-
----
 
 ## Casos de Uso
 
