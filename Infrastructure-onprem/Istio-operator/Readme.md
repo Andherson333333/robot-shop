@@ -3,6 +3,7 @@
 * [Requisitos](#item2)
 * [Instalacion](#item3)
 * [Verificacion](#item4)
+* [Troubleshooting](#item4)
 
 <a name="item1"></a>
 # Istio 
@@ -58,8 +59,17 @@ Una ves instalado verificamos pod y servicio , si hay algun error revisar logs y
 
 ![istio-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-istio-2.png)
 
+<a name="item5"></a>
+## Troubleshooting
 
+Comandos útiles para diagnóstico:
 
+```
+kubectl describe pod <pod-name> -n istio-system
+```
+```
+kubectl logs -f <pod-name> -n istio-system
+```
 
 
 
