@@ -4,6 +4,18 @@
 
 Este repositorio implementa un ambiente de práctica orientado a producción, utilizando **Robot Shop** como aplicación de ejemplo para demostrar las mejores prácticas en Kubernetes. La implementación integra una suite completa de herramientas de observabilidad, monitoreo y despliegue continuo.
 
+## 5. Infraestructura Base
+
+![pod-prometheus](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-1.png)
+
+![pod-prometheus](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-2.png)
+
+## Requistos
+
+- Kubernetes cluster
+- Helm
+- NFS
+
 ## Estructura de Directorios
 ```
 ├── Argo-cd-Operator/          # Gestión de despliegues GitOps
@@ -66,12 +78,6 @@ Este repositorio implementa un ambiente de práctica orientado a producción, ut
 - Agregación centralizada de logs.
 - Búsqueda y análisis de logs.
 - Correlación con métricas.
-
-### 5. Infraestructura Base
-#### **K8s/onpremise/**
-- Configuraciones base del cluster.
-- Recursos de infraestructura.
-- Políticas de red y seguridad.
 
 ## Integración de Componentes
 
