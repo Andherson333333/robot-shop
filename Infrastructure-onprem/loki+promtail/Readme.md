@@ -10,7 +10,6 @@ Esta configuración permite la recolección de logs de pods habilitados con Isti
 
 - Cluster de Kubernetes
 - Service mesh Istio instalado
-- Loki instalado en el namespace `istio-system`
 - Helm (para el despliegue)
 
 ## Detalles de Configuración
@@ -43,11 +42,16 @@ La configuración incluye reglas especializadas de reetiquetado que:
 Para instalar Promtail usando esta configuración:
 
 1. Crear un archivo `values.yaml` con la configuración proporcionada
-2. Instalar usando Helm:
+2. Crear namespace para promtail
+3. Crear el namespace para Promtail:
+```
+kubectl create namespace promtail
+```
+4. Instalar el repo de promtail
 
+5. Instalar protail con helm
 ```
 helm install promtail grafana/promtail -f values.yaml -n istio-system
 ```
-
 
 
