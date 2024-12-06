@@ -6,9 +6,9 @@ Este repositorio implementa un ambiente de práctica orientado a producción, ut
 
 ## 5. Infraestructura Base
 
-![pod-prometheus](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-1.png)
-
 ![pod-prometheus](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-2.png)
+
+![pod-prometheus](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-1.png)
 
 ## Requistos
 
