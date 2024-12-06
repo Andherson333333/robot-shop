@@ -55,7 +55,7 @@ helm install istiod istio/istiod \
 
 Una ves instalado verificamos pod y servicio , si hay algun error revisar logs y los pod
 
-![istio-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-prometues-3.png)
+![istio-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-istio-2.png)
 
 
 
