@@ -29,6 +29,12 @@ Este repositorio implementa un ambiente de práctica orientado a producción, ut
 └── loki+promtail/             # Agregación de logs
 ```
 
+# Verificacion
+
+robot-shop
+
+pod y svc
+
 ## Arquitectura General
 
 ### Aplicación de Ejemplo: **Robot Shop**
