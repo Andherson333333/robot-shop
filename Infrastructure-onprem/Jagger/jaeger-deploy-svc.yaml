@@ -1,4 +1,4 @@
----
+# Jaeger Deployment configuration
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,15 +14,19 @@ spec:
    metadata:
      labels:
        app: jaeger
+       # Prevents Istio sidecar injection
        sidecar.istio.io/inject: "false"
      annotations:
+       # Prometheus scraping configuration
        prometheus.io/scrape: "true"
        prometheus.io/port: "14269"
    spec:
      containers:
        - name: jaeger
+         # All-in-one Jaeger image that includes collector, query and agent
          image: "docker.io/jaegertracing/all-in-one:1.58"
          env:
+           # Badger storage configuration
            - name: BADGER_EPHEMERAL
              value: "false"
            - name: SPAN_STORAGE_TYPE
@@ -31,18 +35,23 @@ spec:
              value: "/badger/data"
            - name: BADGER_DIRECTORY_KEY
              value: "/badger/key"
+           # Zipkin compatibility port
            - name: COLLECTOR_ZIPKIN_HOST_PORT
              value: ":9411"
+           # Maximum traces to store in memory
            - name: MEMORY_MAX_TRACES
              value: "50000"
+           # Base path for UI
            - name: QUERY_BASE_PATH
              value: /jaeger
+           # Data retention and maintenance settings
            - name: BADGER_RETENTION
              value: "24h"
            - name: BADGER_MAINTENANCE_INTERVAL
              value: "15m"
            - name: BADGER_VALUE_DIRECTORY_GC_INTERVAL
              value: "15m"
+         # Health check probes
          livenessProbe:
            httpGet:
              path: /
@@ -51,6 +60,7 @@ spec:
            httpGet:
              path: /
              port: 14269
+         # Storage volume mount
          volumeMounts:
            - name: data
              mountPath: /badger
@@ -61,67 +71,79 @@ spec:
        - name: data
          persistentVolumeClaim:
            claimName: jaeger-pvc
+
 ---
+# Service for Jaeger UI and Query
 apiVersion: v1
 kind: Service
 metadata:
-  name: tracing
-  namespace: istio-system
-  labels:
-    app: jaeger
+ name: tracing
+ namespace: istio-system
+ labels:
+   app: jaeger
 spec:
-  type: ClusterIP
-  ports:
-    - name: http-query
-      port: 80
-      protocol: TCP
-      targetPort: 16686
-    - name: grpc-query
-      port: 16685
-      protocol: TCP
-      targetPort: 16685
-  selector:
-    app: jaeger
+ type: ClusterIP
+ ports:
+   # UI/Query HTTP port
+   - name: http-query
+     port: 80
+     protocol: TCP
+     targetPort: 16686
+   # Query gRPC port
+   - name: grpc-query
+     port: 16685
+     protocol: TCP
+     targetPort: 16685
+ selector:
+   app: jaeger
+
 ---
+# Zipkin compatibility service
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    name: zipkin
-  name: zipkin
-  namespace: istio-system
+ labels:
+   name: zipkin
+ name: zipkin
+ namespace: istio-system
 spec:
-  ports:
-    - port: 9411
-      targetPort: 9411
-      name: http-query
-  selector:
-    app: jaeger
+ ports:
+   - port: 9411
+     targetPort: 9411
+     name: http-query
+ selector:
+   app: jaeger
+
 ---
+# Jaeger Collector service
 apiVersion: v1
 kind: Service
 metadata:
-  name: jaeger-collector
-  namespace: istio-system
-  labels:
-    app: jaeger
+ name: jaeger-collector
+ namespace: istio-system
+ labels:
+   app: jaeger
 spec:
-  type: ClusterIP
-  ports:
-  - name: jaeger-collector-http
-    port: 14268
-    targetPort: 14268
-    protocol: TCP
-  - name: jaeger-collector-grpc
-    port: 14250
-    targetPort: 14250
-    protocol: TCP
-  - port: 9411
-    targetPort: 9411
-    name: http-zipkin
-  - port: 4317
-    name: grpc-otel
-  - port: 4318
-    name: http-otel
-  selector:
-    app: jaeger
+ type: ClusterIP
+ ports:
+   # Collector HTTP port
+   - name: jaeger-collector-http
+     port: 14268
+     targetPort: 14268
+     protocol: TCP
+   # Collector gRPC port
+   - name: jaeger-collector-grpc
+     port: 14250
+     targetPort: 14250
+     protocol: TCP
+   # Zipkin compatibility port
+   - port: 9411
+     targetPort: 9411
+     name: http-zipkin
+   # OpenTelemetry ports
+   - port: 4317
+     name: grpc-otel
+   - port: 4318
+     name: http-otel
+ selector:
+   app: jaeger
