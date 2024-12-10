@@ -1,14 +1,24 @@
+# PersistentVolume definition for Loki storage
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: loki-pv
+ name: loki-pv
 spec:
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: nfs
-  nfs:
-    path: /data/loki
-    server: 172.16.0.142
+ # Storage capacity allocation
+ capacity:
+   storage: 10Gi
+ 
+ # Access mode - can be mounted as read-write by a single node
+ accessModes:
+   - ReadWriteOnce
+ 
+ # Keep the volume even after PVC is deleted
+ persistentVolumeReclaimPolicy: Retain
+ 
+ # Using NFS storage class
+ storageClassName: nfs
+ 
+ # NFS server configuration
+ nfs:
+   path: /data/loki    # Mount path on NFS server
+   server: 172.16.0.142  # NFS server IP address
