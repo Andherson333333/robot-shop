@@ -1,0 +1,46 @@
+# values.yaml
+meshProvider: "istio"          # Specifies Istio as the service mesh provider
+metricsServer: "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090"  # Prometheus server endpoint
+
+# Controller Configuration
+podMonitor:
+ enabled: true              
+
+# Resource Configuration
+resources:
+ requests:
+   cpu: "100m"              
+   memory: "128Mi"         
+ limits:
+   cpu: "1000m"           
+   memory: "512Mi"        
+
+# Logging Configuration 
+logLevel: "info"            # Sets the logging level
+
+# Security Configuration
+rbac:
+ create: true             # Creates RBAC resources
+ pspEnabled: false        # Disables Pod Security Policy
+
+serviceAccount:
+ create: true             # Creates a service account
+ name: "flagger"          # Service account name
+
+# Metrics Configuration
+metrics:
+ enabled: true           # Enables metrics collection
+
+# Scheduling Configuration
+tolerations: []           # No tolerations defined
+nodeSelector: {}          # No node selector defined
+affinity: {}             # No affinity rules defined
+
+# Prometheus Configuration
+prometheus:
+ install: false         
+
+# Istio Configuration
+istio:
+ controllerMetricsInterval: "15s"         # Metrics collection interval
+ controllerIstioTelemetryInterval: "5s"   # Telemetry collection interval
