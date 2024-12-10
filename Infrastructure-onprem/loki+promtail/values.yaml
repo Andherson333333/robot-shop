@@ -1,31 +1,39 @@
+# Promtail configuration
 config:
-  snippets:
-    extraRelabelConfigs:
-      # Etiquetas comunes
-      - source_labels: [__meta_kubernetes_namespace]
-        target_label: namespace
-      - source_labels: [__meta_kubernetes_pod_name]
-        target_label: pod
-      - source_labels: [__meta_kubernetes_pod_container_name]
-        target_label: container
+ # Extra relabeling rules for logs
+ snippets:
+   extraRelabelConfigs:
+     # Common Kubernetes labels
+     - source_labels: [__meta_kubernetes_namespace]
+       target_label: namespace
+     - source_labels: [__meta_kubernetes_pod_name] 
+       target_label: pod
+     - source_labels: [__meta_kubernetes_pod_container_name]
+       target_label: container
 
-      # Clasificación de logs
-      - source_labels: [__meta_kubernetes_pod_container_name]
-        target_label: log_type
-        action: replace
-        regex: istio-proxy
-        replacement: envoy
-      - source_labels: [__meta_kubernetes_pod_container_name]
-        target_label: log_type
-        action: replace
-        regex: .+
-        replacement: application
+     # Log type classification
+     # Mark Envoy proxy logs
+     - source_labels: [__meta_kubernetes_pod_container_name]
+       target_label: log_type
+       action: replace
+       regex: istio-proxy
+       replacement: envoy
+     
+     # Mark application logs
+     - source_labels: [__meta_kubernetes_pod_container_name]
+       target_label: log_type
+       action: replace
+       regex: .+
+       replacement: application
 
-  clients:
-    - url: http://loki.istio-system.svc.cluster.local:3100/loki/api/v1/push
+ # Loki client configuration
+ clients:
+   - url: http://loki.istio-system.svc.cluster.local:3100/loki/api/v1/push
 
+# Loki service configuration
 loki:
-  serviceName: loki.istio-system.svc.cluster.local
+ serviceName: loki.istio-system.svc.cluster.local
 
+# Enable ServiceMonitor for Prometheus monitoring
 serviceMonitor:
-  enabled: true
+ enabled: true
