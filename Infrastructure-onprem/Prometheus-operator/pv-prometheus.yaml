@@ -1,19 +1,30 @@
+# PersistentVolume definition for Prometheus storage
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: prometheus-nfs-pv
-  namespace: monitoring
+ name: prometheus-nfs-pv
+ namespace: monitoring # Namespace for Prometheus resources
 spec:
-  capacity:
-    storage: 15Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    path: /data/prometheus
-    server: 172.16.0.142
-  claimRef:
-    name: prometheus-prometheus-kube-prometheus-prometheus-db-prometheus-prometheus-kube-prometheus-prometheus-0
-    namespace: monitoring
-  storageClassName: ""  
-
+ # Storage capacity allocation
+ capacity:
+   storage: 15Gi
+ 
+ # Access mode - can be mounted as read-write by a single node
+ accessModes:
+   - ReadWriteOnce
+ 
+ # Keep the volume even after PVC is deleted
+ persistentVolumeReclaimPolicy: Retain
+ 
+ # NFS server configuration
+ nfs:
+   path: /data/prometheus # Mount path on NFS server
+   server: 172.16.0.142   # NFS server IP address
+ 
+ # Static binding to specific PVC
+ claimRef:
+   name: prometheus-prometheus-kube-prometheus-prometheus-db-prometheus-prometheus-kube-prometheus-prometheus-0
+   namespace: monitoring
+ 
+ # No storage class specified (using empty string)
+ storageClassName: ""
