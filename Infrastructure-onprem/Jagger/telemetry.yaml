@@ -1,9 +1,12 @@
+# Default Telemetry configuration for the service mesh
 apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
-  name: mesh-default
-  namespace: istio-system
+ name: mesh-default
+ namespace: istio-system
 spec:
-  tracing:
-  - providers:
-    - name: jaeger
+ # Tracing configuration section
+ tracing:
+ - providers:
+   # Specifies Jaeger as the tracing backend provider
+   - name: jaeger
