@@ -1,19 +1,30 @@
+# ServiceMonitor configuration
 serviceMonitor:
-  metadata:
-    labels:
-      release: prometheus
-podMonitor:
-  metadata:
-    labels:
-      release: prometheus
-prometheus:
-  prometheusSpec:
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: ""  
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 15Gi
+ metadata:
+   labels:
+     # Label used by Prometheus operator to discover ServiceMonitors
+     release: prometheus
 
+# PodMonitor configuration      
+podMonitor:
+ metadata:
+   labels:
+     # Label used by Prometheus operator to discover PodMonitors
+     release: prometheus
+
+# Prometheus instance configuration
+prometheus:
+ prometheusSpec:
+   # Storage configuration for Prometheus
+   storageSpec:
+     # PVC template for Prometheus data storage
+     volumeClaimTemplate:
+       spec:
+         # Using default storage class
+         storageClassName: ""
+         # Allow read-write access by single node
+         accessModes: ["ReadWriteOnce"]
+         # Storage request size
+         resources:
+           requests:
+             storage: 15Gi
