@@ -1,27 +1,38 @@
+# Persistent Volume for Jaeger storage
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: jaeger-pv
+ name: jaeger-pv
 spec:
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: nfs
-  nfs:
-    path: /data/jagger
-    server: 172.16.0.142
+ # Volume size allocation
+ capacity:
+   storage: 10Gi
+ # Access mode - can be mounted as read-write by a single node
+ accessModes:
+   - ReadWriteOnce
+ # Keep the volume even after PVC is deleted
+ persistentVolumeReclaimPolicy: Retain
+ # Using NFS storage class
+ storageClassName: nfs
+ # NFS server configuration
+ nfs:
+   path: /data/jagger
+   server: 172.16.0.142
+
 ---
+# Persistent Volume Claim for Jaeger
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jaeger-pvc
-  namespace: istio-system
+ name: jaeger-pvc
+ namespace: istio-system
 spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: nfs
-  resources:
-    requests:
-      storage: 10Gi
+ # Must match PV access mode
+ accessModes:
+   - ReadWriteOnce
+ # Must match PV storage class
+ storageClassName: nfs
+ # Storage request size
+ resources:
+   requests:
+     storage: 10Gi
