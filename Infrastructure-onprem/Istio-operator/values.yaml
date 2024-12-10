@@ -1,10 +1,17 @@
+# Main service mesh configuration
 meshConfig:
-  enableTracing: true
-  defaultConfig:
-    tracing: {}
-  extensionProviders:
-    - name: jaeger
-      opentelemetry:
-        port: 4317
-        service: jaeger-collector.istio-system.svc.cluster.local
-
+ # Enables tracing globally across the mesh
+ enableTracing: true
+ 
+ # Default configuration for tracing
+ defaultConfig:
+   tracing: {}
+   
+ # List of extension providers for tracing
+ extensionProviders:
+   # Jaeger provider configuration
+   - name: jaeger  # Name of the tracing provider
+     opentelemetry:  # Uses OpenTelemetry protocol
+       port: 4317    # Port where the collector listens
+       # Jaeger collector service URL in the cluster
+       service: jaeger-collector.istio-system.svc.cluster.local
