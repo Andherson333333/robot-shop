@@ -7,19 +7,19 @@
 * [Verificacion](#item6)
 
 <a name="item1"></a>
-# Flagger
+3# Flagger
 
 <a name="item2"></a>
-# Canary
+## Canary
 
 <a name="item3"></a>
-# Requistos
+## Requistos
 
 <a name="item4"></a>
-# Instalacion
+## Instalacion
 
 <a name="item5"></a>
-# Trafico
+## Trafico
 
 <a name="item6"></a>
-# Verificacion
+## Verificacion
