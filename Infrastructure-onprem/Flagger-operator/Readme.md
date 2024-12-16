@@ -100,13 +100,20 @@ kubectl set image deployment/catalogue catalogue=andherson1039/rs-catalogue:v1 -
 
 Ahora la verificacion se realizara con la herramienta kiali para visualizar el proceso del canary 
 
-![flagger-1]()
-![flagger-1]()
-![flagger-1]()
-![flagger-1]()
-![flagger-1]()
-![flagger-1]()
-![flagger-1]()
-![flagger-1]()
+1.
+![flagger-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-flagger-1.png)
+2.
+![flagger-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-flagger-2.png)
+3.
+![flagger-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-flagger-3.png)
+4.
+![flagger-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-flagger-4.png)
+5.
+![flagger-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-flagger-5.png)
+6.
+![flagger-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-flagger-6.png)
+7.
+![flagger-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-flagger-7.png)
+
 
 
