@@ -6,7 +6,7 @@ Este repositorio contiene la configuración necesaria para implementar despliegu
 * [Canary](#item2)
 * [Requistos](#item3)
 * [Instalacion](#item4)
-* [Trafico](#item5)
+* [Trafico Simulacion](#item5)
 * [Verificacion](#item6)
 
 <a name="item1"></a>
@@ -70,7 +70,7 @@ kubectl logs deployment/flagger -n flagger-system
 ```
 
 <a name="item5"></a>
-## Trafico
+## Trafico Simulacion
 
 El repositorio incluye un Job de prueba de carga (loadtesthttp.yaml) que simula tráfico hacia la aplicación:
 
@@ -99,5 +99,14 @@ kubectl set image deployment/catalogue catalogue=andherson1039/rs-catalogue:v1 -
 ```
 
 Ahora la verificacion se realizara con la herramienta kiali para visualizar el proceso del canary 
+
+![flagger-1]()
+![flagger-1]()
+![flagger-1]()
+![flagger-1]()
+![flagger-1]()
+![flagger-1]()
+![flagger-1]()
+![flagger-1]()
 
 
