@@ -47,9 +47,27 @@ Esta estrategia nos permite desplegar nuevas versiones de forma segura y control
 <a name="item4"></a>
 ## Instalacion
 
-1. Agregar los repositorios helm y actualizar
-2. Instalar el helm con el archivo values.yaml
-3. Verificar instalacion
+1. Crear namespace flagger flagger-system
+```
+kubectl create namespace flagger-system
+```
+3. Agregar los repositorios helm y actualizar
+```
+helm repo add flagger https://flagger.app
+helm repo update
+```
+3. Instalar el helm con el archivo values.yaml
+```
+helm upgrade -i flagger flagger/flagger \
+  --namespace=flagger-system \
+  --values=values.yaml
+```
+4. Verificar instalacion
+```
+kubectl get pods -n flagger-system
+kubectl get deploy -n flagger-system
+kubectl logs deployment/flagger -n flagger-system
+```
 
 <a name="item5"></a>
 ## Trafico
@@ -60,5 +78,26 @@ El repositorio incluye un Job de prueba de carga (loadtesthttp.yaml) que simula 
 - Ejecuta solicitudes a productos específicos
 - Mantiene un flujo constante de tráfico para análisis
 
+```
+kubectl apply -f loadtHTTP.yaml
+```
+
 <a name="item6"></a>
 ## Verificacion
+
+Vamso aplicar la configuracion de catalogo para probar el funcionamiento , simulando el trafico a traves de un job 
+```
+kubectl apply -f catalogue.yaml
+```
+Una ves aplicado verificamos canary 
+```
+kubectl get canaries -n robot-shop
+```
+Posteriormente se realizara el update de la imagen para empezar el proceso 
+```
+kubectl set image deployment/catalogue catalogue=andherson1039/rs-catalogue:v1 -n robot-shop
+```
+
+Ahora la verificacion se realizara con la herramienta kiali para visualizar el proceso del canary 
+
+
