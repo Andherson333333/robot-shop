@@ -1,1 +1,5 @@
+# 
+# Requisitos
+# Instalacion
+# Verificacion
 
