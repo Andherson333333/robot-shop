@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: robot-shop-load-test
+  namespace: robot-shop
+spec:
+  template:
+    spec:
+      containers:
+      - name: load-tester
+        image: curlimages/curl
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          while true; do
+            # Web service
+            curl -s http://web:8080/
+            # Catalogue service
+            curl -s http://catalogue:8080/
+            # Cart service
+            curl -s http://cart:8080/
+            # User service
+            curl -s http://user:8080/
+            # Shipping service
+            curl -s http://shipping:8080/
+            # Payment service
+            curl -s http://payment:8080/
+            # Ratings service
+            curl -s http://ratings:8080/
+            # Dispatch service
+            curl -s http://dispatch:8080/
+            sleep 0.5
+          done
+      restartPolicy: Never
