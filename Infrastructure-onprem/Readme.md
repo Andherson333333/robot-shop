@@ -27,6 +27,7 @@ Este repositorio implementa un ambiente de práctica orientado a producción, ut
 ├── Kiali/                     # Visualización de service mesh
 ├── Prometheus-operator/       # Monitoreo y alertas
 └── loki+promtail/             # Agregación de logs
+└── loadtest/                  # Generador trafico
 ```
 
 # Verificacion
