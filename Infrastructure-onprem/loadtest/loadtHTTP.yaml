@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: web-test-all
+  namespace: robot-shop
+spec:
+  template:
+    spec:
+      containers:
+      - name: curl-test-external
+        image: curlimages/curl
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          while true; do
+            echo "Testing external web access..."
+            curl -v "http://10.0.2.16:8080" # IP loadbalance
+            sleep 1
+          done
+
+      - name: curl-test-products
+        image: curlimages/curl
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          while true; do
+            echo "Testing specific products..."
+            curl -s "http://web:8080/api/catalogue/product/RED"
+            sleep 0.3
+            curl -s "http://web:8080/api/catalogue/product/EMM"
+            sleep 0.3
+            curl -s "http://web:8080/api/catalogue/product/SHCE"
+            sleep 0.3
+          done
+      restartPolicy: Never
