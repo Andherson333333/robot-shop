@@ -37,10 +37,6 @@ robot-shop
 ![robot-app-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-app-1.png)
 ![robot-app-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-app-4.png)
 ![robot-app-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-app-2.png)
-![robot-app-1]()
-![robot-app-1]()
-![robot-app-1]()
-
 
 pod y svc
 ![robot-app-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-4.png)
