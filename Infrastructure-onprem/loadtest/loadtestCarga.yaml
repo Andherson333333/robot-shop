@@ -1,0 +1,77 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: robot-shop-load-test-10
+  namespace: robot-shop
+spec:
+  ttlSecondsAfterFinished: 100
+  template:
+    spec:
+      containers:
+      - name: load-tester-web
+        image: fortio/fortio:latest
+        command: ["/usr/bin/fortio"]
+        args: ["load", "-qps=20", "-c=10", "-t=5m", "-uniform", "tcp://web:8080"]
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+      - name: load-tester-catalogue
+        image: fortio/fortio:latest
+        command: ["/usr/bin/fortio"]
+        args: ["load", "-qps=50", "-c=15", "-t=5m", "-jitter", "tcp://catalogue:8080"]
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+      - name: load-tester-cart
+        image: fortio/fortio:latest
+        command: ["/usr/bin/fortio"]
+        args: ["load", "-qps=30", "-c=8", "-t=5m", "-nocatchup", "tcp://cart:8080"]
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+      - name: load-tester-user
+        image: fortio/fortio:latest
+        command: ["/usr/bin/fortio"]
+        args: ["load", "-qps=15", "-c=5", "-t=5m", "-uniform", "tcp://user:8080"]
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+      - name: load-tester-shipping
+        image: fortio/fortio:latest
+        command: ["/usr/bin/fortio"]
+        args: ["load", "-qps=10", "-c=3", "-t=5m", "-jitter", "tcp://shipping:8080"]
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+      - name: load-tester-payment
+        image: fortio/fortio:latest
+        command: ["/usr/bin/fortio"]
+        args: ["load", "-qps=25", "-c=12", "-t=5m", "tcp://payment:8080"]
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+      restartPolicy: OnFailure
