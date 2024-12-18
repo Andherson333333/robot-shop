@@ -78,18 +78,40 @@ manifiestos/
 
 1. Crear el namespace
 ```
+kubectl apply -f manifiestos/namespace.yaml
 ```
 2. Despliegue los servicios de base de datos (MongoDB y MySQL)
 ```
+kubectl apply -f manifiestos/mongodb-pv.yaml
+kubectl apply -f manifiestos/mongodb-service.yaml
+kubectl apply -f manifiestos/mongodb-statefulset.yaml
+kubectl apply -f manifiestos/mysql-configmap.yaml
+kubectl apply -f manifiestos/mysql-pv.yaml
+kubectl apply -f manifiestos/mysql-secret.yaml
+kubectl apply -f manifiestos/mysql-service.yaml
+kubectl apply -f manifiestos/mysql-statefulset.yaml
 ```
 3. Despliegue los servicios de infraestructura (Redis y RabbitMQ):
 ```
+kubectl apply -f manifiestos/redis-deployment.yaml
+kubectl apply -f manifiestos/redis-service.yaml
+kubectl apply -f manifiestos/rabbitmq-deployment.yaml
+kubectl apply -f manifiestos/rabbitmq-service.yaml
 ```
 4. Despliegue los microservicios de la aplicación:
 ```
+kubectl apply -f manifiestos/cart-*.yaml
+kubectl apply -f manifiestos/catalogue-*.yaml
+kubectl apply -f manifiestos/dispatch-*.yaml
+kubectl apply -f manifiestos/payment-*.yaml
+kubectl apply -f manifiestos/ratings-*.yaml
+kubectl apply -f manifiestos/shipping-*.yaml
+kubectl apply -f manifiestos/user-*.yaml
+kubectl apply -f manifiestos/web-*.yaml
 ```
 5. Alternativamente, puede desplegar toda la aplicación con un solo comando:
 ```
+kubectl apply -f manifiestos/
 ```
 ## Verificacion
 
