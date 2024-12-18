@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mongodb-pv
+  name: mysql-pv
   namespace: robot-shop
 spec:
   capacity:
@@ -10,7 +10,5 @@ spec:
     - ReadWriteOnce
   nfs:
     server: 172.16.0.142
-    path: /data/mongodb
-#  hostPath:
-#    path: /data/mongodb  # Ruta específica para MongoDB
+    path: /data/mysql
   persistentVolumeReclaimPolicy: Retain
