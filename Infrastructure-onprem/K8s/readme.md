@@ -16,6 +16,54 @@ Este repositorio contiene los manifiestos de Kubernetes necesarios para desplega
 <a name="item2"></a>
 ## Estructura del Proyecto
 
+El proyecto está organizado en un directorio principal que contiene todos los manifiestos de Kubernetes necesarios para el despliegue de la aplicación Robot Shop:
+
+<pre>
+manifiestos/
+|-- cart-deployment.yaml
+|-- cart-hpa.yaml
+|-- cart-service.yaml
+|-- catalogue-deployment.yaml
+|-- catalogue-hpa.yaml
+|-- catalogue-service.yaml
+|-- dispatch-deployment.yaml
+|-- dispatch-hpa.yaml
+|-- dispatch-service.yaml
+|-- mongodb-pv.yaml
+|-- mongodb-service.yaml
+|-- mongodb-statefulset.yaml
+|-- mysql-configmap.yaml
+|-- mysql-pv.yaml
+|-- mysql-secret.yaml
+|-- mysql-service.yaml
+|-- mysql-statefulset.yaml
+|-- namespace.yaml
+|-- payment-deployment.yaml
+|-- payment-hpa.yaml
+|-- payment-service.yaml
+|-- rabbitmq-deployment.yaml
+|-- rabbitmq-service.yaml
+|-- ratings-configmap.yaml
+|-- ratings-deployment.yaml
+|-- ratings-hpa.yaml
+|-- ratings-secret.yaml
+|-- ratings-service.yaml
+|-- redis-deployment.yaml
+|-- redis-service.yaml
+|-- shipping-configmap.yaml
+|-- shipping-deployment.yaml
+|-- shipping-hpa.yaml
+|-- shipping-secret.yaml
+|-- shipping-service.yaml
+|-- user-deployment.yaml
+|-- user-hpa.yaml
+|-- user-service.yaml
+|-- web-configmap.yaml
+|-- web-deployment.yaml
+|-- web-hpa.yaml
+|-- web-service.yaml
+</pre>
+
 ![estructura](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-1.png)
 
 <a name="item3"></a>
