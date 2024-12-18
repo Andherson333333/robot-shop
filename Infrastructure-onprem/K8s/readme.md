@@ -76,7 +76,21 @@ manifiestos/
 <a name="item4"></a>
 ## Despligue
 
-
+1. Crear el namespace
+```
+```
+2. Despliegue los servicios de base de datos (MongoDB y MySQL)
+```
+```
+3. Despliegue los servicios de infraestructura (Redis y RabbitMQ):
+```
+```
+4. Despliegue los microservicios de la aplicación:
+```
+```
+5. Alternativamente, puede desplegar toda la aplicación con un solo comando:
+```
+```
 ## Verificacion
 
 - Pod y servicio
