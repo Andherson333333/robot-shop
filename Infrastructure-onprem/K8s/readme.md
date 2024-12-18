@@ -16,23 +16,6 @@ Este repositorio contiene los manifiestos de Kubernetes necesarios para desplega
 <a name="item2"></a>
 ## Estructura del Proyecto
 
-<pre>
-K8s/
-├── app-services/          # Servicios principales de la aplicación
-│   ├── namespace.yaml
-│   ├── cart/             # Servicio de carrito
-│   ├── catalogue/        # Catálogo de productos
-│   ├── payment/          # Servicio de pagos
-│   ├── ratings/          # Sistema de calificaciones
-│   ├── shipping/         # Servicio de envíos
-│   ├── user/             # Gestión de usuarios
-│   └── web/              # Frontend web
-├── mongodb/              # Base de datos MongoDB
-├── mysql/                # Base de datos MySQL
-├── rabbitmq/            # Message Broker RabbitMQ
-└── redis/               # Cache Redis
-</pre>
-
 ![estructura](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-1.png)
 
 <a name="item3"></a>
@@ -45,63 +28,7 @@ K8s/
 <a name="item4"></a>
 ## Despligue
 
-Si quieres desplegar toda la aplicación de una vez:
 
-```
-kubectl apply -f .
-```
-
-Si prefieres más control sobre el proceso:
-
-1. Crear Namespace y Configuraciones Base
-```
-kubectl apply -f app-services/namespace.yaml
-```
-2. Bases de Datos y Almacenamiento
-```
-# MongoDB
-kubectl apply -f mongodb/mongodb-pv.yaml
-kubectl apply -f mongodb/mongodb-services.yaml
-kubectl apply -f mongodb/mongodb-statefulset.yaml
-
-# MySQL
-kubectl apply -f mysql/mysql-configmap.yaml
-kubectl apply -f mysql/mysql-secret.yaml
-kubectl apply -f mysql/mysql-pv.yaml
-kubectl apply -f mysql/mysql-services.yaml
-kubectl apply -f mysql/mysql-statefulset.yaml
-
-# Redis
-kubectl apply -f redis/redis-deployment.yaml
-kubectl apply -f redis/redis-service.yaml
-```
-
-3. Message Broker
-```
-# Redis
-kubectl apply -f redis/redis-deployment.yaml
-kubectl apply -f redis/redis-service.yaml
-```
-4. Microservicios de la Aplicación
-```
-# Catalogue
-kubectl apply -f app-services/catalogue/
-# Cart
-kubectl apply -f app-services/cart/
-# User
-kubectl apply -f app-services/user/
-# Payment
-kubectl apply -f app-services/payment/
-# Shipping
-kubectl apply -f app-services/shipping/
-# Ratings
-kubectl apply -f app-services/ratings/
-```
-5. Frontend Web
-```
-kubectl apply -f app-services/web/
-```
-<a name="item5"></a>
 ## Verificacion
 
 - Pod y servicio
