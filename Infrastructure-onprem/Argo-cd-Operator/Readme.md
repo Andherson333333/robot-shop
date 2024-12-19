@@ -13,8 +13,9 @@ Este repositorio contiene la configuración de ArgoCD para gestionar el desplieg
 <a name="item2"></a>
 ## Requisitos
 
-- Kubernetes cluster
-- Helm (para la instalación de argocd)
+- Kubernetes cluster v1.20+
+- Helm v3+
+- Kubectl configurado para acceder al cluster
 
 <a name="item3"></a>
 ## Instalacion
