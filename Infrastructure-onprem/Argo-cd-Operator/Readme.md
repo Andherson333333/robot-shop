@@ -35,10 +35,10 @@ kubectl apply -f applicationset.yaml
 ## Verificacion
 
 Luego de aplicar e instalar el argocd vamso a verificar la aplicacion via UI
+1.
+![argocd-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-argocd-1.png)
+2.
+![argocd-1](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-argocd-2.png)
 
-![argocd-1]()
-![argocd-1]()
-![argocd-1]()
-![argocd-1]()
 
 
