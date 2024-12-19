@@ -1,13 +1,22 @@
 # Robot Shop ArgoCD Configuration
 
+## Índice de contenidos
+* [Descripción General](#item1)
+* [Requisitos](#item2)
+* [Instalacion](#item3)
+* [Verificacion](#item4)
+
+<a name="item1"></a>
 ## Descripción General
 Este repositorio contiene la configuración de ArgoCD para gestionar el despliegue automatizado de Robot Shop, una aplicación de microservicios que incluye múltiples componentes como web, catálogo, carrito de compras, base de datos y más.
 
+<a name="item2"></a>
 ## Requisitos
 
 - Kubernetes cluster
 - Helm (para la instalación de argocd)
 
+<a name="item3"></a>
 ## Instalacion
 
 1. Creacion namespace
@@ -32,6 +41,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 ```
 kubectl apply -f applicationset.yaml
 ```
+<a name="item4"></a>
 ## Verificacion
 
 Luego de aplicar e instalar el argocd vamso a verificar la aplicacion via UI
