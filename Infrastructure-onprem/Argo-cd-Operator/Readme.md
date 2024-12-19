@@ -2,7 +2,7 @@
 # Requisitos
 
 - Kubernetes cluster
-- Helm (para la instalación de Flagger)
+- Helm (para la instalación de argocd)
 
 # Instalacion
 
