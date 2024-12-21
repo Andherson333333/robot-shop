@@ -1,0 +1,42 @@
+name: Cart Service CI
+
+on:
+  push:
+    paths:
+      - 'cart/**'
+      - '.github/workflows/services/cart-ci.yml'
+    branches: [ "main" ]
+  pull_request:
+    paths:
+      - 'cart/**'
+      - '.github/workflows/services/cart-ci.yml'
+    branches: [ "main" ]
+
+jobs:
+  cancel-redundant:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.12.1
+
+
+  build-and-test:
+    needs: cancel-redundant
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: cart/package.json
+
+      - name: Install Dependencies
+        working-directory: ./cart
+        run: npm ci
