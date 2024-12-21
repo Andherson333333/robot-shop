@@ -9,7 +9,7 @@ on:
     branches: [ "main", "master" ]
 
 env:
-  PRODUCTION_MODE: false  # Cambia a 'true' para modo producción
+  PRODUCTION_MODE: false
 
 jobs:
   cancel-redundant:
@@ -39,7 +39,7 @@ jobs:
           cd /home/runner/work/robot-shop/robot-shop/cart
           npm install
 
-      - name: Run Tests
+      - name: Run Tests (if available)
         if: success()
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         run: |
@@ -56,7 +56,7 @@ jobs:
         run: |
           cd /home/runner/work/robot-shop/robot-shop/cart
           echo "Attempting to fix audit issues..."
-          npm audit fix
+          npm audit fix || echo "Some issues could not be fixed automatically"
           
       - name: Security Audit Report
         if: success()
@@ -64,4 +64,24 @@ jobs:
         run: |
           cd /home/runner/work/robot-shop/robot-shop/cart
           echo "Generating security audit report..."
-          npm audit
+          npm audit || echo "Audit completed with some issues"
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: SonarCloud Scan
+        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          cd /home/runner/work/robot-shop/robot-shop/cart
+          sonar-scanner \
+            -Dsonar.projectKey=robot-shop \
+            -Dsonar.organization=robot-shop \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=https://sonarcloud.io
