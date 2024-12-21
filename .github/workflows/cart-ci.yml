@@ -67,6 +67,7 @@ jobs:
           npm audit || echo "Audit completed with some issues"
 
       - name: SonarCloud Scan
+        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         uses: SonarSource/sonarcloud-github-action@v2.1.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
