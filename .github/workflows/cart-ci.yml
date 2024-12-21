@@ -1,4 +1,4 @@
-name: Cart Service CI 
+name: Cart Service CI
 
 on:
   push:
