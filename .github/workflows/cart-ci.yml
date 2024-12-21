@@ -18,11 +18,11 @@ jobs:
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
-        
-   build-and-test:
+
+  build-and-test:
     needs: cancel-redundant
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -32,9 +32,15 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Verify and Install Dependencies
+      - name: Install Dependencies
         run: |
-          cd /home/runner/work/robot-shop/robot-shop/cart
-          pwd
-          ls -la
+          BASE_DIR=/home/runner/work/robot-shop/robot-shop
+          cd $BASE_DIR/cart
           npm install
+
+      - name: Run Tests
+        run: |
+          BASE_DIR=/home/runner/work/robot-shop/robot-shop
+          cd $BASE_DIR/cart
+          npm test
+
