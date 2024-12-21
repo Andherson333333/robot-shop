@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: cart
-        image: andherson1039/rs-cart:620000053c3316c5b8561ba8da798bccf4e9b955:dawd
+        image: andherson1039/rs-cart:620000053c3316c5b8561ba8da798bccf4e9b955
         ports:
         - containerPort: 8080
         livenessProbe:
