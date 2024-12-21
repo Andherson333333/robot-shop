@@ -1,87 +1,94 @@
 name: Cart Service CI
 
 on:
-  workflow_dispatch:
-  push:
-    paths:
-      - 'cart/**'
-      - '.github/workflows/cart-ci.yml'
-    branches: [ "main", "master" ]
+ workflow_dispatch:
+ push:
+   paths:
+     - 'cart/**'
+     - '.github/workflows/cart-ci.yml'
+   branches: [ "main", "master" ]
 
 env:
-  PRODUCTION_MODE: false
+ PRODUCTION_MODE: false
 
 jobs:
-  cancel-redundant:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ github.token }}
+ cancel-redundant:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Cancel Previous Runs
+       uses: styfle/cancel-workflow-action@0.12.1
+       with:
+         access_token: ${{ github.token }}
 
-  build-and-test:
-    needs: cancel-redundant
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+ build-and-test:
+   needs: cancel-redundant
+   runs-on: ubuntu-latest
+   
+   steps:
+     - name: Checkout Repository
+       uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
+     - name: Setup Node.js
+       uses: actions/setup-node@v4
+       with:
+         node-version: '18'
 
-      - name: Install Dependencies
-        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
-        run: |
-          cd /home/runner/work/robot-shop/robot-shop/cart
-          npm install
+     - name: Install Dependencies
+       continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+       run: |
+         cd /home/runner/work/robot-shop/robot-shop/cart
+         npm install
 
-      - name: Run Tests (if available)
-        if: success()
-        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
-        run: |
-          cd /home/runner/work/robot-shop/robot-shop/cart
-          if [ -f "package.json" ] && grep -q "\"test\"" "package.json"; then
-            echo "Test script found, but skipping due to no tests configured"
-          else
-            echo "No test script found in package.json"
-          fi
+     - name: Run Tests (if available)
+       if: success()
+       continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+       run: |
+         cd /home/runner/work/robot-shop/robot-shop/cart
+         if [ -f "package.json" ] && grep -q "\"test\"" "package.json"; then
+           echo "Test script found, but skipping due to no tests configured"
+         else
+           echo "No test script found in package.json"
+         fi
 
-      - name: Fix Audit Issues
-        if: success()
-        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
-        run: |
-          cd /home/runner/work/robot-shop/robot-shop/cart
-          echo "Attempting to fix audit issues..."
-          npm audit fix || echo "Some issues could not be fixed automatically"
-          
-      - name: Security Audit Report
-        if: success()
-        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
-        run: |
-          cd /home/runner/work/robot-shop/robot-shop/cart
-          echo "Generating security audit report..."
-          npm audit || echo "Audit completed with some issues"
+     - name: Fix Audit Issues
+       if: success()
+       continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+       run: |
+         cd /home/runner/work/robot-shop/robot-shop/cart
+         echo "Attempting to fix audit issues..."
+         npm audit fix || echo "Some issues could not be fixed automatically"
+         
+     - name: Security Audit Report
+       if: success()
+       continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+       run: |
+         cd /home/runner/work/robot-shop/robot-shop/cart
+         echo "Generating security audit report..."
+         npm audit || echo "Audit completed with some issues"
 
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
+     - name: Setup SonarCloud Scanner
+       run: |
+         export SONAR_SCANNER_VERSION=5.0.1.3006
+         wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip
+         unzip sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip
+         export PATH=$PATH:$PWD/sonar-scanner-${SONAR_SCANNER_VERSION}-linux/bin
 
-      - name: SonarCloud Scan
-        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          cd /home/runner/work/robot-shop/robot-shop/cart
-          sonar-scanner \
-            -Dsonar.projectKey=robot-shop \
-            -Dsonar.organization=robot-shop \
-            -Dsonar.sources=. \
-            -Dsonar.host.url=https://sonarcloud.io
+     - name: Cache SonarCloud packages
+       uses: actions/cache@v3
+       with:
+         path: ~/.sonar/cache
+         key: ${{ runner.os }}-sonar
+         restore-keys: ${{ runner.os }}-sonar
+
+     - name: SonarCloud Scan
+       continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+       run: |
+         cd /home/runner/work/robot-shop/robot-shop/cart
+         sonar-scanner \
+           -Dsonar.projectKey=robot-shop \
+           -Dsonar.organization=robot-shop \
+           -Dsonar.sources=. \
+           -Dsonar.host.url=https://sonarcloud.io
