@@ -76,3 +76,7 @@ jobs:
             -Dsonar.projectKey=robot-shop
             -Dsonar.organization=robot-shop
             -Dsonar.sources=cart
+            -Dsonar.c.file.suffixes=-
+            -Dsonar.cpp.file.suffixes=-
+            -Dsonar.objc.file.suffixes=-
+            -Dsonar.javascript.node.maxspace=4096
