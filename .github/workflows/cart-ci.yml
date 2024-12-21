@@ -95,4 +95,20 @@ jobs:
          context: ./cart
          push: true
          tags: andherson1039/rs-cart:${{ github.sha }}
+
+     - name: Update Deployment File
+       continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+       run: |
+         cat Infrastructure-onprem/K8s/manifiestos/cart-deployment.yaml
+         sed -i "s|image: andherson1039/rs-cart|image: andherson1039/rs-cart:${{ github.sha }}|g" Infrastructure-onprem/K8s/manifiestos/cart-deployment.yaml
+         cat Infrastructure-onprem/K8s/manifiestos/cart-deployment.yaml
+
+     - name: Commit and Push Changes
+       continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+       run: |
+         git config user.name github-actions
+         git config user.email github-actions@github.com
+         git add Infrastructure-onprem/K8s/manifiestos/cart-deployment.yaml
+         git commit -m "Update cart image to ${{ github.sha }}"
+         git push
           
