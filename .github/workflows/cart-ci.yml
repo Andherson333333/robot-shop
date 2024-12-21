@@ -1,6 +1,7 @@
 name: Cart Service CI
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'cart/**'
