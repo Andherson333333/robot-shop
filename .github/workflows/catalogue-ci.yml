@@ -101,8 +101,9 @@ jobs:
       - name: Update Deployment File
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         run: |
-          cat Infrastructure-onprem/K8s/manifiestos/catalogue-deployment.yaml
+          sed -i 's|image: andherson1039/rs-catalogue:.*|image: andherson1039/rs-catalogue|g' Infrastructure-onprem/K8s/manifiestos/catalogue-deployment.yaml
           sed -i "s|image: andherson1039/rs-catalogue|image: andherson1039/rs-catalogue:${{ github.sha }}|g" Infrastructure-onprem/K8s/manifiestos/catalogue-deployment.yaml
+          echo "Updated deployment file:"
           cat Infrastructure-onprem/K8s/manifiestos/catalogue-deployment.yaml
           
       - name: Commit and Push Changes
