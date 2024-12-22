@@ -64,6 +64,12 @@ jobs:
             echo "No test script found in composer.json"
           fi
 
+      - name: Run Security Check
+        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+        uses: symfonycorp/security-checker-action@v4
+        with:
+          lock: /home/runner/work/robot-shop/robot-shop/ratings/html/composer.lock
+
       - name: SonarCloud Scan
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         uses: SonarSource/sonarcloud-github-action@v2.1.1
