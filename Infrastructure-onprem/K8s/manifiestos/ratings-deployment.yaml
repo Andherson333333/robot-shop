@@ -15,7 +15,7 @@ spec:
    spec:
      containers:
      - name: ratings
-       image: andherson1039/rs-ratings:10f74f5b0c633b5af610440029bdceca28507f78
+       image: andherson1039/rs-ratings:7dcf55c3d58bb286e5c2d5efd3d6c64278c3c4a6
        ports:
        - containerPort: 80
        livenessProbe:
