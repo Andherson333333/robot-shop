@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: andherson1039/rs-payment:latest
+        image: andherson1039/rs-payment:cd269741427bd9d1f49e6623e5f5c3523ee7a43f
         ports:
         - containerPort: 8080
         livenessProbe:
