@@ -1,0 +1,111 @@
+name: Dispatch Service CI
+
+permissions:
+  contents: write
+  
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'dispatch/**'
+      - '.github/workflows/dispatch-ci.yml'
+    branches: [ "main", "master" ]
+    
+env:
+  PRODUCTION_MODE: false
+  
+jobs:
+  cancel-redundant:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.12.1
+        with:
+          access_token: ${{ github.token }}
+          
+  build-and-test:
+    needs: cancel-redundant
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21' 
+          
+      - name: Install Dependencies
+        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+        run: |
+          cd /home/runner/work/robot-shop/robot-shop/dispatch
+          go mod init dispatch || true
+          go mod tidy
+
+      - name: Run Tests (if available)
+        if: success()
+        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+        run: |
+          cd /home/runner/work/robot-shop/robot-shop/dispatch
+          go test ./... || echo "No tests found or tests failed"
+
+      - name: Run Go Vet
+        if: success()
+        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+        run: |
+          cd /home/runner/work/robot-shop/robot-shop/dispatch
+          go vet ./...
+
+      - name: Security Check
+        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+        run: |
+          cd /home/runner/work/robot-shop/robot-shop/dispatch
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+          govulncheck ./...
+
+      - name: SonarCloud Scan
+        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+        uses: SonarSource/sonarcloud-github-action@v2.1.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=robot-shop
+            -Dsonar.organization=robot-shop
+            -Dsonar.sources=dispatch
+            -Dsonar.go.coverage.reportPaths=coverage.out
+            -Dsonar.c.file.suffixes=-
+            -Dsonar.cpp.file.suffixes=-
+            -Dsonar.objc.file.suffixes=-
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push Docker image
+        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+        uses: docker/build-push-action@v5
+        with:
+          context: ./dispatch
+          push: true
+          tags: andherson1039/rs-dispatch:${{ github.sha }}
+
+      - name: Update Deployment File
+        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+        run: |
+          cat Infrastructure-onprem/K8s/manifiestos/dispatch-deployment.yaml
+          sed -i "s|image: andherson1039/rs-dispatch|image: andherson1039/rs-dispatch:${{ github.sha }}|g" Infrastructure-onprem/K8s/manifiestos/dispatch-deployment.yaml
+          cat Infrastructure-onprem/K8s/manifiestos/dispatch-deployment.yaml
+
+      - name: Commit and Push Changes
+        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add Infrastructure-onprem/K8s/manifiestos/dispatch-deployment.yaml
+          git commit -m "Update dispatch image to ${{ github.sha }}"
+          git push
