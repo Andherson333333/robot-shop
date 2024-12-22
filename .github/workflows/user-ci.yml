@@ -100,8 +100,9 @@ jobs:
       - name: Update Deployment File
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         run: |
-          cat Infrastructure-onprem/K8s/manifiestos/user-deployment.yaml
+          sed -i 's|image: andherson1039/rs-user:.*|image: andherson1039/rs-user|g' Infrastructure-onprem/K8s/manifiestos/user-deployment.yaml
           sed -i "s|image: andherson1039/rs-user|image: andherson1039/rs-user:${{ github.sha }}|g" Infrastructure-onprem/K8s/manifiestos/user-deployment.yaml
+          echo "Updated deployment file:"
           cat Infrastructure-onprem/K8s/manifiestos/user-deployment.yaml
           
       - name: Commit and Push Changes
