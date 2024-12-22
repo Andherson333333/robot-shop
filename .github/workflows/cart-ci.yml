@@ -102,10 +102,11 @@ jobs:
      - name: Update Deployment File
        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
        run: |
-         cat Infrastructure-onprem/K8s/manifiestos/cart-deployment.yaml
-         sed -i "s|image: andherson1039/rs-cart|image: andherson1039/rs-cart:${{ github.sha }}|g" Infrastructure-onprem/K8s/manifiestos/cart-deployment.yaml
-         cat Infrastructure-onprem/K8s/manifiestos/cart-deployment.yaml
-
+        sed -i 's|image: andherson1039/rs-cart:.*|image: andherson1039/rs-cart|g' Infrastructure-onprem/K8s/manifiestos/cart-deployment.yaml
+        sed -i "s|image: andherson1039/rs-cart|image: andherson1039/rs-cart:${{ github.sha }}|g" Infrastructure-onprem/K8s/manifiestos/cart-deployment.yaml
+        echo "Updated deployment file:"
+        cat Infrastructure-onprem/K8s/manifiestos/cart-deployment.yaml
+    
      - name: Commit and Push Changes
        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
        run: |
