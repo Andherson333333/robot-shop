@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: dispatch
-        image: andherson1039/rs-dispatch
+        image: andherson1039/rs-dispatch:b6eeb10e29b91bc39dbf4209829804fe1122201f
         ports:
         - containerPort: 8080
         resources:
