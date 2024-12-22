@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: catalogue
-        image: andherson1039/rs-catalogue:8d08e89978d2a26fcc565c76415b49fc20162d2f
+        image: andherson1039/rs-catalogue:63f3ea43a588a6472c1747c0516c0b3f44e2c61f
         ports:
         - containerPort: 8080
         livenessProbe:
