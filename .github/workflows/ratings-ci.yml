@@ -11,6 +11,12 @@ on:
       - '.github/workflows/ratings-ci.yml'
     branches: [ "main", "master" ]
 
+  pull_request:
+    paths:
+      - 'ratings/**'
+      - '.github/workflows/ratings-ci.yml'
+    branches: [ "main", "master" ]
+
 env:
   PRODUCTION_MODE: false
 
