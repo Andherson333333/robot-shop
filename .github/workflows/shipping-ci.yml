@@ -11,6 +11,12 @@ on:
       - '.github/workflows/shipping-ci.yml'
     branches: [ "main", "master" ]
 
+  pull_request:
+    paths:
+      - 'shipping/**'
+      - '.github/workflows/shipping-ci.yml'
+    branches: [ "main", "master" ]
+
 env:
   PRODUCTION_MODE: false
 
