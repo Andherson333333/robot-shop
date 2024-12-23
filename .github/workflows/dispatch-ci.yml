@@ -11,6 +11,12 @@ on:
       - '.github/workflows/dispatch-ci.yml'
     branches: [ "main", "master" ]
     
+  pull_request:
+    paths:
+      - 'dispatch/**'
+      - '.github/workflows/dispatch-ci.yml'
+    branches: [ "main", "master" ]
+    
 env:
   PRODUCTION_MODE: false
   
