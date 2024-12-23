@@ -11,6 +11,12 @@ on:
       - '.github/workflows/payment-ci.yml'
     branches: [ "main", "master" ]
     
+  pull_request:
+    paths:
+      - 'payment/**'
+      - '.github/workflows/payment-ci.yml'
+    branches: [ "main", "master" ]
+    
 env:
   PRODUCTION_MODE: false
   
