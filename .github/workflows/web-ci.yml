@@ -11,6 +11,12 @@ on:
       - '.github/workflows/web-ci.yml'
     branches: [ "main", "master" ]
 
+  pull_request:
+    paths:
+      - 'web/**'
+      - '.github/workflows/web-ci.yml'
+    branches: [ "main", "master" ]
+
 env:
   PRODUCTION_MODE: false
 
