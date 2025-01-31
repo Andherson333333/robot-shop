@@ -1,4 +1,4 @@
-# Robot Shop ArgoCD Configuration
+# Robot Shop ArgoCD Configuracion
 
 ## Índice de contenidos
 * [Descripción General](#item1)
