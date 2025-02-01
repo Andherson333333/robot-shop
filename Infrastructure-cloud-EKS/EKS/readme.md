@@ -15,7 +15,7 @@ Este repositorio contiene configuraciones de Terraform para desplegar un clúste
 
 La infraestructura incluye:
 - VPC con subredes públicas, privadas e internas en 2 zonas de disponibilidad
-- Clúster EKS (versión 1.31) con grupos de nodos gestionados
+- Clúster EKS (versión 1.32) con grupos de nodos gestionados
 - Complementos principales: CoreDNS, kube-proxy, VPC CNI y EKS Pod Identity Agent
 - Integración con AWS EBS CSI Driver
 - Soporte para aprovisionamiento de nodos con Karpenter
