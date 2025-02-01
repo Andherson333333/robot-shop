@@ -74,7 +74,3 @@ Las especificaciones para el grupo de nodos son:
 Las políticas IAM configuradas incluyen:
 - SSM: AmazonSSMManagedInstanceCore
 
-### Helm Chart
-La configuración del chart de Helm utiliza:
-- Versión: 0.37.0
-- Repositorio: public.ecr.aws/karpenter
