@@ -14,6 +14,7 @@ resource "kubectl_manifest" "ebs_csi_default_storage_class" {
     type: gp3  
     fsType: ext4
     encrypted: "true"
+    kmsKeyId: "alias/aws/ebs"
   YAML
 
   depends_on = [module.eks]
