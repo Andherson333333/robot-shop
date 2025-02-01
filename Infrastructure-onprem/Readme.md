@@ -4,7 +4,7 @@
 
 Este repositorio implementa un ambiente de práctica orientado a producción, utilizando **Robot Shop** como aplicación de ejemplo para demostrar las mejores prácticas en Kubernetes. La implementación integra una suite completa de herramientas de observabilidad, monitoreo y despliegue continuo.
 
-## 5. Infraestructura Base
+## Infraestructura Base
 
 ![pod-prometheus](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-2.png)
 
@@ -29,6 +29,19 @@ Este repositorio implementa un ambiente de práctica orientado a producción, ut
 └── loki+promtail/             # Agregación de logs
 └── loadtest/                  # Generador trafico
 ```
+## Despligue
+
+Para desplegar este proyecto puede entrar en cada uno de los componenetes e instalarlos de forma individual hasta crear el entorno completo , el orden de despligue seria el siguiente :
+
+- Istio-operator
+- Prometheus-operator
+- Jaeger
+- Kiali
+- loki+promtail
+- Flagger-operator
+- K8s
+
+Tambine puede experimentar diferentes ordenes
 
 # Verificacion
 
