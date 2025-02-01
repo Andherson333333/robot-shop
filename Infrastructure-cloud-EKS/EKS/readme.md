@@ -79,6 +79,7 @@ aws eks update-kubeconfig --region us-east-1 --name my-eks
 
 1. Verificacion cluster con kubeclt
 ```
+kubectl get nodes
 ```
 
 
