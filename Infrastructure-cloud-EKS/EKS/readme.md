@@ -59,17 +59,20 @@ Incluye configuraciones específicas para Istio:
 ## Despliegue
 1. Una ves instalado los requisitos
 ```
+terraform init
 ```
 2. Verificar con terraform
 ```
+terraform plan
 ```
 3. Iniciar el despligue
 ```
+terraform apply
 ```
 4. Configuracion kubectl
 ```
+aws eks update-kubeconfig --region us-east-1 --name my-eks
 ```
-
 
 <a name="verificacion"></a>
 ## Verificacion 
