@@ -13,19 +13,14 @@ Este repositorio contiene configuraciones de Terraform para desplegar un clúste
 
 ## Estructura del Proyecto
 
-El proyecto está organizado en varias secciones dentro del mismo archivo (o puede dividirse en múltiples archivos según tu preferencia):
+La infraestructura incluye:
+- VPC con subredes públicas, privadas e internas en 2 zonas de disponibilidad
+- Clúster EKS (versión 1.31) con grupos de nodos gestionados
+- Complementos principales: CoreDNS, kube-proxy, VPC CNI y EKS Pod Identity Agent
+- Integración con AWS EBS CSI Driver
+- Soporte para aprovisionamiento de nodos con Karpenter
+- Configuraciones de grupos de seguridad preparadas para Istio
 
-- **Variables locales**: Definición de parámetros como el nombre del clúster, región, CIDR para la VPC, zonas de disponibilidad y etiquetas.
-- **Data Sources**: Obtención de información sobre zonas de disponibilidad, token de autorización para ECR Public y la identidad del llamador actual.
-- **Providers**: Configuración de los proveedores de Terraform:
-  - **aws** (con un alias para la región de Virginia).
-  - **kubernetes**, **helm** y **kubectl** (configurados para comunicarse con el clúster EKS utilizando el comando `aws eks get-token`).
-- **Módulo VPC**: Uso del módulo [terraform-aws-modules/vpc/aws](https://github.com/terraform-aws-modules/terraform-aws-vpc) para la creación de la VPC, subredes y NAT Gateway.
-- **Módulo EKS**: Uso del módulo [terraform-aws-modules/eks/aws](https://github.com/terraform-aws-modules/terraform-aws-eks) para la creación y configuración del clúster EKS, incluyendo:
-  - Addons del clúster.
-  - Configuración de subredes para el plano de control y nodos.
-  - Reglas de seguridad adicionales para la integración con Istio.
-  - Configuración de grupos de nodos gestionados.
 
 ## Componentes Principales
 
