@@ -39,7 +39,7 @@ La infraestructura incluye:
 - Soporte DNS habilitado
 
 ### Clúster EKS
-- Versión de Kubernetes: 1.31
+- Versión de Kubernetes: 1.32
 - Acceso público al endpoint habilitado
 - IRSA (IAM Roles for Service Accounts) habilitado
 - Configuración de grupo de nodos gestionados:
