@@ -39,6 +39,7 @@ Para desplegar este proyecto puede entrar en cada uno de los componenetes e inst
 - Kiali
 - loki+promtail
 - Flagger-operator
+- Argo-cd-Operator
 - K8s
 
 Tambine puede experimentar diferentes ordenes
