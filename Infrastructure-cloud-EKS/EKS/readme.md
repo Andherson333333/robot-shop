@@ -57,9 +57,25 @@ Incluye configuraciones específicas para Istio:
 
 <a name="despliegue"></a>
 ## Despliegue
-1. Clonar el repositorio:
+1. Una ves instalado los requisitos
+```
+```
+2. Verificar con terraform
+```
+```
+3. Iniciar el despligue
+```
+```
+4. Configuracion kubectl
+```
+```
+
 
 <a name="verificacion"></a>
 ## Verificacion 
+
+1. Verificacion cluster con kubeclt
+```
+```
 
 
