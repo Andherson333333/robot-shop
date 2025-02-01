@@ -5,7 +5,8 @@
 * [Requisitos Previos](#requisitos)
 * [Componentes](#componentes)
 * [Despliegue](#despliegue)
-* [Configuración](#configuracion)
+* [Verificación](#verificacion)
+* [Configuración Detallada](#configuracion)
 
 <a name="descripcion"></a>
 ## Descripción General
@@ -30,10 +31,25 @@ El despliegue incluye:
 
 <a name="despliegue"></a>
 ## Despliegue
-1. Asegúrese de tener el cluster EKS desplegado ([ver documentación de despliegue EKS](https://github.com/path-to-eks-readme))
+1. Asegúrese de tener el cluster EKS desplegado (https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/EKS)
+
+2- Para instalar el nuevo modulo agregado
+```
+terraform init
+```
+3. Verificar con terraform
+```
+terraform plan
+```
+4. Iniciar el despligue
+```
+terraform apply
+```
+<a name="verificacion"></a>
+## Verificacion
 
 
-
+<a name="configuracion"></a>
 ## Configuración Detallada
 
 ### NodeClass
