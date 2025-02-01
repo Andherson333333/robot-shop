@@ -31,7 +31,7 @@ El despliegue incluye:
 
 <a name="despliegue"></a>
 ## Despliegue
-1. Asegúrese de tener el cluster EKS desplegado (https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/EKS)
+1. Asegúrese de tener el cluster EKS desplegado (https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/EKS) ya las configuraciones pertenentes y necesarias como los tag en el cluster esta configurados 
 
 2- Para instalar el nuevo modulo agregado
 ```
