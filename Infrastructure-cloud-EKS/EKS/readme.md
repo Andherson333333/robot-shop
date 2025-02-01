@@ -1,18 +1,26 @@
-# Indice
-
 # Infraestructura de AWS EKS con Terraform para Robot-shop
 
-Este repositorio contiene configuraciones de Terraform para desplegar un clúster de Amazon EKS (Elastic Kubernetes Service) con una infraestructura VPC de soporte y complementos esenciales.
+## Índice de contenidos
+* [Descripción General](#descripcion)
+* [Requisitos Previos](#requisitos)
+* [Estructura del Proyecto](#estructura)
+* [Componentes Principales](#componentes)
+* [Despliegue](#despliegue)
+* [Verificación](#verificacion)
 
+<a name="descripcion"></a>
+## Descripción General
+Este repositorio contiene configuraciones de Terraform para desplegar un clúster de Amazon EKS (Elastic Kubernetes Service) con una infraestructura VPC de soporte y complementos esenciales para la aplicación robot-shop.
+
+<a name="requisitos"></a>
 ## Requisitos Previos
-
 - Terraform >= 1.0
 - AWS CLI configurado con credenciales apropiadas
 - kubectl
 - helm
 
+<a name="estructura"></a>
 ## Estructura del Proyecto
-
 La infraestructura incluye:
 - VPC con subredes públicas, privadas e internas en 2 zonas de disponibilidad
 - Clúster EKS (versión 1.32) con grupos de nodos gestionados
@@ -21,7 +29,7 @@ La infraestructura incluye:
 - Soporte para aprovisionamiento de nodos con Karpenter
 - Configuraciones de grupos de seguridad preparadas para Istio
 
-
+<a name="componentes"></a>
 ## Componentes Principales
 
 ### Configuración de VPC
@@ -47,12 +55,11 @@ Incluye configuraciones específicas para Istio:
 - Puerto Discovery/XDS (15010)
 - Puerto de Monitoreo (15014)
 
+<a name="despliegue"></a>
+## Despliegue
+1. Clonar el repositorio:
 
-
-
-
-## Despligue
-
-## Verificacion
+<a name="verificacion"></a>
+## Verificacion 
 
 
