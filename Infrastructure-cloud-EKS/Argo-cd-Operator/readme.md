@@ -11,7 +11,7 @@
 
 <a name="descripcion"></a>
 ## Descripción General
-Este módulo implementa ArgoCD en el clúster EKS, proporcionando una herramienta de Continuous Delivery (CD) con una interfaz web accesible a través de un ingress interno.
+Este módulo implementa ArgoCD en el clúster EKS, proporcionando una herramienta de Continuous Delivery (CD) con una interfaz web accesible a través de un ingress interno. Al ser interno solo se tiene acceso dentro de la vpc
 
 
 <a name="requisitos"></a>
