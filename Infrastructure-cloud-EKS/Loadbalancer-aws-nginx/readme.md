@@ -86,12 +86,11 @@ terraform apply
 <a name="verificacion"></a>
 ## Verificación
 
-# Verificar AWS Load Balancer Controller
+### Verificar AWS Load Balancer Controller
 ```
 kubectl get pods -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller
 ```
-
-# Verificar los controladores Nginx
+### Verificar los controladores Nginx
 ```
 kubectl get pods -n ingress-nginx-internal
 ```
@@ -99,14 +98,14 @@ kubectl get pods -n ingress-nginx-internal
 kubectl get pods -n ingress-nginx-external
 ```
 
-# Verificar los servicios NLB
+### Verificar los servicios NLB
 ```
 kubectl get svc -n ingress-nginx-internal
 ```
 ```
 kubectl get svc -n ingress-nginx-external
 ```
-# Verificar las clases de ingress
+### Verificar las clases de ingress
 ```
 kubectl get ingressclass
 ```
