@@ -11,12 +11,13 @@
 
 <a name="descripcion"></a>
 ## Descripción General
-Este módulo implementa ArgoCD en el clúster EKS, proporcionando una herramienta de Continuous Delivery (CD) con una interfaz web accesible a través de un ingress 
+Este módulo implementa ArgoCD en el clúster EKS, proporcionando una herramienta de Continuous Delivery (CD) con una interfaz web accesible a través de un ingress interno.
+
 
 <a name="requisitos"></a>
 ## Requisitos Previos
 - EKS Cluster desplegado
-- Nginx Ingress Controller configurado
+- Nginx Ingress Controller interno configurado
 - StorageClass gp3-default disponible
 - Dominio configurado (argocd.andherson33.click)
 - Terraform >= 1.0
@@ -28,34 +29,51 @@ Este módulo implementa ArgoCD en el clúster EKS, proporcionando una herramient
 El despliegue configura:
 - ArgoCD en namespace dedicado
 - Redis con persistencia
-- Ingress para acceso externo
+- Ingress para acceso interno
 - Secreto para webhook de GitHub
 
 <a name="configuracion"></a>
 ## Configuración
 
 ### ArgoCD Helm Chart
-
 Configuración:
 - Nombre: argocd
 - Repositorio: argoproj.github.io/argo-helm
 - Versión: 7.7.13
 - Namespace: argocd
 
-Redis
+### Redis
 Configuración:
 - Persistencia: Habilitada
 - StorageClass: gp3-default
 
-Ingress
+### Ingress
 Configuración:
 - Hostname: argocd.andherson33.click
-- Clase: nginx-external/internal
+- Clase: nginx-internal
 - SSL Redirect: Deshabilitado
 - Backend Protocol: HTTP
 
 <a name="despliegue"></a>
 ## Despliegue
+1. Asegúrese de tener el cluster EKS, EBS y loadbalancer nginx desplegado 
+
+   - https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/EKS
+   - https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/EBS
+   - https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/Loadbalancer-aws-nginx
+
+2- Para instalar el nuevo modulo agregado
+```
+terraform init
+```
+3. Verificar con terraform
+```
+terraform plan
+```
+4. Iniciar el despligue
+```
+terraform apply
+```
 
 <a name="acceso"></a>
 ## Acceso
