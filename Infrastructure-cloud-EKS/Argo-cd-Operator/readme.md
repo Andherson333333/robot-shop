@@ -18,7 +18,6 @@ Este módulo implementa ArgoCD en el clúster EKS, proporcionando una herramient
 ## Requisitos Previos
 - EKS Cluster desplegado
 - Nginx Ingress Controller interno configurado
-- 
 - StorageClass gp3-default disponible
 - Dominio configurado (argocd.andherson33.click)
 - Terraform >= 1.0
