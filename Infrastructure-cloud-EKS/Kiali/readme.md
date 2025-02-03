@@ -25,7 +25,11 @@ Esta documentación cubre la configuración de Kiali con Istio, incluyendo la in
 ```
 kubectl apply -f kiali.yaml
 ```
-3. Luego de desplegar como se instalo promethues operator va dar error asi que se agregar endpoint al confimap de kaili
+2. Aplicar el ingress para tener acceso via web
+```
+kubectl apply -f kiali-ingress.yml
+```
+4. Luego de desplegar como se instalo promethues operator va dar error asi que se agregar endpoint al confimap de kaili
 ```
 kubectl edit configmap kiali -n istio-system
 ```
