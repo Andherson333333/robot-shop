@@ -86,33 +86,42 @@ ServiceMonitor (Control Plane):
 
 Las interfaces estarán disponibles internamente en:
 
-Prometheus: https://prometheus.andherson33.click
-Grafana: https://graphana.andherson33.click
+- Prometheus: https://prometheus.andherson33.click
+- Grafana: https://graphana.andherson33.click
 
 Credenciales por defecto de Grafana:
 
 Usuario: admin
 Contraseña: prom-operator
-
+```
+kubectl get secret prometheus-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 -d; echo
+```
 <a name="verificacion"></a>
 ## Verificación
 
 # Verificar pods
+```
 kubectl get pods -n monitoring
-
+```
 # Verificar servicios
+```
 kubectl get svc -n monitoring
-
+```
 # Verificar ingress
+```
 kubectl get ingress -n monitoring
-
+```
 # Verificar PVCs
+```
 kubectl get pvc -n monitoring
-
+```
 # Verificar monitores
+```
 kubectl get servicemonitor -n istio-system
+```
+```
 kubectl get podmonitor -n istio-system
-
+```
 
 
 
