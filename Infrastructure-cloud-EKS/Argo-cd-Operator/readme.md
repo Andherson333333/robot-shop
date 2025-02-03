@@ -88,6 +88,14 @@ terraform plan
 ```
 terraform apply
 ```
+5. Aplicar el ingress para acceso GUI
+```
+kubectl appy -f argocd-ingress.yml
+```
+6. Aplicar el ingress para aplicar webhook de forma externa
+```
+kubectl appy -f argocd-ingress-webhoock.yml
+```
 
 <a name="acceso"></a>
 ## Acceso
