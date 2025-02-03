@@ -45,7 +45,7 @@ Esto lo que va dentro del configmap en la secion external_service
         enabled: false
 
 ```
-4 . Luego se puede darle 
+4 . Luego se aplicar un rollout para que tome la configuracion
 ```
 kubectl rollout restart deployment kiali -n istio-system
 ```
