@@ -18,6 +18,7 @@ Este módulo implementa ArgoCD en el clúster EKS, proporcionando una herramient
 ## Requisitos Previos
 - EKS Cluster desplegado
 - Nginx Ingress Controller interno configurado
+- 
 - StorageClass gp3-default disponible
 - Dominio configurado (argocd.andherson33.click)
 - Terraform >= 1.0
@@ -30,6 +31,7 @@ El despliegue configura:
 - ArgoCD en namespace dedicado
 - Redis con persistencia
 - Ingress para acceso interno
+- Ingress adicional para webhooks de GitHub
 - Secreto para webhook de GitHub
 
 <a name="configuracion"></a>
@@ -53,6 +55,19 @@ Configuración:
 - Clase: nginx-internal
 - SSL Redirect: Deshabilitado
 - Backend Protocol: HTTP
+
+### Ingress Webhook
+Configuración:
+- Hostname: argocd.andherson33.click
+- Path: /api/webhook
+- Clase: nginx-external
+- SSL Redirect: Deshabilitado
+- Backend Protocol: HTTP
+
+### GitHub Webhook
+Configuración:
+- Secret: "naruto"
+- Endpoint: https://argocd.andherson33.click/api/webhook
 
 <a name="despliegue"></a>
 ## Despliegue
