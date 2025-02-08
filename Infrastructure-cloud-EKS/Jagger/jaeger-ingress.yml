@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+ name: jaeger-ingress
+ namespace: istio-system
+ annotations:
+   nginx.ingress.kubernetes.io/ssl-redirect: "false"
+   nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+   nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+   nginx.ingress.kubernetes.io/proxy-body-size: "0"
+spec:
+ # ingressClassName: nginx-external  
+ ingressClassName: nginx-internal  
+ tls:
+ - hosts:
+   - jaeger.andherson33.click
+ rules:
+ - host: jaeger.andherson33.click
+   http:
+     paths:
+     - path: /
+       pathType: Prefix
+       backend:
+         service:
+           name: tracing
+           port:
+             number: 80
