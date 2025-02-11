@@ -3,6 +3,8 @@
 ## Descripción General
 Este repositorio contiene los manifiestos de Kubernetes para desplegar una aplicación Robot Shop basada en microservicios. La aplicación está compuesta por múltiples servicios que incluyen interfaz web, catálogo, carrito, gestión de usuarios, procesamiento de pagos y más.
 
+El la carpeta manifiestos se encuentran todos los yml de robot-shop
+
 ## Arquitectura
 La aplicación está compuesta por los siguientes microservicios:
 - Frontend Web
@@ -44,13 +46,11 @@ La aplicación utiliza varios ConfigMaps y Secrets para su configuración:
 - Varias credenciales de bases de datos (almacenadas en Secrets)
 
 ## Despliegue
-1. Clonar este repositorio
-2. Aplicar los manifiestos:
-```bash
-kubectl apply -f robot-shop.yaml
-```
 
-# Configuración de Servicios
+
+
+## Verificacion 
+
 
 ## Bases de Datos
 - **MongoDB**: Desplegado como StatefulSet con almacenamiento persistente.  
