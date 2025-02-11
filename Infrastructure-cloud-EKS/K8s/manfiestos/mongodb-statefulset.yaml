@@ -1,3 +1,4 @@
+# StatefulSet MongoDB
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -33,6 +34,13 @@ spec:
            port: 27017
          initialDelaySeconds: 10
          periodSeconds: 10
+#        resources:
+#          requests:
+#            cpu: "200m"
+#            memory: "512Mi"
+#          limits:
+#            cpu: "400m"
+#            memory: "1Gi"
         volumeMounts:
         - name: mongodb-data
           mountPath: /data/db
@@ -45,3 +53,4 @@ spec:
       resources:
         requests:
           storage: 1Gi
+
