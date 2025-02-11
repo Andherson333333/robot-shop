@@ -1,95 +1,225 @@
-# Despliegue de Robot Shop en Kubernetes
+## Indice
 
-## Descripción General
-Este repositorio contiene los manifiestos de Kubernetes para desplegar una aplicación Robot Shop basada en microservicios. La aplicación está compuesta por múltiples servicios que incluyen interfaz web, catálogo, carrito, gestión de usuarios, procesamiento de pagos y más.
+## Índice de contenidos
+* [Robot Shop Kubernetes Manifests](#item1)
+* [Estructura del Proyecto](#item2)
+* [Requistos](#item3)
+* [Despligue](#item4)
+* [Verificacion](#item5)
+* [Tecnologías de Kubernetes Utilizadas](#item6)
 
-El la carpeta manifiestos se encuentran todos los yml de robot-shop
+<a name="item1"></a>
+# Robot Shop Kubernetes Manifests
 
-## Arquitectura
-La aplicación está compuesta por los siguientes microservicios:
-- Frontend Web
-- Servicio de Catálogo
-- Servicio de Usuarios
-- Servicio de Carrito
-- Servicio de Envíos
-- Servicio de Pagos
-- Servicio de Calificaciones
-- Servicio de Despacho
-- Infraestructura de Soporte:
- - MongoDB
- - MySQL
- - Redis
- - RabbitMQ
+Este repositorio contiene los manifiestos de Kubernetes necesarios para desplegar la aplicación Robot Shop, una tienda de robots de demostración que utiliza una arquitectura de microservicios.
 
-## Requisitos Previos
+<a name="item2"></a>
+## Estructura del Proyecto
+
+El proyecto está organizado en un directorio principal que contiene todos los manifiestos de Kubernetes necesarios para el despliegue de la aplicación Robot Shop:
+
+<pre>
+manifiestos/
+|-- cart-deployment.yaml
+|-- cart-hpa.yaml
+|-- cart-service.yaml
+|-- catalogue-deployment.yaml
+|-- catalogue-hpa.yaml
+|-- catalogue-service.yaml
+|-- dispatch-deployment.yaml
+|-- dispatch-hpa.yaml
+|-- dispatch-service.yaml
+|-- mongodb-pv.yaml
+|-- mongodb-service.yaml
+|-- mongodb-statefulset.yaml
+|-- mysql-configmap.yaml
+|-- mysql-pv.yaml
+|-- mysql-secret.yaml
+|-- mysql-service.yaml
+|-- mysql-statefulset.yaml
+|-- namespace.yaml
+|-- payment-deployment.yaml
+|-- payment-hpa.yaml
+|-- payment-service.yaml
+|-- rabbitmq-deployment.yaml
+|-- rabbitmq-service.yaml
+|-- ratings-configmap.yaml
+|-- ratings-deployment.yaml
+|-- ratings-hpa.yaml
+|-- ratings-secret.yaml
+|-- ratings-service.yaml
+|-- redis-deployment.yaml
+|-- redis-service.yaml
+|-- shipping-configmap.yaml
+|-- shipping-deployment.yaml
+|-- shipping-hpa.yaml
+|-- shipping-secret.yaml
+|-- shipping-service.yaml
+|-- user-deployment.yaml
+|-- user-hpa.yaml
+|-- user-service.yaml
+|-- web-configmap.yaml
+|-- web-deployment.yaml
+|-- web-hpa.yaml
+|-- web-service.yaml
+|-- web-ingress.yaml
+</pre>
+
+![estructura](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-1.png)
+
+<a name="item3"></a>
+## Requistos
+
 - Cluster de Kubernetes
 - Kubectl configurado para interactuar con tu cluster
 - Clase de almacenamiento `gp3-default` disponible en tu cluster
 - Controlador Nginx Ingress instalado
 - Nombre de dominio configurado (actualmente configurado como robotshop.andherson33.click)
 
-## Características
-- Aislamiento de namespace con istio-injection habilitado
-- Almacenamiento persistente para bases de datos
-- Escalado Horizontal de Pods (HPA) para todos los servicios
-- Verificaciones de salud y sondas de disponibilidad
-- Límites y solicitudes de recursos
-- ConfigMaps y Secrets para gestión de configuración
-- Configuración de Ingress para acceso externo
+<a name="item4"></a>
+## Despligue
 
-## Configuración
-La aplicación utiliza varios ConfigMaps y Secrets para su configuración:
-- Configuraciones de MySQL
-- Configuraciones del servicio de envíos
-- Configuraciones del servicio de calificaciones
-- Configuraciones del servicio web
-- Varias credenciales de bases de datos (almacenadas en Secrets)
+1. Crear el namespace
+```
+kubectl apply -f manifiestos/namespace.yaml
+```
+2. Despliegue los servicios de base de datos (MongoDB y MySQL)
+```
+kubectl apply -f manifiestos/mongodb-pv.yaml
+kubectl apply -f manifiestos/mongodb-service.yaml
+kubectl apply -f manifiestos/mongodb-statefulset.yaml
+kubectl apply -f manifiestos/mysql-configmap.yaml
+kubectl apply -f manifiestos/mysql-pv.yaml
+kubectl apply -f manifiestos/mysql-secret.yaml
+kubectl apply -f manifiestos/mysql-service.yaml
+kubectl apply -f manifiestos/mysql-statefulset.yaml
+```
+3. Despliegue los servicios de infraestructura (Redis y RabbitMQ):
+```
+kubectl apply -f manifiestos/redis-deployment.yaml
+kubectl apply -f manifiestos/redis-service.yaml
+kubectl apply -f manifiestos/rabbitmq-deployment.yaml
+kubectl apply -f manifiestos/rabbitmq-service.yaml
+```
+4. Despliegue los microservicios de la aplicación:
+```
+kubectl apply -f manifiestos/cart-*.yaml
+kubectl apply -f manifiestos/catalogue-*.yaml
+kubectl apply -f manifiestos/dispatch-*.yaml
+kubectl apply -f manifiestos/payment-*.yaml
+kubectl apply -f manifiestos/ratings-*.yaml
+kubectl apply -f manifiestos/shipping-*.yaml
+kubectl apply -f manifiestos/user-*.yaml
+kubectl apply -f manifiestos/web-*.yaml
+```
+5. Alternativamente, puede desplegar toda la aplicación con un solo comando:
+```
+kubectl apply -f manifiestos/
+```
+## Verificacion
 
-## Despliegue
+- Pod y servicio
+![pod-service]()
 
+- deployment y statefulset
+![deployment]()
 
+- Hpa
+![HPA]()
 
-## Verificacion 
+- GP3
+![pv]()
 
+<a name="item6"></a>
+## Tecnologías de Kubernetes Utilizadas
 
-## Bases de Datos
-- **MongoDB**: Desplegado como StatefulSet con almacenamiento persistente.  
-- **MySQL**: Desplegado como StatefulSet con almacenamiento persistente.  
-- **Redis**: Desplegado como servicio sin estado.  
-- **RabbitMQ**: Broker de mensajes para comunicación entre servicios.  
+## Core Resources (v1)
+- `Namespace:` robot-shop con istio-injection habilitado
+- `ConfigMap:` 
+ - mysql-config: Configuración de base de datos
+ - shipping-config: Configuración del servicio de envíos
+ - ratings-config: Configuración del servicio de calificaciones
+ - web-config: Configuración de endpoints de servicios
+- `Secret:` 
+ - mysql-secrets
+ - shipping-secrets
+ - ratings-secrets
+- `Service:` 
+ - ClusterIP: Servicios internos (redis, mysql, mongodb, etc)
+ - Headless: Para StatefulSets (mongodb-headless, mysql-headless)
+- `PersistentVolumeClaim:` 
+ - mongodb-pvc
+ - mysql-pvc
 
-## Servicios de Aplicación
-Cada servicio está configurado con:  
-- Límites y solicitudes de recursos.  
-- Sondas de vida y disponibilidad.  
-- Escalado automático (HPA).  
-- Descubrimiento de servicios vía Servicios de Kubernetes.  
+<a name="workloads"></a>
+## Workloads (apps/v1)
+- `Deployment:` Servicios stateless
+ - redis
+ - rabbitmq
+ - catalogue
+ - user
+ - cart
+ - shipping
+ - payment
+ - dispatch
+ - ratings
+ - web
+- `StatefulSet:` Bases de datos
+ - mongodb
+ - mysql
 
-## Escalado
-Todos los servicios están configurados con **HorizontalPodAutoscaler**:  
-- **Réplicas mínimas**: 1  
-- **Réplicas máximas**: 5  
-- **Utilización objetivo de CPU**: 70%  
-- **Utilización objetivo de memoria**: 70%  
+<a name="autoscaling"></a>
+## Autoscaling (autoscaling/v2)
+- `HorizontalPodAutoscaler:` Configurado para todos los servicios
+ - minReplicas: 1
+ - maxReplicas: 5
+ - CPU target: 70-80%
+ - Memory target: 70-80%
 
-## Almacenamiento
-La aplicación utiliza almacenamiento persistente para:  
-- **MongoDB**: 1Gi  
-- **MySQL**: 1Gi  
+<a name="almacenamiento"></a>
+## Configuración de Almacenamiento
+- `StorageClass:` gp3-default
+- `PersistentVolumeClaim:` 
+ - Tamaño: 1Gi
+ - AccessMode: ReadWriteOnce
+ - Usado por MongoDB y MySQL
 
-## Red
-- **Comunicación interna**: Servicios ClusterIP.  
-- **Acceso externo**: Nginx Ingress.  
-- **Dominio**: [robotshop.andherson33.click](http://robotshop.andherson33.click)  
+<a name="caracteristicas-resiliencia"></a>
+## Características de Resiliencia
+- `Init Containers:` 
+ - wait-for-mysql en shipping service
+- `Resource Management:` Configurado para cada servicio
+- `Health Checks:` 
+ - Liveness Probe: HTTP, TCP y Exec checks
+ - Readiness Probe: HTTP, TCP y Exec checks
 
-## Imágenes
-La aplicación utiliza imágenes personalizadas alojadas en **Docker Hub** bajo el repositorio `andherson1039`.  
+<a name="configuracion-seguridad"></a>
+## Configuración y Seguridad
+- `Environment Variables:` 
+ - ConfigMaps
+ - Secrets
+ - Variables directas
+- `Volume Management:` 
+ - PVC para MongoDB y MySQL
+ - Volume Mounts configurados
 
-## Monitoreo
-Se implementan verificaciones de salud para todos los servicios con:  
-- Sondas de vida.  
-- Sondas de disponibilidad.  
-- Endpoints personalizados de verificación de salud.  
+<a name="distribucion-servicios"></a>
+## Distribución de Servicios
+- `Stateful Services:`
+ - MongoDB: StatefulSet + Headless + ClusterIP
+ - MySQL: StatefulSet + Headless + ClusterIP
+- `Stateless Services:`
+ - Redis: Deployment + ClusterIP
+ - RabbitMQ: Deployment + ClusterIP (puertos 5672, 15672)
+ - Microservicios: Deployments + ClusterIP (puerto 8080)
+
+<a name="networking"></a>
+## Networking
+- `Ingress:` 
+ - Host: robotshop.andherson33.click
+ - SSL/TLS configurado
+ - Nginx Ingress Controller (clase: nginx-external)
+
 
 
 
