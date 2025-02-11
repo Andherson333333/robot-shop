@@ -18,6 +18,25 @@ spec:
         image: andherson1039/rs-dispatch
         ports:
         - containerPort: 8080
+       # livenessProbe:
+       #   exec:
+       #     command:
+       #     - pgrep
+       #     - "dispatch"
+       #   initialDelaySeconds: 60
+       #   periodSeconds: 30
+       #   timeoutSeconds: 10
+       #   failureThreshold: 6
+       # readinessProbe:
+       #   exec:
+       #     command:
+       #     - /bin/sh
+       #     - -c
+       #     - 'nc -z localhost 8080'
+       #   initialDelaySeconds: 40
+       #   periodSeconds: 20
+       #   timeoutSeconds: 5
+       #   failureThreshold: 4
         resources:
           requests:
             cpu: "50m"
