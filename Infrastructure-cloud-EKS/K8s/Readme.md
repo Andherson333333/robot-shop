@@ -219,6 +219,7 @@ kubectl apply -f manifiestos/
  - Host: robotshop.andherson33.click
  - SSL/TLS configurado
  - Nginx Ingress Controller (clase: nginx-external)
+ - AWS Certificado configurado
 
 
 
