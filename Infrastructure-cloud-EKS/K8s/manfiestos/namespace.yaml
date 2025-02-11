@@ -1,4 +1,7 @@
+# Namespace
 apiVersion: v1
 kind: Namespace
 metadata:
   name: robot-shop
+  labels:
+    istio-injection: enabled
