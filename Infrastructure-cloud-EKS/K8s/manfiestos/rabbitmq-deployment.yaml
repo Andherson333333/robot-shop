@@ -1,3 +1,4 @@
+# Rabbitmq Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -32,3 +33,11 @@ spec:
          periodSeconds: 30
          timeoutSeconds: 10
          failureThreshold: 3
+#        resources:
+#          requests:
+#            cpu: "200m"
+#            memory: "256Mi"
+#          limits:
+#            cpu: "400m"
+#            memory: "512Mi"
+
