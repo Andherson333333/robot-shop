@@ -29,11 +29,9 @@ manifiestos/
 |-- dispatch-deployment.yaml
 |-- dispatch-hpa.yaml
 |-- dispatch-service.yaml
-|-- mongodb-pv.yaml
 |-- mongodb-service.yaml
 |-- mongodb-statefulset.yaml
 |-- mysql-configmap.yaml
-|-- mysql-pv.yaml
 |-- mysql-secret.yaml
 |-- mysql-service.yaml
 |-- mysql-statefulset.yaml
@@ -85,11 +83,9 @@ kubectl apply -f manifiestos/namespace.yaml
 ```
 2. Despliegue los servicios de base de datos (MongoDB y MySQL)
 ```
-kubectl apply -f manifiestos/mongodb-pv.yaml
 kubectl apply -f manifiestos/mongodb-service.yaml
 kubectl apply -f manifiestos/mongodb-statefulset.yaml
 kubectl apply -f manifiestos/mysql-configmap.yaml
-kubectl apply -f manifiestos/mysql-pv.yaml
 kubectl apply -f manifiestos/mysql-secret.yaml
 kubectl apply -f manifiestos/mysql-service.yaml
 kubectl apply -f manifiestos/mysql-statefulset.yaml
