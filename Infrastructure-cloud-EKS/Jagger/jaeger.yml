@@ -19,6 +19,14 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/port: "14269"
     spec:
+      # Configuración para ejecutar en nodos de infraestructura
+      nodeSelector:
+        node-type: infrastructure
+        workload-type: platform
+      tolerations:
+      - key: "workload-type"
+        value: "infrastructure"
+        effect: "PreferNoSchedule"
       securityContext:
         fsGroup: 1000
       containers:
@@ -66,7 +74,6 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: jaeger-pvc
-
 ---
 # Service for Jaeger UI and Query
 apiVersion: v1
@@ -89,7 +96,6 @@ spec:
       targetPort: 16685
   selector:
     app: jaeger
-
 ---
 # Zipkin compatibility service
 apiVersion: v1
@@ -106,7 +112,6 @@ spec:
       name: http-query
   selector:
     app: jaeger
-
 ---
 # Jaeger Collector service
 apiVersion: v1
@@ -136,7 +141,6 @@ spec:
       name: http-otel
   selector:
     app: jaeger
-
 ---
 # Persistent Volume Claim for Jaeger
 apiVersion: v1
@@ -151,4 +155,3 @@ spec:
   resources:
     requests:
       storage: 10Gi
-

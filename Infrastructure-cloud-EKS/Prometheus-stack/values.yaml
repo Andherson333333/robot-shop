@@ -1,0 +1,131 @@
+kube-prometheus-stack:
+  # Configuración global para todos los componentes
+  global:
+    nodeSelector:
+      node-type: infrastructure
+      workload-type: platform
+    tolerations:
+    - key: "workload-type"
+      value: "infrastructure"
+      effect: "PreferNoSchedule"
+
+  prometheusOperator:
+    enabled: true
+    # Configuración para el operador
+    nodeSelector:
+      node-type: infrastructure
+      workload-type: platform
+    tolerations:
+    - key: "workload-type"
+      value: "infrastructure"
+      effect: "PreferNoSchedule"
+
+  prometheus:
+    enabled: true
+    # Configuración para Prometheus
+    prometheusSpec:
+      retention: "15d"
+      # Configuración de nodeSelector y tolerations para Prometheus
+      nodeSelector:
+        node-type: infrastructure
+        workload-type: platform
+      tolerations:
+      - key: "workload-type"
+        value: "infrastructure"
+        effect: "PreferNoSchedule"
+      # Selectores para evitar duplicados
+      serviceMonitorSelector:
+        matchLabels:
+          release: prometheus-stack
+      podMonitorSelector:
+        matchLabels:
+          release: prometheus-stack
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: gp3-default
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 10Gi
+
+  grafana:
+    enabled: true
+    adminPassword: admin
+    # Configuración para Grafana
+    nodeSelector:
+      node-type: infrastructure
+      workload-type: platform
+    tolerations:
+    - key: "workload-type"
+      value: "infrastructure"
+      effect: "PreferNoSchedule"
+    persistence:
+      enabled: true
+      storageClassName: gp3-default
+      size: 10Gi
+
+  alertmanager:
+    enabled: true
+    # Configuración para AlertManager
+    alertmanagerSpec:
+      nodeSelector:
+        node-type: infrastructure
+        workload-type: platform
+      tolerations:
+      - key: "workload-type"
+        value: "infrastructure"
+        effect: "PreferNoSchedule"
+      retention: 120h
+      storage:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: gp3-default
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 10Gi
+
+  # Configuraciones adicionales para otros componentes
+  kubeStateMetrics:
+    # Debe ejecutarse en nodos de infraestructura
+    nodeSelector:
+      node-type: infrastructure
+      workload-type: platform
+    tolerations:
+    - key: "workload-type"
+      value: "infrastructure"
+      effect: "PreferNoSchedule"
+
+  # Node Exporter debe ejecutarse en todos los nodos para recopilar métricas
+  nodeExporter:
+    # Sin nodeSelector para que se ejecute en todos los nodos
+    tolerations:
+    - operator: "Exists"  # Tolerar todos los taints
+
+# Configuración de ingress sin cambios
+ingress:
+  prometheus:
+    enabled: true
+    className: nginx-external
+    host: dev1-prometheus.andherson33.click
+    annotations:
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    service:
+      name: prometheus-stack-kube-prom-prometheus
+      port: 9090
+  grafana:
+    enabled: true
+    className: nginx-external
+    host: dev1-grafana.andherson33.click
+    annotations:
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    service:
+      name: prometheus-stack-grafana
+      port: 80

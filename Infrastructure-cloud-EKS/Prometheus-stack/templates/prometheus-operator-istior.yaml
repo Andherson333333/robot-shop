@@ -6,19 +6,20 @@ metadata:
  namespace: istio-system
  labels:
    monitoring: istio-proxies
-   release: prometheus
+   release: prometheus-stack
+   # prometheus-operator
 spec:
  # Pod selector configuration
  selector:
    matchExpressions:
    - {key: istio-prometheus-ignore, operator: DoesNotExist}
-
+ 
  # Monitor pods in all namespaces
  namespaceSelector:
    any: true
-
+ 
  jobLabel: envoy-stats
-
+ 
  # Metrics endpoint configuration
  podMetricsEndpoints:
  - path: /stats/prometheus
@@ -29,11 +30,11 @@ spec:
    - action: keep
      sourceLabels: [__meta_kubernetes_pod_container_name]
      regex: "istio-proxy"
-
+   
    # Keep only pods with prometheus.io/scrape annotation
    - action: keep
      sourceLabels: [__meta_kubernetes_pod_annotationpresent_prometheus_io_scrape]
-
+   
    # Handle IPv6 addresses
    - action: replace
      regex: (\d+);(([A-Fa-f0-9]{1,4}::?){1,7}[A-Fa-f0-9]{1,4})
@@ -42,7 +43,7 @@ spec:
      - __meta_kubernetes_pod_annotation_prometheus_io_port
      - __meta_kubernetes_pod_ip
      targetLabel: address
-
+   
    # Handle IPv4 addresses
    - action: replace
      regex: (\d+);((([0-9]+?)(\.|$)){4})
@@ -51,16 +52,16 @@ spec:
      - __meta_kubernetes_pod_annotation_prometheus_io_port
      - __meta_kubernetes_pod_ip
      targetLabel: address
-
+   
    # Remove Kubernetes labels
    - action: labeldrop
      regex: "__meta_kubernetes_pod_label_(.+)"
-
+   
    # Add namespace label
    - sourceLabels: [__meta_kubernetes_namespace]
      action: replace
      targetLabel: namespace
-
+   
    # Add pod name label
    - sourceLabels: [__meta_kubernetes_pod_name]
      action: replace
@@ -75,7 +76,8 @@ metadata:
  namespace: istio-system
  labels:
    monitoring: istio-components
-   release: prometheus
+   release: prometheus-stack
+   # prometheus-operator
 spec:
  jobLabel: istio
  targetLabels: [app]
@@ -83,11 +85,11 @@ spec:
  selector:
    matchExpressions:
    - {key: istio, operator: In, values: [pilot]}
-
+ 
  # Monitor services in all namespaces
  namespaceSelector:
    any: true
-
+ 
  # Endpoint configuration
  endpoints:
  - port: http-monitoring
