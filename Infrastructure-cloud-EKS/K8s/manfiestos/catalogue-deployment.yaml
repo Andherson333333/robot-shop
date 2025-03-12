@@ -1,3 +1,4 @@
+# Catalogue Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,6 +14,10 @@ spec:
       labels:
         app: catalogue
     spec:
+      # Configuración para ejecutar en nodos de aplicación
+      nodeSelector:
+        node-type: application
+        workload-type: business
       containers:
       - name: catalogue
         image: andherson1039/rs-catalogue

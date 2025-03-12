@@ -1,3 +1,4 @@
+# StatefulSet MySQL
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -14,6 +15,10 @@ spec:
       labels:
         app: mysql
     spec:
+      # Configuración para ejecutar en nodos de aplicación
+      nodeSelector:
+        node-type: application
+        workload-type: business
       containers:
       - name: mysql
         image: andherson1039/rs-mysql-db

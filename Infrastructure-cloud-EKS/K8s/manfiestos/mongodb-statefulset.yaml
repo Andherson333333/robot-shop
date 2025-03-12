@@ -17,6 +17,10 @@ spec:
       labels:
         app: mongodb
     spec:
+      # Configuración para ejecutar en nodos de aplicación
+      nodeSelector:
+        node-type: application
+        workload-type: business
       containers:
       - name: mongodb
         image: andherson1039/rs-mongodb
@@ -53,4 +57,3 @@ spec:
       resources:
         requests:
           storage: 1Gi
-

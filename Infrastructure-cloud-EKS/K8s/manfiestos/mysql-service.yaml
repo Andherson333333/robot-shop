@@ -1,16 +1,4 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: mysql
-  namespace: robot-shop
-spec:
-  selector:
-    app: mysql
-  ports:
-    - port: 3306
-      targetPort: 3306
-  type: ClusterIP
----
+# Servicio Headless para MySQL
 apiVersion: v1
 kind: Service
 metadata:
@@ -23,3 +11,17 @@ spec:
   ports:
     - port: 3306
       targetPort: 3306
+---
+# Servicio normal para MySQL
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: robot-shop
+spec:
+  selector:
+    app: mysql
+  ports:
+    - port: 3306
+      targetPort: 3306
+  type: ClusterIP

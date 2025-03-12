@@ -10,3 +10,4 @@ data:
   SHIPPING_HOST: "shipping"
   PAYMENT_HOST: "payment"
   RATINGS_HOST: "ratings"
+#  DISPATCH_HOST: "dispatch"
