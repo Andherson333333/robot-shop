@@ -1,4 +1,3 @@
-# Karpenter Helm Release
 resource "helm_release" "karpenter" {
   namespace           = "karpenter"
   name                = "karpenter"
@@ -6,9 +5,8 @@ resource "helm_release" "karpenter" {
   repository_username = data.aws_ecrpublic_authorization_token.token.user_name
   repository_password = data.aws_ecrpublic_authorization_token.token.password
   chart               = "karpenter"
-  version             = "0.37.0"
+  version             = "1.3.1"
   wait                = false
-
   values = [
     <<-EOT
     serviceAccount:
@@ -16,9 +14,8 @@ resource "helm_release" "karpenter" {
     settings:
       clusterName: ${module.eks.cluster_name}
       clusterEndpoint: ${module.eks.cluster_endpoint}
-      interruptionQueue: ${module.eks_karpenter.queue_name}
+      interruptionQueueName: ${module.eks_karpenter.queue_name}
     EOT
   ]
-
- depends_on = [kubectl_manifest.karpenter_namespace, module.eks_karpenter]
+  depends_on = [kubectl_manifest.karpenter_namespace, module.eks_karpenter]
 }
