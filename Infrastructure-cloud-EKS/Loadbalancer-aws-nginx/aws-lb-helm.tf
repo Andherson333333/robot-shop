@@ -1,4 +1,4 @@
-# Install helm AWS loadBalancer 
+# Install helm AWS loadBalancer
 resource "helm_release" "aws_lbc" {
   name       = "aws-load-balancer-controller"
   repository = "https://aws.github.io/eks-charts"
@@ -16,5 +16,34 @@ resource "helm_release" "aws_lbc" {
     value = "aws-load-balancer-controller"
   }
 
-   depends_on = [module.aws_lb_controller_pod_identity,]
+  # Configuración para instalarse en nodos de infraestructura
+  set {
+    name  = "nodeSelector.node-type"
+    value = "infrastructure"
+  }
+
+  set {
+    name  = "nodeSelector.workload-type"
+    value = "platform"
+  }
+
+  # Tolerations para el taint de infraestructura
+  set {
+    name  = "tolerations[0].key"
+    value = "workload-type"
+  }
+
+  set {
+    name  = "tolerations[0].value"
+    value = "infrastructure"
+  }
+
+  set {
+    name  = "tolerations[0].effect"
+    value = "PreferNoSchedule"
+  }
+
+  depends_on = [
+    module.aws_lb_controller_pod_identity
+  ]
 }
