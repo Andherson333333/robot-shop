@@ -36,7 +36,7 @@ Este módulo implementa Karpenter, un autoscaler de nodos para Kubernetes que pe
 <a name="arquitectura"></a>
 ## Arquitectura
 
-![Arquitectura Karpenter](./karpenter-blueprint.svg)
+![Arquitectura Karpenter](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/Karpenter/imagenes/karpenter-9.png)
 
 Karpenter funciona detectando pods pendientes que no pueden ser programados debido a la falta de recursos, y aprovisiona automáticamente nuevos nodos que cumplen con los requisitos de estos pods.
 
