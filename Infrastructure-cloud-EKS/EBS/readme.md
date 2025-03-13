@@ -32,7 +32,7 @@ Este módulo implementa el AWS EBS CSI Driver en el clúster EKS utilizando el s
 
 <a name="arquitectura"></a>
 ## Arquitectura
-![Arquitectura AWS EBS CSI Driver](./ebs-csi-blueprint.svg)
+![Arquitectura AWS EBS CSI Driver](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/EBS/imagenes/ebs-1.png)
 
 El driver EBS CSI consta de:
 `Pod Controlador:` Se ejecuta en el namespace kube-system y maneja las operaciones de aprovisionamiento de volúmenes
