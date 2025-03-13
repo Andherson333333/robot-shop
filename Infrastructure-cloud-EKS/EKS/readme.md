@@ -1,85 +1,167 @@
-# Infraestructura de AWS EKS con Terraform para Robot-shop
+# Implementación de Amazon EKS
 
 ## Índice de contenidos
 * [Descripción General](#descripcion)
 * [Requisitos Previos](#requisitos)
-* [Estructura del Proyecto](#estructura)
+* [Estructura de Archivos](#estructura)
+* [Arquitectura](#arquitectura)
 * [Componentes Principales](#componentes)
+* [Configuración](#configuracion)
 * [Despliegue](#despliegue)
 * [Verificación](#verificacion)
+* [Siguientes Pasos](#siguientes)
 
 <a name="descripcion"></a>
 ## Descripción General
-Este repositorio contiene configuraciones de Terraform para desplegar un clúster de Amazon EKS (Elastic Kubernetes Service) con una infraestructura VPC de soporte y complementos esenciales para la aplicación robot-shop.
+Este módulo implementa un clúster Amazon EKS (Elastic Kubernetes Service) con las mejores prácticas de AWS. El clúster está configurado con una estructura de red segura, grupos de nodos gestionados, y complementos esenciales para la operación de Kubernetes.
 
 <a name="requisitos"></a>
 ## Requisitos Previos
 - Terraform >= 1.0
 - AWS CLI configurado con credenciales apropiadas
 - kubectl
-- helm
+- IAM permisos para crear/gestionar recursos EKS
 
 <a name="estructura"></a>
-## Estructura del Proyecto
-La infraestructura incluye:
-- VPC con subredes públicas, privadas e internas en 2 zonas de disponibilidad
-- Clúster EKS (versión 1.32) con grupos de nodos gestionados
-- Complementos principales: CoreDNS, kube-proxy, VPC CNI y EKS Pod Identity Agent
-- Integración con AWS EBS CSI Driver
-- Soporte para aprovisionamiento de nodos con Karpenter
-- Configuraciones de grupos de seguridad preparadas para Istio
+## Estructura de Archivos
+
+La implementación de EKS está organizada en los siguientes archivos:
+
+### `data.tf`
+Contiene las fuentes de datos necesarias para la implementación:
+- AWS Availability Zones disponibles
+- Token de autorización para ECR público
+- Información de la cuenta AWS del llamador
+
+### `local.tf`
+Define las variables locales usadas en la configuración:
+- Nombre del clúster
+- Región AWS
+- CIDR de la VPC
+- Zonas de disponibilidad
+- Etiquetas comunes
+
+### `provider.tf`
+Configura los providers de Terraform necesarios:
+- AWS (con versión específica)
+- Kubectl para gestionar recursos de Kubernetes
+- Helm para instalar charts
+- Kubernetes para configurar recursos en el clúster
+
+### `vpc.tf`
+Configura la red virtual (VPC) para el clúster:
+- Subnets públicas, privadas e intra
+- NAT Gateway
+- Internet Gateway
+- Tablas de enrutamiento
+- Etiquetas necesarias para Kubernetes y Karpenter
+
+### `eks.tf`
+Configura el clúster EKS y sus componentes:
+- Versión del clúster
+- Grupos de seguridad
+- Add-ons del clúster
+- Grupo de nodos gestionado
+- Configuración de cifrado
+- IRSA (IAM Roles for Service Accounts)
+
+<a name="arquitectura"></a>
+## Arquitectura
+
+![Arquitectura Amazon EKS](./eks-blueprint.svg)
+
+El clúster está diseñado con un enfoque en la seguridad, escalabilidad y mantenibilidad:
+
+- **Múltiples zonas de disponibilidad** para alta disponibilidad
+- **Subnets privadas** para los nodos de trabajo
+- **Subnets públicas** para recursos que requieren acceso directo a Internet
+- **Subnets intra** para el plano de control de EKS
+- **NAT Gateway** para permitir el acceso a Internet desde las subnets privadas
+- **Grupos de seguridad** configurados para el tráfico entre componentes del cluster
 
 <a name="componentes"></a>
 ## Componentes Principales
 
-### Configuración de VPC
-- CIDR: 10.0.0.0/16
-- Subredes públicas, privadas e internas
-- NAT Gateway
-- Soporte DNS habilitado
+El clúster EKS incluye los siguientes componentes principales:
+
+### VPC y Networking
+- VPC dedicada con CIDR 10.0.0.0/16
+- Subnets públicas para balanceadores de carga
+- Subnets privadas para nodos de trabajo
+- Subnets intra para comunicación del plano de control
+- NAT Gateway para acceso a Internet desde subnets privadas
+- DNS hostnames y soporte habilitados
 
 ### Clúster EKS
-- Versión de Kubernetes: 1.32
-- Acceso público al endpoint habilitado
+- Versión 1.32 con endpoint público
+- Permisos de administrador para el creador del clúster
 - IRSA (IAM Roles for Service Accounts) habilitado
-- Configuración de grupo de nodos gestionados:
- - Tipo de instancia: t3.medium
- - Tamaño mínimo: 1
- - Tamaño máximo: 10
- - Tamaño deseado: 1
+- Cifrado de secrets con KMS
 
-### Seguridad
-Incluye configuraciones específicas para Istio:
-- Puerto Webhook (15017)
-- Puerto de Workload (15012)
-- Puerto Discovery/XDS (15010)
-- Puerto de Monitoreo (15014)
+### Add-ons de EKS
+- CoreDNS para resolución de DNS interna
+- kube-proxy para enrutamiento de red
+- Amazon VPC CNI para networking de pods
+- EBS CSI Driver para almacenamiento persistente
+- Pod Identity Agent para autenticación
+
+### Grupo de Nodos Gestionado
+- Nodos tipo Infrastructure con instancias t3.medium
+- Configurados con taints para cargas de trabajo específicas
+- Autoscaling configurado (min: 1, max: 10, desired: 1)
+- Etiquetas para identificar tipos de nodos
+
+### Reglas de Seguridad
+- Configuradas específicamente para soportar Istio
+- Permiten la comunicación entre el plano de control y los nodos
+- Habilitan los puertos necesarios para Istio (15010, 15012, 15014, 15017)
 
 <a name="despliegue"></a>
 ## Despliegue
-1. Una ves instalado los requisitos
-```
-terraform init
-```
-2. Verificar con terraform
-```
-terraform plan
-```
-3. Iniciar el despligue
-```
-terraform apply
-```
-4. Configuracion kubectl
-```
-aws eks update-kubeconfig --region us-east-1 --name my-eks
-```
+
+Para desplegar el clúster EKS:
+
+1. Inicializar Terraform:
+   ```bash
+   terraform init
+   ```
+
+2. Ver los cambios que se aplicarán:
+   ```bash
+   terraform plan
+   ```
+
+3. Aplicar la configuración:
+   ```bash
+   terraform apply
+   ```
+
+4. Configurar kubectl para conectarse al clúster:
+   ```bash
+   aws eks update-kubeconfig --name my-eks --region us-east-1
+   ```
 
 <a name="verificacion"></a>
-## Verificacion 
+## Verificación
 
-1. Verificacion cluster con kubeclt
+Para verificar que el clúster EKS está funcionando correctamente:
+
+```bash
+# Verificar el estado del clúster
+kubectl cluster-info
+
+# Verificar los nodos
+kubectl get nodes -o wide
+
+# Verificar los pods del sistema
+kubectl get pods -n kube-system
+
+# Verificar los add-ons instalados
+kubectl get pods -n kube-system -l k8s-app=kube-dns  # CoreDNS
+kubectl get pods -n kube-system -l k8s-app=kube-proxy  # kube-proxy
+kubectl get pods -n kube-system -l app=aws-node  # VPC CNI
+kubectl get pods -n kube-system -l app=ebs-csi-controller  # EBS CSI Driver
 ```
-kubectl get nodes
-```
+
 
 
