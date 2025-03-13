@@ -118,13 +118,10 @@ La StorageClass `gp3-default` proporciona las siguientes características:
 
 Para verificar que el driver EBS CSI esté funcionando correctamente:
 
-```bash
+```
 # Verificar el add-on de EBS CSI
 kubectl get pods -n kube-system -l app=ebs-csi-controller
 
 # Verificar la StorageClass
 kubectl get sc
-
-
-
-
+```
