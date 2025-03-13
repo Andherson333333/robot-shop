@@ -41,9 +41,10 @@ Este repositorio contiene la configuración del Kube Prometheus Stack para monit
 .
 ├── Chart.yaml
 ├── templates/
-│   └── ingress.yaml      # Configuración de ingress para Prometheus y Grafana
-├── values.yaml           # Configuración personalizada del stack
-└── README.md             # Esta documentación
+│   └── ingress.yaml                         # Configuración de ingress para Prometheus y Grafana
+│   └── prometheus-operator-istior.yaml      # Configuracion Istio para prometheus
+├── values.yaml                              # Configuración personalizada del stack
+└── README.md                                # Esta documentación
 ```
 
 <a name="configuracion"></a>
