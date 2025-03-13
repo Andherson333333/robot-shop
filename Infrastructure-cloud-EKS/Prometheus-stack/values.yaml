@@ -107,7 +107,7 @@ kube-prometheus-stack:
 ingress:
   prometheus:
     enabled: true
-    className: nginx-external
+    className: nginx-internal
     host: dev1-prometheus.andherson33.click
     annotations:
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
@@ -119,7 +119,7 @@ ingress:
       port: 9090
   grafana:
     enabled: true
-    className: nginx-external
+    className: nginx-internal
     host: dev1-grafana.andherson33.click
     annotations:
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
