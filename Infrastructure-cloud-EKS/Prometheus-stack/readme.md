@@ -1,8 +1,32 @@
 # Prometheus Stack
 
-## Descripción
+## Índice de contenidos
+* [Descripción General](#descripcion)
+* [Requisitos Previos](#requisitos)
+* [Componentes](#componentes)
+* [Estructura del Repositorio](#estructura)
+* [Configuración](#configuracion)
+* [Instalación](#instalacion)
+* [Acceso a las Interfaces](#acceso)
+* [Monitoreo de Istio](#monitoreo-istio)
+* [Personalización](#personalizacion)
+* [Consideraciones de Recursos](#recursos)
+* [Solución de Problemas](#solucion-problemas)
+* [Mantenimiento](#mantenimiento)
+* [Verificación](#verificacion)
+
+<a name="descripcion"></a>
+## Descripción General
 Este repositorio contiene la configuración del Kube Prometheus Stack para monitoreo de clústeres Kubernetes. El stack incluye Prometheus, Grafana, AlertManager y otros componentes necesarios para una solución completa de monitoreo.
 
+<a name="requisitos"></a>
+## Requisitos Previos
+- Clúster Kubernetes funcionando (EKS)
+- Helm 3.x instalado
+- Ingress Controller (nginx-internal)
+- StorageClass `gp3-default` configurada
+
+<a name="componentes"></a>
 ## Componentes
 - **Prometheus**: Sistema de monitoreo y base de datos de series temporales
 - **Grafana**: Plataforma de visualización y análisis de métricas
@@ -11,12 +35,7 @@ Este repositorio contiene la configuración del Kube Prometheus Stack para monit
 - **node-exporter**: Recopila métricas a nivel de nodo (hardware y SO)
 - **Prometheus Operator**: Facilita la gestión de Prometheus en Kubernetes
 
-## Requisitos Previos
-- Clúster Kubernetes funcionando (EKS)
-- Helm 3.x instalado
-- Ingress Controller (nginx-internal)
-- StorageClass `gp3-default` configurada
-
+<a name="estructura"></a>
 ## Estructura del Repositorio
 ```
 .
@@ -27,6 +46,7 @@ Este repositorio contiene la configuración del Kube Prometheus Stack para monit
 └── README.md             # Esta documentación
 ```
 
+<a name="configuracion"></a>
 ## Configuración
 
 ### Chart.yaml
@@ -40,6 +60,7 @@ El archivo de valores contiene la configuración específica para cada component
 - **Retención**: Prometheus conserva las métricas durante 15 días.
 - **Acceso**: Se configura mediante Ingress interno para acceder a Prometheus y Grafana exclusivamente desde dentro de la VPC.
 
+<a name="instalacion"></a>
 ## Instalación
 
 Para instalar el stack de Prometheus, ejecute:
@@ -55,6 +76,7 @@ helm dependency update
 helm install prometheus-stack . -n monitoring
 ```
 
+<a name="acceso"></a>
 ## Acceso a las Interfaces
 
 Una vez desplegado, puede acceder a las interfaces a través de las siguientes URLs **únicamente desde dentro de la VPC**:
@@ -70,6 +92,7 @@ Todos los servicios están configurados con el ingressClassName `nginx-internal`
 - No están expuestos a Internet
 - Para acceder desde fuera de la VPC, se requiere una conexión VPN o AWS Direct Connect
 
+<a name="monitoreo-istio"></a>
 ## Monitoreo de Istio
 
 Este chart incluye configuraciones para monitorear componentes de Istio:
@@ -77,6 +100,7 @@ Este chart incluye configuraciones para monitorear componentes de Istio:
 1. **PodMonitor para Envoy**: Recopila métricas de los proxies de Istio (sidecars)
 2. **ServiceMonitor para componentes de Istio**: Monitorea los componentes del plano de control de Istio
 
+<a name="personalizacion"></a>
 ## Personalización
 
 Para personalizar la configuración:
@@ -87,6 +111,7 @@ Para personalizar la configuración:
    helm upgrade prometheus-stack . -n monitoring
    ```
 
+<a name="recursos"></a>
 ## Consideraciones de Recursos
 
 Los componentes tienen las siguientes necesidades de almacenamiento:
@@ -97,6 +122,7 @@ Los componentes tienen las siguientes necesidades de almacenamiento:
 
 Asegúrese de que su clúster tenga suficientes recursos disponibles.
 
+<a name="solucion-problemas"></a>
 ## Solución de Problemas
 
 Si encuentra problemas con el despliegue:
@@ -127,6 +153,7 @@ Si encuentra problemas con el despliegue:
    curl -k https://dev1-prometheus.andherson33.click
    ```
 
+<a name="mantenimiento"></a>
 ## Mantenimiento
 
 Para actualizar el stack a una nueva versión:
@@ -137,32 +164,39 @@ Para actualizar el stack a una nueva versión:
    helm dependency update
    helm upgrade prometheus-stack . -n monitoring
    ```
+
 <a name="verificacion"></a>
 ## Verificación
 
+Para verificar que el despliegue se ha realizado correctamente:
+
+```bash
 # Verificar pods
-```
 kubectl get pods -n monitoring
 ```
+
+```bash
 # Verificar servicios
-```
 kubectl get svc -n monitoring
 ```
+
+```bash
 # Verificar ingress
-```
 kubectl get ingress -n monitoring
 ```
+
+```bash
 # Verificar PVCs
-```
 kubectl get pvc -n monitoring
 ```
+
+```bash
 # Verificar monitores
-```
 kubectl get servicemonitor -n istio-system
 ```
-```
+
+```bash
+# Verificar monitores de pods
 kubectl get podmonitor -n istio-system
 ```
-
-
 
