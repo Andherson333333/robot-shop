@@ -1,101 +1,142 @@
-# Monitoreo con Prometheus y Grafana para EKS
+# Prometheus Stack
 
-## Índice de contenidos
-* [Descripción General](#descripcion)
-* [Requisitos Previos](#requisitos)
-* [Componentes](#componentes)
-* [Configuración](#configuracion)
-* [Despliegue](#despliegue)
-* [Acceso](#acceso)
-* [Verificación](#verificacion)
+## Descripción
+Este repositorio contiene la configuración del Kube Prometheus Stack para monitoreo de clústeres Kubernetes. El stack incluye Prometheus, Grafana, AlertManager y otros componentes necesarios para una solución completa de monitoreo.
 
-<a name="descripcion"></a>
-## Descripción General
-Este módulo implementa el stack de monitoreo Prometheus-Grafana en el clúster EKS, incluyendo monitoreo específico para componentes de Istio.
-
-<a name="requisitos"></a>
-## Requisitos Previos
-- EKS Cluster desplegado
-- Nginx Ingress Controller interno configurado
-- StorageClass gp3-default disponible
-- Istio instalado (para monitores de Istio)
-- Dominios configurados:
- - prometheus.andherson33.click
- - graphana.andherson33.click
-- Terraform >= 1.0
-- kubectl
-- helm
-
-<a name="componentes"></a>
 ## Componentes
-El despliegue configura:
-- Prometheus Stack en namespace monitoring
-- Grafana con persistencia
-- ServiceMonitor para componentes de Istio
-- PodMonitor para proxies Envoy
-- Ingress para Prometheus y Grafana
+- **Prometheus**: Sistema de monitoreo y base de datos de series temporales
+- **Grafana**: Plataforma de visualización y análisis de métricas
+- **AlertManager**: Gestor de alertas para Prometheus
+- **kube-state-metrics**: Exportador que genera métricas sobre el estado de objetos de Kubernetes
+- **node-exporter**: Recopila métricas a nivel de nodo (hardware y SO)
+- **Prometheus Operator**: Facilita la gestión de Prometheus en Kubernetes
 
-<a name="configuracion"></a>
+## Requisitos Previos
+- Clúster Kubernetes funcionando (EKS)
+- Helm 3.x instalado
+- Ingress Controller (nginx-internal)
+- StorageClass `gp3-default` configurada
+
+## Estructura del Repositorio
+```
+.
+├── Chart.yaml
+├── templates/
+│   └── ingress.yaml      # Configuración de ingress para Prometheus y Grafana
+├── values.yaml           # Configuración personalizada del stack
+└── README.md             # Esta documentación
+```
+
 ## Configuración
 
-### Prometheus Stack
+### Chart.yaml
+Este archivo define las dependencias del chart, principalmente el kube-prometheus-stack.
 
-Configuración:
-- Nombre: prometheus
-- Chart: kube-prometheus-stack
-- Versión: 68.2.1
-- Namespace: monitoring
-- Retención: 15 días
-- Almacenamiento: 10Gi (gp3-default)
+### values.yaml
+El archivo de valores contiene la configuración específica para cada componente del stack. Aspectos destacados:
 
-### Grafana
-Configuración:
-- Persistencia: Habilitada
-- StorageClass: gp3-default
-- Tamaño: 10Gi
+- **Configuración de Nodos**: Todos los componentes se ejecutan en nodos de infraestructura con etiqueta `node-type: infrastructure` excepto el node-exporter que debe ejecutarse en todos los nodos.
+- **Almacenamiento**: Todos los componentes que requieren persistencia utilizan la clase de almacenamiento `gp3-default`.
+- **Retención**: Prometheus conserva las métricas durante 15 días.
+- **Acceso**: Se configura mediante Ingress interno para acceder a Prometheus y Grafana exclusivamente desde dentro de la VPC.
 
-### Ingress
-Prometheus:
-- Hostname: prometheus.andherson33.click
-- Clase: nginx-internal
-- Puerto: 9090
+## Instalación
 
-Grafana:
-- Hostname: graphana.andherson33.click
-- Clase: nginx-internal
-- Puerto: 80
+Para instalar el stack de Prometheus, ejecute:
 
-### Monitores Istio
+```bash
+# Crear el namespace
+kubectl create namespace monitoring
 
-PodMonitor (Envoy):
-- Namespace: istio-system
-- Intervalo: 15s
-- Path: /stats/prometheus
+# Actualizar las dependencias de Helm
+helm dependency update
 
-ServiceMonitor (Control Plane):
-- Namespace: istio-system
-- Intervalo: 15s
-- Componentes: pilot
-
-<a name="despliegue"></a>
-## Despliegue
-
-
-<a name="acceso"></a>
-## Acceso
-
-Las interfaces estarán disponibles internamente en:
-
-- Prometheus: https://prometheus.andherson33.click
-- Grafana: https://graphana.andherson33.click
-
-Credenciales por defecto de Grafana:
-
-Usuario: admin
-Contraseña: prom-operator
+# Instalar el chart
+helm install prometheus-stack . -n monitoring
 ```
-kubectl get secret prometheus-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 -d; echo
-```
+
+## Acceso a las Interfaces
+
+Una vez desplegado, puede acceder a las interfaces a través de las siguientes URLs **únicamente desde dentro de la VPC**:
+
+- **Prometheus**: https://dev1-prometheus.andherson33.click
+- **Grafana**: https://dev1-grafana.andherson33.click
+  - Usuario por defecto: admin
+  - Contraseña por defecto: admin
+
+### Importante: Acceso Únicamente Interno
+Todos los servicios están configurados con el ingressClassName `nginx-internal`, lo que significa que:
+- Solo son accesibles desde dentro de la VPC
+- No están expuestos a Internet
+- Para acceder desde fuera de la VPC, se requiere una conexión VPN o AWS Direct Connect
+
+## Monitoreo de Istio
+
+Este chart incluye configuraciones para monitorear componentes de Istio:
+
+1. **PodMonitor para Envoy**: Recopila métricas de los proxies de Istio (sidecars)
+2. **ServiceMonitor para componentes de Istio**: Monitorea los componentes del plano de control de Istio
+
+## Personalización
+
+Para personalizar la configuración:
+
+1. Modifique el archivo `values.yaml` según sus necesidades
+2. Actualice el chart con:
+   ```bash
+   helm upgrade prometheus-stack . -n monitoring
+   ```
+
+## Consideraciones de Recursos
+
+Los componentes tienen las siguientes necesidades de almacenamiento:
+
+- **Prometheus**: 10Gi
+- **Grafana**: 10Gi
+- **AlertManager**: 10Gi
+
+Asegúrese de que su clúster tenga suficientes recursos disponibles.
+
+## Solución de Problemas
+
+Si encuentra problemas con el despliegue:
+
+1. Verifique que todos los pods estén en estado Running:
+   ```bash
+   kubectl get pods -n monitoring
+   ```
+
+2. Revise los logs de los pods con problemas:
+   ```bash
+   kubectl logs -n monitoring <nombre-del-pod>
+   ```
+
+3. Compruebe que los Ingress estén correctamente configurados:
+   ```bash
+   kubectl get ingress -n monitoring
+   ```
+
+4. Para problemas de acceso:
+   ```bash
+   # Verificar que está utilizando el ingress-controller interno
+   kubectl get ingress -n monitoring -o wide
+   
+   # Verificar que está accediendo desde dentro de la VPC
+   # Puede usar un pod temporal para probar:
+   kubectl run curl-test --image=curlimages/curl -i --tty -- sh
+   curl -k https://dev1-prometheus.andherson33.click
+   ```
+
+## Mantenimiento
+
+Para actualizar el stack a una nueva versión:
+
+1. Actualice la versión de `kube-prometheus-stack` en el archivo `Chart.yaml`
+2. Ejecute:
+   ```bash
+   helm dependency update
+   helm upgrade prometheus-stack . -n monitoring
+   ```
 <a name="verificacion"></a>
 ## Verificación
 
