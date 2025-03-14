@@ -66,8 +66,7 @@ La arquitectura separa el tráfico externo e interno mediante dos controladores 
 
 2. **Despliegue**
    ```bash
-   git clone https://github.com/tu-organizacion/eks-ingress-controllers.git
-   cd eks-ingress-controllers
+   
    terraform init
    terraform plan
    terraform apply
