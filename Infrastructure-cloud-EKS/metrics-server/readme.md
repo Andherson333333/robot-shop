@@ -15,7 +15,7 @@
 ## Descripción General
 Este repositorio contiene la configuración del Metrics Server para Kubernetes, un componente esencial que recopila métricas de recursos como CPU y memoria de los nodos y pods en el clúster. Estas métricas son utilizadas por componentes del clúster como el Horizontal Pod Autoscaler y el Vertical Pod Autoscaler.
 
-![Arquitectura]()
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/metrics-server/imagenes/metric-1.png)
 
 
 <a name="requisitos"></a>
