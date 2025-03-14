@@ -37,13 +37,7 @@ Este proyecto implementa Jaeger como sistema de rastreo distribuido para microse
 
 ## Instalación
 
-1. Clonar este repositorio:
-   ```bash
-   git clone https://github.com/andherson33/jaeger-istio-config.git
-   cd jaeger-istio-config
-   ```
-
-2. Aplicar las configuraciones:
+1. Aplicar las configuraciones:
    ```bash
    kubectl apply -f jaeger.yml
    kubectl apply -f jaeger-ingress.yaml
