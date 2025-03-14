@@ -1,111 +1,161 @@
-# Nginx Ingress Controllers y AWS Load Balancer Controller para EKS
+# Controladores de Ingress para EKS
 
-## Índice de contenidos
-* [Descripción General](#descripcion)
-* [Requisitos Previos](#requisitos)  
-* [Componentes](#componentes)
-* [AWS Load Balancer](#loadbalancer)
-* [Nginx Ingress](#nginx)
-* [Despliegue](#despliegue)
-* [Verificación](#verificacion)
+## Índice
+- [Descripción](#descripción)
+- [Arquitectura](#arquitectura)
+- [Componentes](#componentes)
+  - [AWS Load Balancer Controller](#aws-load-balancer-controller)
+  - [NGINX Ingress Controller Externo](#nginx-ingress-controller-externo)
+  - [NGINX Ingress Controller Interno](#nginx-ingress-controller-interno)
+- [Despliegue con Terraform](#despliegue-con-terraform)
+  - [Archivos Principales](#archivos-principales)
+  - [Instalación](#instalación)
+- [Uso](#uso)
+  - [Ingress Externo](#ingress-externo)
+  - [Ingress Interno](#ingress-interno)
+- [Consideraciones de Seguridad](#consideraciones-de-seguridad)
+- [Solución de Problemas](#solución-de-problemas)
+  - [Verificación de Recursos](#verificación-de-recursos)
+  - [Problemas Comunes](#problemas-comunes)
 
-<a name="descripcion"></a>
-## Descripción General
-Este módulo implementa AWS Load Balancer Controller y dos controladores Nginx Ingress en el clúster EKS:
-- Un controlador interno para tráfico dentro de la VPC
-- Un controlador externo para tráfico público
-Ambos utilizan Network Load Balancers (NLB) de AWS con diferentes configuraciones.
+## Descripción
+Configuración de Terraform para implementar controladores de Ingress en Amazon EKS, permitiendo exponer servicios de Kubernetes a internet o a redes internas de manera segura y escalable.
 
-<a name="requisitos"></a>
-## Requisitos Previos
-- Terraform >= 1.0
-- AWS CLI configurado con credenciales apropiadas
-- kubectl
-- helm
-- EKS desplegado
+## Arquitectura
 
-<a name="componentes"></a>
+![Arquitectura de Ingress Controllers](docs/ingress-architecture.png)
+
+La arquitectura separa el tráfico externo e interno mediante dos controladores NGINX independientes:
+
+- **Tráfico Externo**: Usuarios → NLB Externo → NGINX Controller Externo → Servicios Kubernetes
+- **Tráfico Interno**: VPC → NLB Interno → NGINX Controller Interno → Servicios Kubernetes
+- **Gestión**: AWS Load Balancer Controller administra los balanceadores en ambos flujos
+
 ## Componentes
-El despliegue configura:
-- AWS Load Balancer Controller en namespace kube-system
-- Dos controladores Nginx Ingress en namespaces dedicados
- - ingress-nginx-internal
- - ingress-nginx-external
-- Network Load Balancers de AWS (interno y externo)
-- Integración con AWS Certificate Manager
-- Pod Identity para AWS Load Balancer Controller
 
-<a name="loadbalancer"></a>
-## AWS Load Balancer
 ### AWS Load Balancer Controller
-Configuración:
-- Nombre: aws-load-balancer-controller
-- Namespace: kube-system
-- Versión Chart: 1.11.0
-- Pod Identity habilitado
+- Gestiona balanceadores de carga AWS (ALB/NLB)
+- Integración con ACM para TLS
+- Utiliza EKS Pod Identity para permisos IAM
 
-<a name="nginx"></a>
-## Nginx Ingress
-### Externo
-Configuración:
-- Nombre: external
-- Repositorio: kubernetes.github.io/ingress-nginx
-- Versión: 4.12.0
-- Namespace: ingress-nginx-external
-- Clase: nginx-external
-- HTTP: deshabilitado
-- HTTPS: 443
+### NGINX Ingress Controller Externo
+- Clase de ingress: `nginx-external`
+- NLB público con terminación TLS
+- Expone servicios a internet
 
-### Interno
-Configuración:
-- Nombre: internal
-- Repositorio: kubernetes.github.io/ingress-nginx
-- Versión: 4.12.0
-- Namespace: ingress-nginx-internal
-- Clase: nginx-internal
-- HTTP: deshabilitado
-- HTTPS: 443
+### NGINX Ingress Controller Interno
+- Clase de ingress: `nginx-internal`
+- NLB interno con terminación TLS
+- Accesible solo desde la VPC
 
-<a name="despliegue"></a>
-## Despligue
+## Despliegue con Terraform
 
-1 - Una ves desplegado el EKS (https://github.com/Andherson333333/robot-shop/edit/master/Infrastructure-cloud-EKS/EKS/readme.md) , puede vernir a esta seccion a desplega el loadbalancer y implementar el ingress controller necesario para aplicar los ingress, cabe destacar que en esta configuracion ya esta los componenes pod identity instalado y listo para proceder con esta configuracion
+### Archivos Principales
 
-2- Para instalar el nuevo modulo agregado
-```
-terraform init
-```
-3. Verificar con terraform
-```
-terraform plan
-```
-4. Iniciar el despligue
-```
-terraform apply
-```
-<a name="verificacion"></a>
-## Verificación
+- **aws-lb-controler.tf**: Configura EKS Pod Identity y permisos IAM
+- **aws-lb-helm.tf**: Instala el AWS Load Balancer Controller
+- **nginx-helm-external.tf**: Configura el controlador NGINX externo
+- **nginx-helm-internal.tf**: Configura el controlador NGINX interno
 
-### Verificar AWS Load Balancer Controller
+### Instalación
+
+1. **Requisitos**
+   - Terraform ≥ 1.0.0
+   - AWS CLI configurado
+   - kubectl instalado
+
+2. **Despliegue**
+   ```bash
+   git clone https://github.com/tu-organizacion/eks-ingress-controllers.git
+   cd eks-ingress-controllers
+   terraform init
+   terraform plan
+   terraform apply
+   ```
+
+3. **Verificación**
+   ```bash
+   kubectl get pods -n kube-system | grep aws-load-balancer-controller
+   kubectl get pods -n ingress-nginx-external
+   kubectl get svc -n ingress-nginx-external
+   ```
+
+## Uso
+
+### Ingress Externo
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-app
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx-external
+  tls:
+  - hosts:
+    - app.example.com
+  rules:
+  - host: app.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: example-service
+            port:
+              number: 80
 ```
-kubectl get pods -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller
+
+### Ingress Interno
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: internal-service
+spec:
+  ingressClassName: nginx-internal
+  tls:
+  - hosts:
+    - service.internal
+  rules:
+  - host: service.internal
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: internal-service
+            port:
+              number: 80
 ```
-### Verificar los controladores Nginx
-```
-kubectl get pods -n ingress-nginx-internal
-```
-```
+
+## Consideraciones de Seguridad
+
+- Terminación TLS en los balanceadores
+- Tráfico HTTP redirigido a HTTPS
+- Permisos IAM mínimos con EKS Pod Identity
+- Ejecución en nodos de infraestructura dedicados
+
+## Solución de Problemas
+
+### Verificación de Recursos
+```bash
+# Ver controladores
 kubectl get pods -n ingress-nginx-external
+kubectl get pods -n ingress-nginx-internal
+
+# Ver logs
+kubectl logs -n ingress-nginx-external deployment/external-ingress-nginx-controller
+kubectl logs -n kube-system deployment/aws-load-balancer-controller
 ```
 
-### Verificar los servicios NLB
-```
-kubectl get svc -n ingress-nginx-internal
-```
-```
-kubectl get svc -n ingress-nginx-external
-```
-### Verificar las clases de ingress
-```
-kubectl get ingressclass
-```
+### Problemas Comunes
+- **Ingress no se crea**: Verificar clase de ingress (`nginx-external` o `nginx-internal`)
+- **Certificados TLS**: Comprobar ARN en ACM y coincidencia con dominio
+- **Balanceadores**: Revisar permisos IAM del controlador
+
