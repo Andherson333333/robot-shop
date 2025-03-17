@@ -1,3 +1,14 @@
+global:
+
+  nodeSelector:
+    node-type: infrastructure
+    workload-type: platform
+  # Configuración de tolerancias para todos los componentes 
+  tolerations:
+  - key: "workload-type"
+    value: "infrastructure"
+    effect: "PreferNoSchedule"
+
 base:
   enabled: true
 
