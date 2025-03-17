@@ -6,7 +6,7 @@ global:
   tolerations:
   - key: "workload-type"
     value: "infrastructure"
-    effect: "PreferNoSchedule"
+    effect: "NoSchedule"
 
 base:
   enabled: true
