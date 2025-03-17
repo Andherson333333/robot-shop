@@ -99,9 +99,9 @@ kube-prometheus-stack:
 
   # Node Exporter debe ejecutarse en todos los nodos para recopilar métricas
   nodeExporter:
-    # Sin nodeSelector para que se ejecute en todos los nodos
+    nodeSelector: {}  
     tolerations:
-    - operator: "Exists"  # Tolerar todos los taints
+    - operator: "Exists"  
 
 # Configuración de ingress sin cambios
 ingress:
