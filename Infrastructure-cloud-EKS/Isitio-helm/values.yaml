@@ -1,5 +1,4 @@
 global:
-
   nodeSelector:
     node-type: infrastructure
     workload-type: platform
