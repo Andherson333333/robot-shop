@@ -21,9 +21,6 @@ resource "kubectl_manifest" "karpenter_infra_node_pool" {
             kind: EC2NodeClass
             name: default
           requirements:
-            - key: "node.kubernetes.io/instance-type"
-              operator: In
-              values: ["t3.medium", "t3.large", "t3.xlarge"]
             - key: "kubernetes.io/arch"
               operator: In
               values: ["amd64"]
@@ -33,11 +30,20 @@ resource "kubectl_manifest" "karpenter_infra_node_pool" {
             - key: "topology.kubernetes.io/zone"
               operator: In
               values: ["${local.azs[0]}", "${local.azs[1]}"]
+            - key: "karpenter.k8s.aws/instance-category"
+              operator: In
+              values: ["t", "m", "c", "r"]
+            - key: "karpenter.k8s.aws/instance-generation"
+              operator: Gt
+              values: ["3"]
+            - key: "karpenter.k8s.aws/instance-size"
+              operator: NotIn
+              values: ["nano", "micro", "small"]
       limits:
         cpu: 8
       disruption:
         consolidationPolicy: WhenEmpty
-        consolidateAfter: 30s
+        consolidateAfter: 5m
   YAML
   depends_on = [kubectl_manifest.karpenter_node_class]
 }
