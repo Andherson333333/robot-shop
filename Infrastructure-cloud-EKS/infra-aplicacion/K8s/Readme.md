@@ -65,7 +65,7 @@ manifiestos/
 
 ![estructura](https://github.com/Andherson333333/robot-shop/blob/master/image/robot-shop-1.png)
 
-![estructura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/K8s/imagenes/robot-shop-5.png)
+![estructura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-aplicacion/K8s/imagenes/robot-shop-5.png)
 
 <a name="item3"></a>
 ## Requistos
