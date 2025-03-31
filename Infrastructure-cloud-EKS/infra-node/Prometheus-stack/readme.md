@@ -61,7 +61,7 @@ El archivo de valores contiene la configuración específica para cada component
 - **Retención**: Prometheus conserva las métricas durante 15 días.
 - **Acceso**: Se configura mediante Ingress interno para acceder a Prometheus y Grafana exclusivamente desde dentro de la VPC.
 
-![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/Prometheus-stack/imagenes/prometheus-1.png)
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Prometheus-stack/imagenes/prometheus-1.png)
 
 
 <a name="instalacion"></a>
