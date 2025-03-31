@@ -26,7 +26,7 @@ La configuración incluye los siguientes recursos de Kubernetes:
 - **Deployment**: Despliega los pods de Kiali
 - **Ingress**: Expone Kiali fuera del cluster a través de `kiali.andherson33.click`
 
-![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/Kiali/imagenes/kiali-1.png)
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Kiali/imagenes/kiali-1.png)
 
 ## Requisitos
 - Kubernetes 1.19+
