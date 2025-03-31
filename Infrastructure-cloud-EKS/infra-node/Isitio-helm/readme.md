@@ -54,8 +54,19 @@ dependencies:
 El archivo de valores contiene la configuración específica para los componentes de Istio:
 
 ```yaml
+global:
+  nodeSelector:
+    node-type: infrastructure
+    workload-type: platform
+  # Configuración de tolerancias para todos los componentes 
+  tolerations:
+  - key: "workload-type"
+    value: "infrastructure"
+    effect: "NoSchedule"
+
 base:
   enabled: true
+
 istiod:
   meshConfig:
     enableTracing: true
