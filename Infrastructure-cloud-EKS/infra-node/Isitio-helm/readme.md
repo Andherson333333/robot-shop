@@ -43,7 +43,7 @@ dependencies:
 - **Istiod (v1.24.2)**: Plano de control de Istio
 
 
-![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/Isitio-helm/imagenes/istio-1.png)
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Isitio-helm/imagenes/istio-1.png)
 
 
 
