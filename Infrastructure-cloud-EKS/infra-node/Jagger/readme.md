@@ -26,7 +26,7 @@ Este proyecto implementa Jaeger como sistema de rastreo distribuido para microse
   - PersistentVolumeClaim para almacenamiento de trazas
 - **telemetry-robot.shop.yaml**: Configuración de telemetría para el namespace robot-shop
 
-![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Jagger/jaeger-ingress.yaml)
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Jagger/imagenes/jagger-1.png)
 
 ## Requisitos
 
