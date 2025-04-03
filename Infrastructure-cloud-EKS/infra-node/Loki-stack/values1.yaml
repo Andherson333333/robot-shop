@@ -15,6 +15,11 @@ loki-stack:
 
   promtail:
     enabled: true
+    tolerations:
+      - operator: "Exists"  
+    daemonset:
+      useHostPid: false
+      useHostNetwork: false
     config:
       snippets:
         extraRelabelConfigs:
@@ -37,12 +42,9 @@ loki-stack:
 
   grafana:
     enabled: false
-
   fluent-bit:
     enabled: false
-
   filebeat:
     enabled: false
-
   logstash:
     enabled: false
