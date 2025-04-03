@@ -1,0 +1,10 @@
+apiVersion: v2
+name: loki-promtail
+description: Simple Loki and Promtail stack
+type: application
+version: 0.1.0
+appVersion: "2.8.0"
+dependencies:
+  - name: loki-stack
+    repository: https://grafana.github.io/helm-charts
+    version: "^2.9.0"
