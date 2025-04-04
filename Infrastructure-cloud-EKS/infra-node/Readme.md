@@ -45,23 +45,37 @@ Cada componente que soporta Helm incluye un directorio `helm` con la configuraci
 1. Modificar las versiones si es necesario
 
 ## Componentes
-- **Prometheus-stack**: Monitoreo, métricas y alertas
-- **ArgoCD**: Herramienta de entrega continua (CD) basada en GitOps
-- **Istio**: Malla de servicios para gestión de tráfico
-- **Jaeger**: Sistema de trazabilidad distribuida
-- **Kiali**: Visualización de la malla de servicios
-- **Loki-stack**: Agregación y análisis de logs
-- **Metrics-server**: Métricas básicas de Kubernetes
+
+### Prometheus-stack
+Monitoreo, métricas y alertas
+
+### ArgoCD
+Herramienta de entrega continua (CD) basada en GitOps
+
+### Istio
+Malla de servicios para gestión de tráfico
+
+### Jaeger
+Sistema de trazabilidad distribuida
+
+### Kiali
+Visualización de la malla de servicios
+
+### Loki-stack
+Agregación y análisis de logs
+
+### Metrics-server
+Métricas básicas de Kubernetes
 
 ## Orden de Instalación Recomendado
 Para un correcto funcionamiento, se recomienda instalar los componentes en el siguiente orden:
-1. Prometheus-stack
-2. ArgoCD (si se va a utilizar GitOps para el resto de despliegues)
-3. Istio
-4. Metrics-server
-5. Loki-stack
-6. Jaeger
-7. Kiali
+1. [Prometheus-stack](https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/infra-node/Prometheus-stack)
+2. [ArgoCD](https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/infra-node/Argocd-helm) (si se va a utilizar GitOps para el resto de despliegues)
+3. [Istio](https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/infra-node/Isitio-helm)
+4. [Metrics-server](https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/infra-node/metrics-server)
+5. [Loki-stack](https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/infra-node/Loki-stack)
+6. [Jaeger](https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/infra-node/Jagger)
+7. [Kiali](https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/infra-node/Kiali)
 
 ## Notas Adicionales
 - Cada componente incluye imágenes de documentación en su directorio `imagenes` que ayudan a entender su funcionamiento y configuración.
