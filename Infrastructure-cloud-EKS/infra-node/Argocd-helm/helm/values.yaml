@@ -1,0 +1,62 @@
+# ArgoCD chart configuration
+# Main configuration settings for the ArgoCD deployment
+argo-cd:
+  # Global configuration affecting all components
+  global:
+    nodeSelector:
+      node-type: infrastructure
+      workload-type: platform
+    tolerations:
+      - key: workload-type
+        value: infrastructure
+        effect: PreferNoSchedule
+  # ArgoCD server configuration
+  configs:
+    params:
+      server.insecure: "true"
+    # Optional: Configure webhook secrets here
+    # secret:
+    #   githubSecret: "your-github-webhook-secret"
+    #   gitlabSecret: "your-gitlab-webhook-secret"
+
+# Main Ingress configuration
+# Controls access to the ArgoCD web UI
+ingress:
+  enabled: true
+  name: argocd-ingress
+  namespace: argocd
+  className: nginx-external
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  hosts:
+    - argocd.andherson33.click
+  tls: true
+  serviceName: argocd-server
+  servicePort: 80
+  paths:
+    - path: /
+      pathType: Prefix
+
+# Webhook specific Ingress configuration
+# Handles Git provider webhook events for automation
+webhookIngress:
+  enabled: true
+  name: argocd-webhook-ingress
+  namespace: argocd
+  className: nginx-external
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  hosts:
+    - argocd.andherson33.click
+  tls: true
+  serviceName: argocd-server
+  servicePort: 80
+  paths:
+    - path: /api/webhook
+      pathType: Prefix
