@@ -13,7 +13,6 @@
 ## Descripción General
 Este módulo implementa ArgoCD en el clúster EKS, proporcionando una herramienta de Continuous Delivery (CD) con una interfaz web accesible a través de un ingress interno. Al ser interno solo se tiene acceso dentro de la vpc
 
-
 <a name="requisitos"></a>
 ## Requisitos Previos
 - EKS Cluster desplegado
@@ -43,10 +42,6 @@ Configuración:
 - Versión: 7.7.13
 - Namespace: argocd
 
-### Redis
-Configuración:
-- Persistencia: Habilitada
-- StorageClass: gp3-default
 
 ### Ingress
 Configuración:
@@ -71,10 +66,6 @@ Configuración:
 <a name="despliegue"></a>
 ## Despliegue
 1. Asegúrese de tener el cluster EKS, EBS y loadbalancer nginx desplegado 
-
-   - https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/EKS
-   - https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/EBS
-   - https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/Loadbalancer-aws-nginx
 
 2- Para instalar el nuevo modulo agregado
 ```
