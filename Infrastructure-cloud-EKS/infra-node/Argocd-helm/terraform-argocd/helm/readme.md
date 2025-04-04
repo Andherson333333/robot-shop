@@ -27,7 +27,6 @@ Este módulo implementa ArgoCD en el clúster EKS, proporcionando una herramient
 ## Componentes
 El despliegue configura:
 - ArgoCD en namespace dedicado
-- Redis con persistencia
 - Ingress para acceso interno
 - Ingress adicional para webhooks de GitHub
 - Secreto para webhook de GitHub
@@ -39,7 +38,7 @@ El despliegue configura:
 Configuración:
 - Nombre: argocd
 - Repositorio: argoproj.github.io/argo-helm
-- Versión: 7.7.13
+- Versión: 7.8.13
 - Namespace: argocd
 
 ### Ingress
