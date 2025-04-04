@@ -42,7 +42,6 @@ Configuración:
 - Versión: 7.7.13
 - Namespace: argocd
 
-
 ### Ingress
 Configuración:
 - Hostname: argocd.andherson33.click
@@ -78,14 +77,6 @@ terraform plan
 4. Iniciar el despligue
 ```
 terraform apply
-```
-5. Aplicar el ingress para acceso GUI
-```
-kubectl appy -f argocd-ingress.yml
-```
-6. Aplicar el ingress para aplicar webhook de forma externa
-```
-kubectl appy -f argocd-ingress-webhoock.yml
 ```
 
 <a name="acceso"></a>
