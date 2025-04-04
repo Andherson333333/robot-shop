@@ -3,10 +3,10 @@ resource "helm_release" "argocd" {
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
   namespace        = "argocd"
-  version          = "7.7.13"
+  version          = "7.8.13"
   create_namespace = true
 
-  # Configuración para desplegar en nodos de infraestructura
+  # Configuración global para todos los componentes
   set {
     name  = "global.nodeSelector.node-type"
     value = "infrastructure"
@@ -32,40 +32,16 @@ resource "helm_release" "argocd" {
     value = "PreferNoSchedule"
   }
 
-  # Redis configuration
-  set {
-    name  = "redis.enabled"
-    value = "true"
-  }
-
-  set {
-    name  = "redis.persistence.enabled"
-    value = "true"
-  }
-
-  set {
-    name  = "redis.persistence.storageClass"
-    value = "gp3-default"
-  }
-
-  set {
-    name  = "redis.persistence.size"
-    value = "10Gi"
-  }
-
-  set {
-    name  = "redis.persistence.accessMode"
-    value = "ReadWriteOnce"
-  }
-
-  # Server configuration
+  # Server configuration - Habilitar modo inseguro para evitar redirecciones internas
   set {
     name  = "configs.params.server\\.insecure"
     value = "true"
   }
 
+  # Dependencias
   depends_on = [
-    helm_release.external_nginx,
+    helm_release.prometheus_stack,
     kubectl_manifest.karpenter_infra_node_pool
   ]
 }
+
