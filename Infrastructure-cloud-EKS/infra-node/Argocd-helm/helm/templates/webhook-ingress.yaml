@@ -1,0 +1,35 @@
+{{- if .Values.webhookIngress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.webhookIngress.name }}
+  namespace: {{ .Values.webhookIngress.namespace }}
+  annotations:
+    {{- with .Values.webhookIngress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.webhookIngress.className }}
+  {{- if .Values.webhookIngress.tls }}
+  tls:
+  - hosts:
+    {{- range .Values.webhookIngress.hosts }}
+    - {{ . }}
+    {{- end }}
+  {{- end }}
+  rules:
+  {{- range .Values.webhookIngress.hosts }}
+  - host: {{ . }}
+    http:
+      paths:
+      {{- range $.Values.webhookIngress.paths }}
+      - path: {{ .path }}
+        pathType: {{ .pathType }}
+        backend:
+          service:
+            name: {{ $.Values.webhookIngress.serviceName }}
+            port:
+              number: {{ $.Values.webhookIngress.servicePort }}
+      {{- end }}
+  {{- end }}
+{{- end }}
