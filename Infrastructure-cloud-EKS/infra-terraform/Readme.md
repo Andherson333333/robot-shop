@@ -27,21 +27,13 @@ Este directorio contiene toda la infraestructura base necesaria para desplegar u
 
 ## Componentes
 
-### EKS
-Configuración del clúster Elastic Kubernetes Service de AWS y la infraestructura de red asociada.
+Los recursos se crean de manera declarativa y reproducible, permitiendo una gestión consistente de la infraestructura como código (IaC).
 
-### EBS
-Configuración del driver CSI (Container Storage Interface) de EBS para proporcionar almacenamiento persistente al clúster.
-
-### Karpenter
-Solución de auto-escalado de nodos para Kubernetes que mejora la eficiencia y la velocidad de escalado.
-
-### Loadbalancer-aws-nginx
-Configuración del AWS Load Balancer Controller y NGINX Ingress para la exposición de servicios.
-
-## Método de Despliegue
-
-Todo el despliegue de la infraestructura se realiza utilizando Terraform. Para cada componente, se sigue el siguiente procedimiento:
+- `EKS` Configuración del clúster Elastic Kubernetes Service de AWS y la infraestructura de red asociada.
+- `EBS` Configuración del driver CSI (Container Storage Interface) de EBS para proporcionar almacenamiento persistente al clúster.
+- `Karpenter` Solución de auto-escalado de nodos para Kubernetes que mejora la eficiencia y la velocidad de escalado.
+- `Loadbalancer-aws-nginx` Configuración del AWS Load Balancer Controller y NGINX Ingress para la exposición de servicios.
+- `Método de Despliegue` Todo el despliegue de la infraestructura se realiza utilizando Terraform. Para cada componente, se sigue el siguiente procedimiento:
 
 ```bash
 # Navegar al directorio del componente
@@ -59,8 +51,6 @@ terraform plan
 # Aplicar los cambios
 terraform apply
 ```
-
-Los recursos se crean de manera declarativa y reproducible, permitiendo una gestión consistente de la infraestructura como código (IaC).
 
 ## Requisitos Previos
 - AWS CLI configurado con credenciales válidas
