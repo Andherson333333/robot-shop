@@ -45,27 +45,13 @@ Cada componente que soporta Helm incluye un directorio `helm` con la configuraci
 1. Modificar las versiones si es necesario
 
 ## Componentes
-
-### Prometheus-stack
-Monitoreo, métricas y alertas
-
-### ArgoCD
-Herramienta de entrega continua (CD) basada en GitOps
-
-### Istio
-Malla de servicios para gestión de tráfico
-
-### Jaeger
-Sistema de trazabilidad distribuida
-
-### Kiali
-Visualización de la malla de servicios
-
-### Loki-stack
-Agregación y análisis de logs
-
-### Metrics-server
-Métricas básicas de Kubernetes
+- `Prometheus-stack` Monitoreo, métricas y alertas
+- `ArgoCD` Herramienta de entrega continua (CD) basada en GitOps
+- `Istio` Malla de servicios para gestión de tráfico
+- `Jaeger` Sistema de trazabilidad distribuida
+- `Kiali` Visualización de la malla de servicios
+- `Loki-stack` Agregación y análisis de logs
+- `Metrics-server` Métricas básicas de Kubernetes
 
 ## Orden de Instalación Recomendado
 Para un correcto funcionamiento, se recomienda instalar los componentes en el siguiente orden:
