@@ -68,7 +68,7 @@ Configura el clúster EKS y sus componentes:
 <a name="arquitectura"></a>
 ## Arquitectura
 
-![Arquitectura Amazon EKS](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/EKS/imagenes/eks-6.png)
+![Arquitectura Amazon EKS](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-terraform/EKS/imagenes/eks-6.png)
 
 El clúster está diseñado con un enfoque en la seguridad, escalabilidad y mantenibilidad:
 
@@ -163,18 +163,18 @@ kubectl get pods -n kube-system -l app=aws-node  # VPC CNI
 kubectl get pods -n kube-system -l app=ebs-csi-controller  # EBS CSI Driver
 ```
 - Eks AWS
-![Arquitectura Amazon EKS](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/EKS/imagenes/eks-1.png)
+![Arquitectura Amazon EKS](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-terraform/EKS/imagenes/eks-1.png)
 
 - Internamente cluster
-![Arquitectura Amazon EKS](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/EKS/imagenes/eks-2.png)
+![Arquitectura Amazon EKS](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-terraform/EKS/imagenes/eks-2.png)
 
 - VPC
-![Arquitectura Amazon EKS](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/EKS/imagenes/eks-3.png)
+![Arquitectura Amazon EKS](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-terraform/EKS/imagenes/eks-3.png)
 
 - Add on
-![Arquitectura Amazon EKS](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/EKS/imagenes/eks-4.png)
+![Arquitectura Amazon EKS](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-terraform/EKS/imagenes/eks-4.png)
 
 - Cluster 
-![Arquitectura Amazon EKS](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/EKS/imagenes/eks-5.png)
+![Arquitectura Amazon EKS](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-terraform/EKS/imagenes/eks-5.png)
 
 
