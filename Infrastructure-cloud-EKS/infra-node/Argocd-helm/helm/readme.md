@@ -63,6 +63,12 @@ Configuración:
 <a name="despliegue"></a>
 ## Despliegue
 
+Actualizar el chart para sus dependencias 
+```
+helm dependency update
+```
+Desde afuera puedes usar un solo comando para desplegar y crear el namesapce
+
 ```
 helm install argocd argocd-helm/ --namespace argocd -f argocd-helm/values.yaml --create-namespace
 ```
