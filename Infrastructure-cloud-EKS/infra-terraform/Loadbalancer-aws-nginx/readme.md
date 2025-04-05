@@ -23,7 +23,7 @@ Configuración de Terraform para implementar controladores de Ingress en Amazon 
 
 ## Arquitectura
 
-![Arquitectura de Ingress Controllers](docs/ingress-architecture.png)
+![Arquitectura de Ingress Controllers](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-terraform/Loadbalancer-aws-nginx/imagenes/loadbalancer-1.png)
 
 La arquitectura separa el tráfico externo e interno mediante dos controladores NGINX independientes:
 
