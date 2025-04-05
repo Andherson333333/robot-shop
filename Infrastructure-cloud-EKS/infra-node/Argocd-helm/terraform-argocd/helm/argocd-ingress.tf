@@ -43,8 +43,8 @@ resource "kubectl_manifest" "ingress" {
         nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
         nginx.ingress.kubernetes.io/proxy-body-size: "0"
     spec:
-      ingressClassName: nginx-external    # Para cambiar a interno, comentar esta línea y descomentar la siguiente
-      # ingressClassName: nginx-internal  # Para uso interno
+      #ingressClassName: nginx-external    # Para cambiar a interno, comentar esta línea y descomentar la siguiente
+      ingressClassName: nginx-internal  # Para uso interno
       tls:
       - hosts:
         - argocd.andherson33.click
