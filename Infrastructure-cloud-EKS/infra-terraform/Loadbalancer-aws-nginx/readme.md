@@ -153,6 +153,18 @@ kubectl logs -n ingress-nginx-external deployment/external-ingress-nginx-control
 kubectl logs -n kube-system deployment/aws-load-balancer-controller
 ```
 
+- Despligue de ambos loadbalancer interno y externo
+![loadbalancer](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-terraform/Loadbalancer-aws-nginx/imagenes/loadbalancer-2.png)
+
+- Direcion solo para el puerto 443 
+![loadbalancer](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-terraform/Loadbalancer-aws-nginx/imagenes/loadbalancer-3.png)
+
+- Loadbalancer internet-facing
+![loadbalancer](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-terraform/Loadbalancer-aws-nginx/imagenes/loadbalancer-4.png)
+
+- Direcion solo al puerto 443
+![loadbalancer](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-terraform/Loadbalancer-aws-nginx/imagenes/loadbalancer-5.png)
+
 ### Problemas Comunes
 - **Ingress no se crea**: Verificar clase de ingress (`nginx-external` o `nginx-internal`)
 - **Certificados TLS**: Comprobar ARN en ACM y coincidencia con dominio
