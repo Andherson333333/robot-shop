@@ -123,10 +123,10 @@ data:
       custom_dashboards:
         enabled: true
       prometheus:
-        url: http://prometheus-operator-kube-p-prometheus.monitoring:9090
+        url: http://prometheus-stack-kube-prom-prometheus.monitoring:9090
       grafana:
-        external_url: http://prometheus-operator-grafana.monitoring:80
-        in_cluster_url: http://prometheus-operator-grafana.monitoring:80
+        external_url: http://prometheus-stack-grafana.monitoring:80
+        in_cluster_url: http://prometheus-stack-grafana.monitoring:80
       istio:
         root_namespace: istio-system
       tracing:
