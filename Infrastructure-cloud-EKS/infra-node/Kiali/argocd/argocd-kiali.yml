@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/Andherson333333/robot-shop.git
     targetRevision: HEAD
-    path: Infrastructure-cloud-EKS/infra-node/Kiali
+    path: Infrastructure-cloud-EKS/infra-node/Kiali/manifiesto
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system
