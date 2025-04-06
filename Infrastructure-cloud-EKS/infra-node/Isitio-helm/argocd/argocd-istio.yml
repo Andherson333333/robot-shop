@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio-helm
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Andherson333333/robot-shop.git
+    targetRevision: HEAD
+    path: Infrastructure-cloud-EKS/infra-node/Isitio-helm/helm
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  ignoreDifferences:
+  - group: admissionregistration.k8s.io
+    kind: ValidatingWebhookConfiguration
+    jsonPointers:
+    - /webhooks/0/failurePolicy
+    - /webhooks/0/timeoutSeconds
+    - /webhooks/0/matchPolicy
