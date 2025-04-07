@@ -85,11 +85,21 @@ kubectl apply -f kiali.yaml
 kubectl apply -f kiali-ingress.yaml
 ```
 
+## Verificacion 
+
 4. Verifica el despliegue:
 ```bash
 kubectl get pods -n istio-system | grep kiali
 kubectl get ingress -n istio-system
 ```
+- Pod y servicios
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Kiali/imagenes/kiali-2.png)
+
+- Verficacion conecion con grafana y prometheus
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Kiali/imagenes/kiali-3.png)
+
+- Funcionamiento con robot-shop
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Kiali/imagenes/kiali-5.png)
 
 ## Configuración personalizada
 
