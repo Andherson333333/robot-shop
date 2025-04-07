@@ -103,3 +103,15 @@ kubectl get svc -n argocd
 ```
 kubectl get secrets -n argocd
 ```
+
+- Pod y service
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Argocd-helm/imagenes/argocd-1.png)
+
+- Aplicacion con el ingress y dominio funcionando
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Argocd-helm/imagenes/argocd-2.png)
+
+- Aplicaciones desplegadas con argocd
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Argocd-helm/imagenes/argocd-3.png)
+
+
+
