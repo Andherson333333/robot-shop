@@ -82,18 +82,16 @@ kubectl apply -f argocd-kiali.yml
 kubectl get pods -n istio-system | grep kiali
 kubectl get ingress -n istio-system
 ```
-- Pod y servicios
+- Pod y servicios 
 ![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Kiali/imagenes/kiali-2.png)
 
-- Verficacion conecion con grafana y prometheus
+- Verficacion conecion con grafana y prometheus (con ingress activado)
 ![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Kiali/imagenes/kiali-3.png)
 
--
 - Argocd UI
 ![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Kiali/imagenes/kiali-4.png)
 
-
-- Funcionamiento con robot-shop
+- Funcionamiento con robot-shop 
 ![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Kiali/imagenes/kiali-5.png)
 
 
