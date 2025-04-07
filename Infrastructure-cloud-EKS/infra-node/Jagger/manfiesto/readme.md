@@ -98,6 +98,7 @@ for i in {1..10}; do curl -s -o /dev/null http://frontend.robot-shop.svc.cluster
 2. En el selector de servicio, elija alguno de los servicios del namespace robot-shop
 3. Haga clic en "Find Traces" para visualizar las trazas recopiladas
 
+- Verificacion de trazas de robot-shop aplicacion
 ![Jaeger UI Trazas](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Jagger/imagenes/jagger-2.png)
 
 ![Jaeger UI Trazas](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Jagger/imagenes/jagger-3.png)
