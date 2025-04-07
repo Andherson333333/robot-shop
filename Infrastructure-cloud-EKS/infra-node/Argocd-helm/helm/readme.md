@@ -1,14 +1,14 @@
 # Robot Shop ArgoCD Configuracion
-
 ## Índice de contenidos
 * [Descripción General](#descripcion)
 * [Requisitos Previos](#requisitos)
 * [Componentes](#componentes)
+* [Estructura de Archivos](#estructura)
 * [Configuración](#configuracion)
 * [Despliegue](#despliegue)
 * [Acceso](#acceso)
 * [Verificación](#verificacion)
-
+  
 <a name="descripcion"></a>
 ## Descripción General
 Este módulo implementa ArgoCD en el clúster EKS, proporcionando una herramienta de Continuous Delivery (CD) con una interfaz web accesible a través de un ingress interno. Al ser interno solo se tiene acceso dentro de la vpc
@@ -21,7 +21,7 @@ Este módulo implementa ArgoCD en el clúster EKS, proporcionando una herramient
 - Terraform >= 1.0
 - kubectl
 - helm
-
+  
 <a name="componentes"></a>
 ## Componentes
 El despliegue configura:
@@ -30,9 +30,19 @@ El despliegue configura:
 - Ingress adicional para webhooks de GitHub
 - Secreto para webhook de GitHub
 
+<a name="estructura"></a>
+## Estructura de Archivos
+
+```
+.
+├── templates/
+│   └── ingress.yaml   # Plantilla para configurar el recurso Ingress de Kubernetes
+├── Chart.yaml         # Metadatos del chart de Helm, incluye nombre, versión y dependencias
+├── readme.md          # Documentación del módulo
+└── values.yaml        # Valores configurables para personalizar la instalación
+```
 <a name="configuracion"></a>
 ## Configuración
-
 ### ArgoCD Helm Chart
 Configuración:
 - Nombre: argocd
@@ -62,31 +72,24 @@ Configuración:
 
 <a name="despliegue"></a>
 ## Despliegue
-
 Actualizar el chart para sus dependencias 
 ```
 helm dependency update
 ```
 Desde afuera puedes usar un solo comando para desplegar y crear el namesapce
-
 ```
 helm install argocd argocd-helm/ --namespace argocd -f argocd-helm/values.yaml --create-namespace
 ```
-
 <a name="acceso"></a>
 ## Acceso
-
 ArgoCD estará disponible en:
-
 URL: https://argocd.andherson33.click
-
 Para obtener la contraseña inicial del admin:
 ```
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
 <a name="verificacion"></a>
 ## Verificación
-
 ### Verificar pods de ArgoCD
 ```
 kubectl get pods -n argocd
@@ -103,15 +106,11 @@ kubectl get svc -n argocd
 ```
 kubectl get secrets -n argocd
 ```
-
 - Pod y service
 ![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Argocd-helm/imagenes/argocd-1.png)
-
 - Aplicacion con el ingress y dominio funcionando
 ![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Argocd-helm/imagenes/argocd-2.png)
-
 - Aplicaciones desplegadas con argocd
 ![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Argocd-helm/imagenes/argocd-3.png)
-
 
 
