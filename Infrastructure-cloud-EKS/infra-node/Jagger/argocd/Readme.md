@@ -30,12 +30,10 @@ Este proyecto implementa Jaeger como sistema de rastreo distribuido para microse
 
 ## Instalación
 1. Aplicar las configuraciones:
-   ```bash
-   kubectl apply -f argocd.-jagger.yml
- 
-   ```
 
-```
+ ```
+ kubectl apply -f argocd.-jagger.yml
+ ```
 ## Almacenamiento
 Jaeger utiliza Badger como almacenamiento persistente con las siguientes características:
 - Tipo de almacenamiento: Badger
