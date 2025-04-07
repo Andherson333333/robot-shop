@@ -112,16 +112,16 @@ kubectl get pods -n istio-system
 kubectl get application istio-helm -n argocd -o jsonpath='{.status.health.status}'
 ```
 
-- También puede verificar el estado de la aplicación en la interfaz de ArgoCD:
+- Pod y servicios
 
-![ArgoCD Istio](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Isitio-helm/imagenes/istio-argocd.png)
+![ArgoCD Istio](hhttps://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Isitio-helm/imagenes/istio-3.png)
 
+- Argocd UI
 ![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Isitio-helm/imagenes/istio-2.png)
 
 
-Una vez sincronizada, podrá ver todos los recursos de Istio desplegados correctamente:
-
-![Recursos Istio](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Isitio-helm/imagenes/istio-resources.png)
+- Aplicacion Istio
+![Recursos Istio](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Isitio-helm/imagenes/robot-shop-eks-2.png)
 
 
 
