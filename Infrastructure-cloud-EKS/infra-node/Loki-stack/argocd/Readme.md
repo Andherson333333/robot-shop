@@ -108,7 +108,7 @@ kubectl get pvc -n logging
 ```bash
 # Verificar que Promtail está recolectando logs
 kubectl logs -n logging -l app=promtail -f
-
+```
 - Verificación recibir log
 ![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Loki-stack/imagenes/loki-system-1.png)
 
