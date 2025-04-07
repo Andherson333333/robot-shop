@@ -113,4 +113,12 @@ kubectl get pods -l app=istiod -n istio-system -o jsonpath='{.items[0].metadata.
 # Verificar que los pods se están ejecutando en los nodos de infraestructura
 kubectl get pods -n istio-system -o wide
 ```
+- Pod y servicio Istio
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Isitio-helm/imagenes/istio-3.png)
+
+- Aplicando Istio a la aplicacion
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Isitio-helm/imagenes/robot-shop-eks-2.png)
+
+
+
 
