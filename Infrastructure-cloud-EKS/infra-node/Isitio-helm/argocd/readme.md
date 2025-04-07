@@ -114,7 +114,7 @@ kubectl get application istio-helm -n argocd -o jsonpath='{.status.health.status
 
 - Pod y servicios
 
-![ArgoCD Istio](hhttps://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Isitio-helm/imagenes/istio-3.png)
+![ArgoCD Istio](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Isitio-helm/imagenes/istio-3.png)
 
 - Argocd UI
 ![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Isitio-helm/imagenes/istio-2.png)
