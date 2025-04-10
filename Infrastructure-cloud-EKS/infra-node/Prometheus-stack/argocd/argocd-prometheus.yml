@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-stack
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/cascade-delete: "true"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Andherson333333/robot-shop.git
+    targetRevision: HEAD
+    path: Infrastructure-cloud-EKS/infra-node/Prometheus-stack/helm
+    helm:
+      skipCrds: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
