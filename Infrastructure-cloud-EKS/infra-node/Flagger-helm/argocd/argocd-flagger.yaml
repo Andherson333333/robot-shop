@@ -11,7 +11,7 @@ spec:
     path: Infrastructure-cloud-EKS/infra-node/Flagger-helm/helm
   destination:
     server: https://kubernetes.default.svc
-    namespace: robot-shop
+    namespace: flagger-system
   syncPolicy:
     automated:
       prune: true
