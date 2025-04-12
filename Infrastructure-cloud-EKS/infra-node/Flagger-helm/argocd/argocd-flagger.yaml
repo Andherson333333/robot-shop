@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/Andherson333333/robot-shop.git
     targetRevision: master
-    path: Infrastructure-cloud-EKS/infra-node/Flagger-helm
+    path: Infrastructure-cloud-EKS/infra-node/Flagger-helm/helm
   destination:
     server: https://kubernetes.default.svc
     namespace: robot-shop
