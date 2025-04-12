@@ -1,1 +1,9 @@
-
+apiVersion: v2
+name: flagger
+description: Flagger Helm Chart
+type: application
+version: 1.40.0
+dependencies:
+  - name: flagger
+    version: 1.40.0
+    repository: https://flagger.app
