@@ -130,3 +130,5 @@ kubectl get deployment,sa,clusterrole,clusterrolebinding -l app.kubernetes.io/na
 kubectl get canaries --all-namespaces
 kubectl describe canary [nombre-canary] -n [namespace]
  ```
+
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Flagger-helm/imagenes/flagger-1.png)
