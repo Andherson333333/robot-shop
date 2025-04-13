@@ -30,6 +30,8 @@ Este directorio contiene todas las herramientas de observabilidad, monitoreo y g
 ├── Loki-stack          # Agregación y análisis de logs
 ├── metrics-server      # Métricas básicas de Kubernetes
 └── Prometheus-stack    # Monitoreo, métricas y alertas
+└── Flagger-helm        # Despligue controlados
+└── Kubecost            # Verificacion costos detallados
 ```
 
 ## Métodos de Despliegue
@@ -52,6 +54,8 @@ Cada componente que soporta Helm incluye un directorio `helm` con la configuraci
 - `Kiali` Visualización de la malla de servicios
 - `Loki-stack` Agregación y análisis de logs
 - `Metrics-server` Métricas básicas de Kubernetes
+- `Flagger` Despligues controlados al cambiar de  version
+- `Kubecost` Herramienta verificacion costo detallados
 
 ## Orden de Instalación Recomendado
 Para un correcto funcionamiento, se recomienda instalar los componentes en el siguiente orden:
@@ -62,6 +66,8 @@ Para un correcto funcionamiento, se recomienda instalar los componentes en el si
 5. [Loki-stack](https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/infra-node/Loki-stack)
 6. [Jaeger](https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/infra-node/Jagger)
 7. [Kiali](https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/infra-node/Kiali)
+8. [Flagger-helm](https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/infra-node/Flagger-helm)
+9. [Kubecost](https://github.com/Andherson333333/robot-shop/tree/master/Infrastructure-cloud-EKS/infra-node/kubecost-helm)
 
 ## Notas Adicionales
 - Cada componente incluye imágenes de documentación en su directorio `imagenes` que ayudan a entender su funcionamiento y configuración.
