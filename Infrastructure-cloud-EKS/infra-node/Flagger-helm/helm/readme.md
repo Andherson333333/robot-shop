@@ -94,14 +94,14 @@ helm dependency update .
 
 Para desplegar Flagger:
 ```bash
-helm install flagger-system ./flagger-helm --namespace flagger-system -f values.yaml --create-namespace
+helm install flagger . --namespace flagger-system -f values.yaml --create-namespace
 ```
 
 O desde el repositorio:
 ```bash
 helm repo add flagger https://flagger.app
 helm repo update
-helm install flagger flagger/flagger --namespace flagger -f values.yaml --create-namespace
+helm install flagger flagger-helm/ --namespace flagger-system -f flagger-helm/values.yaml --create-namespace
 ```
 
 <a name="verificacion"></a>
