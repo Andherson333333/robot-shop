@@ -1,0 +1,10 @@
+apiVersion: v2
+name: kubecost
+description: Kubecost provides real-time cost visibility and insights for teams using Kubernetes
+type: application
+version: 0.1.0
+appVersion: "2.7.0"
+dependencies:
+- name: cost-analyzer
+  version: 2.7.0
+  repository: https://kubecost.github.io/cost-analyzer/
