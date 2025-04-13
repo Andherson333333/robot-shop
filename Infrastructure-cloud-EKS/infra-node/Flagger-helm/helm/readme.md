@@ -121,11 +121,6 @@ kubectl get svc -n flagger
 kubectl get canaries --all-namespaces
 ```
 
-### Verificar integración con malla de servicios
-```bash
-kubectl -n flagger logs deployment/flagger
-```
-
 ### Verificar recursos creados
 ```bash
 kubectl get deployment,sa,clusterrole,clusterrolebinding -l app.kubernetes.io/name=flagger
