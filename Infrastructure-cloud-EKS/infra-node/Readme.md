@@ -14,6 +14,8 @@
    - [Kiali](#kiali)
    - [Loki-stack](#loki-stack)
    - [Metrics-server](#metrics-server)
+   - [Flagger-helm](#flagger-helm)
+   - [Kubecost](#Kubecost)
 5. [Orden de Instalación Recomendado](#orden-de-instalación-recomendado)
 6. [Notas Adicionales](#notas-adicionales)
 
@@ -73,5 +75,4 @@ Para un correcto funcionamiento, se recomienda instalar los componentes en el si
 - Cada componente incluye imágenes de documentación en su directorio `imagenes` que ayudan a entender su funcionamiento y configuración.
 - Los directorios `argocd` están preparados para futuras implementaciones de GitOps.
 - Algunos componentes ofrecen múltiples métodos de despliegue (Helm, Terraform, manifiestos directos) para adaptarse a diferentes flujos de trabajo.
-- La configuración de Flagger (para despliegues canary) será añadida próximamente.
 - Cada directorio contiene su propio README con instrucciones específicas de configuración y despliegue.
