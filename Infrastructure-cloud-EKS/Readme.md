@@ -48,6 +48,7 @@ Este directorio contiene la configuración para las herramientas de administraci
 - **Istio**: Malla de servicios
 - **Loki**: Agregación de logs
 - **Flagger**: Despliegues canary automatizados
+- **kubecost**: Costos detallados por pod
 
 ### 3. infra-aplicacion
 
