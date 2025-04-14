@@ -117,16 +117,8 @@ kubectl apply -f manifiestos/
 ## Verificacion
 
 - Pod y servicio
-![pod-service]()
+![pod-service](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-aplicacion/K8s/imagenes/robot-shop-eks-2.png)
 
-- deployment y statefulset
-![deployment]()
-
-- Hpa
-![HPA]()
-
-- GP3
-![pv]()
 
 <a name="item6"></a>
 ## Tecnologías de Kubernetes Utilizadas
