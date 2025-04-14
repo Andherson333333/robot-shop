@@ -149,10 +149,10 @@ kubectl exec -it deployment/kubecost-cost-analyzer -n kubecost -- curl -s http:/
 ```
 
 ### Dashboard de Kubecost
-![Dashboard de Kubecost](./imagenes/kubecost-dashboard.png)
 
-### Vista de Asignación de Costos
-![Vista de Asignación de Costos](./imagenes/kubecost-allocation.png)
+- Verificación de funcionamiento via ingress
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/kubecost-helm/imagenes/kube-cost-1.png)
 
-### Vista de Optimización de Recursos
-![Vista de Optimización de Recursos](./imagenes/kubecost-optimization.png)
+
+- Verificación funcionamiento
+![Arquitectura](https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/kubecost-helm/imagenes/kube-cost-2.png)
