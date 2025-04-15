@@ -20,7 +20,7 @@ spec:
        workload-type: business
      containers:
      - name: ratings
-       image: andherson1039/rs-ratings:latest
+       image: andherson1039/rs-ratings:2c8d3177aaf2493d07a0c93a498adebae47785bd
        ports:
        - containerPort: 80
        livenessProbe:
