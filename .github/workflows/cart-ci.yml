@@ -115,10 +115,10 @@ jobs:
          cat Infrastructure-onprem/K8s/manifiestos/cart-deployment.yaml
          
          # Actualizar archivo de despliegue para EKS
-         sed -i 's|image: andherson1039/rs-cart:.*|image: andherson1039/rs-cart|g' Infrastructure-cloud-EKS/infra-aplicacion/K8s/cart-deployment.yaml
-         sed -i "s|image: andherson1039/rs-cart|image: andherson1039/rs-cart:${{ github.sha }}|g" Infrastructure-cloud-EKS/infra-aplicacion/K8s/cart-deployment.yaml
+         sed -i 's|image: andherson1039/rs-cart:.*|image: andherson1039/rs-cart|g' Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/cart-deployment.yaml
+         sed -i "s|image: andherson1039/rs-cart|image: andherson1039/rs-cart:${{ github.sha }}|g" Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/cart-deployment.yaml
          echo "Updated EKS deployment file:"
-         cat Infrastructure-cloud-EKS/infra-aplicacion/K8s/cart-deployment.yaml
+         cat Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/cart-deployment.yaml
     
      - name: Commit and Push Changes
        continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
@@ -126,6 +126,6 @@ jobs:
          git config user.name github-actions
          git config user.email github-actions@github.com
          git add Infrastructure-onprem/K8s/manifiestos/cart-deployment.yaml
-         git add Infrastructure-cloud-EKS/infra-aplicacion/K8s/cart-deployment.yaml
+         git add Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/cart-deployment.yaml
          git commit -m "Update cart image to ${{ github.sha }} in both on-prem and EKS deployments"
          git push
