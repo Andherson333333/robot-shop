@@ -20,7 +20,7 @@ spec:
         workload-type: business
       containers:
       - name: payment
-        image: andherson1039/rs-payment:latest
+        image: andherson1039/rs-payment:136c8e91f65972ef25c47e172736ae11b5714cb7
         ports:
         - containerPort: 8080
         livenessProbe:
