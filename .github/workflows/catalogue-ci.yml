@@ -18,7 +18,7 @@ on:
     branches: [ "main", "master" ]
     
 env:
-  PRODUCTION_MODE: false
+  PRODUCTION_MODE: true
   
 jobs:
   cancel-redundant:
@@ -104,13 +104,20 @@ jobs:
           push: true
           tags: andherson1039/rs-catalogue:${{ github.sha }}
           
-      - name: Update Deployment File
+      - name: Update Deployment Files
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         run: |
+          # Actualizar archivo de despliegue para on-prem
           sed -i 's|image: andherson1039/rs-catalogue:.*|image: andherson1039/rs-catalogue|g' Infrastructure-onprem/K8s/manifiestos/catalogue-deployment.yaml
           sed -i "s|image: andherson1039/rs-catalogue|image: andherson1039/rs-catalogue:${{ github.sha }}|g" Infrastructure-onprem/K8s/manifiestos/catalogue-deployment.yaml
-          echo "Updated deployment file:"
+          echo "Updated on-prem deployment file:"
           cat Infrastructure-onprem/K8s/manifiestos/catalogue-deployment.yaml
+          
+          # Actualizar archivo de despliegue para EKS
+          sed -i 's|image: andherson1039/rs-catalogue:.*|image: andherson1039/rs-catalogue|g' Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/catalogue-deployment.yaml
+          sed -i "s|image: andherson1039/rs-catalogue|image: andherson1039/rs-catalogue:${{ github.sha }}|g" Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/catalogue-deployment.yaml
+          echo "Updated EKS deployment file:"
+          cat Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/catalogue-deployment.yaml
           
       - name: Commit and Push Changes
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
@@ -118,5 +125,6 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add Infrastructure-onprem/K8s/manifiestos/catalogue-deployment.yaml
-          git commit -m "Update catalogue image to ${{ github.sha }}"
+          git add Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/catalogue-deployment.yaml
+          git commit -m "Update catalogue image to ${{ github.sha }} in both on-prem and EKS deployments"
           git push
