@@ -24,7 +24,7 @@ spec:
         command: ['sh', '-c', 'until nc -z mysql 3306; do echo waiting for mysql; sleep 2; done;']
       containers:
       - name: shipping
-        image: andherson1039/rs-shipping
+        image: andherson1039/rs-shipping:430852ceb5fed2e7a83ec6217a8355350215be64
         ports:
         - containerPort: 8080
         livenessProbe:
