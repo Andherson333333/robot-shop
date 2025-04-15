@@ -20,7 +20,7 @@ spec:
         workload-type: business
       containers:
       - name: cart
-        image: andherson1039/rs-cart
+        image: andherson1039/rs-cart:64d43a43e87bce0ec15458f98d3d489baa058162
         ports:
         - containerPort: 8080
         livenessProbe:
