@@ -20,7 +20,7 @@ spec:
         workload-type: business
       containers:
       - name: dispatch
-        image: andherson1039/rs-dispatch
+        image: andherson1039/rs-dispatch:1282af465e78db13b40c68a2ef0087926bded81a
         ports:
         - containerPort: 8080
        # livenessProbe:
