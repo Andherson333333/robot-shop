@@ -1,5 +1,4 @@
 name: Payment Service CI
-
 permissions:
   contents: write
   
@@ -28,7 +27,6 @@ jobs:
         uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{ github.token }}
-
   build-and-test:
     needs: cancel-redundant
     runs-on: ubuntu-latest
@@ -36,19 +34,16 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.9'
           cache: 'pip'
-
       - name: Install Dependencies
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         run: |
           cd /home/runner/work/robot-shop/robot-shop/payment
           pip install -r requirements.txt
-
       - name: Run Tests (if available)
         if: success()
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
@@ -59,14 +54,12 @@ jobs:
           else
             echo "No test files found"
           fi
-
       - name: Run Security Scan
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         run: |
           cd /home/runner/work/robot-shop/robot-shop/payment
           pip install bandit
           bandit -r .
-
       - name: SonarCloud Scan
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         uses: SonarSource/sonarcloud-github-action@v2.1.1
@@ -82,13 +75,11 @@ jobs:
             -Dsonar.c.file.suffixes=-
             -Dsonar.cpp.file.suffixes=-
             -Dsonar.objc.file.suffixes=-
-
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Build and Push Docker image
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         uses: docker/build-push-action@v5
@@ -96,20 +87,26 @@ jobs:
           context: ./payment
           push: true
           tags: andherson1039/rs-payment:${{ github.sha }}
-
-      - name: Update Deployment File
+      - name: Update Deployment Files
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         run: |
+          # Actualizar archivo de despliegue para on-prem
           sed -i 's|image: andherson1039/rs-payment:.*|image: andherson1039/rs-payment|g' Infrastructure-onprem/K8s/manifiestos/payment-deployment.yaml
           sed -i "s|image: andherson1039/rs-payment|image: andherson1039/rs-payment:${{ github.sha }}|g" Infrastructure-onprem/K8s/manifiestos/payment-deployment.yaml
-          echo "Updated deployment file:"
+          echo "Updated on-prem deployment file:"
           cat Infrastructure-onprem/K8s/manifiestos/payment-deployment.yaml
-
+          
+          # Actualizar archivo de despliegue para EKS
+          sed -i 's|image: andherson1039/rs-payment:.*|image: andherson1039/rs-payment|g' Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/payment-deployment.yaml
+          sed -i "s|image: andherson1039/rs-payment|image: andherson1039/rs-payment:${{ github.sha }}|g" Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/payment-deployment.yaml
+          echo "Updated EKS deployment file:"
+          cat Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/payment-deployment.yaml
       - name: Commit and Push Changes
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add Infrastructure-onprem/K8s/manifiestos/payment-deployment.yaml
-          git commit -m "Update payment image to ${{ github.sha }}"
+          git add Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/payment-deployment.yaml
+          git commit -m "Update payment image to ${{ github.sha }} in both on-prem and EKS deployments"
           git push
