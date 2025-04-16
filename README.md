@@ -1,128 +1,444 @@
-# Sample Microservice Application
+# Proyecto GitOps: Evolución Multi-Entorno de Microservicios con Robot Shop
 
-Stan's Robot Shop is a sample microservice application you can use as a sandbox to test and learn containerised application orchestration and monitoring techniques. It is not intended to be a comprehensive reference example of how to write a microservices application, although you will better understand some of those concepts by playing with Stan's Robot Shop. To be clear, the error handling is patchy and there is not any security built into the application.
+![Robot Shop](image/robot-shop-app-1.png)
 
-You can get more detailed information from my [blog post](https://www.instana.com/blog/stans-robot-shop-sample-microservice-application/) about this sample microservice application.
+Este proyecto implementa un enfoque progresivo para el despliegue de una aplicación de microservicios (Robot Shop) a través de tres entornos diferentes, aplicando prácticas modernas de DevOps, GitOps, observabilidad y seguridad.
 
-This sample microservice application has been built using these technologies:
-- NodeJS ([Express](http://expressjs.com/))
-- Java ([Spring Boot](https://spring.io/))
-- Python ([Flask](http://flask.pocoo.org))
+##  Tabla de Contenidos
+
+- [Descripción General](#descripción-general)
+- [Fases de Implementación](#fases-de-implementación)
+- [Arquitectura](#arquitectura)
+- [Estructura del Repositorio](#estructura-del-repositorio)
+- [Instrucciones de Despliegue](#instrucciones-de-despliegue)
+- [CI/CD](#cicd)
+- [Observabilidad](#observabilidad)
+- [Patrones de Despliegue Avanzados](#patrones-de-despliegue-avanzados)
+- [Aplicación Original Robot Shop](#aplicación-original-robot-shop)
+- [Resolución de Problemas](#resolución-de-problemas)
+- [Contribución](#contribución)
+- [Licencia](#licencia)
+
+##  Descripción General
+
+Este repositorio extiende la aplicación Robot Shop original (desarrollada por Instana/IBM) implementando una progresión de despliegue en tres fases, desde un simple entorno de desarrollo local hasta una implementación completamente gestionada en la nube con múltiples herramientas de observabilidad y patrones avanzados de despliegue.
+
+### Características Principales
+
+- **Enfoque Multi-Entorno**: Progresión natural desde Docker Compose local hasta Kubernetes en AWS EKS
+- **GitOps**: Gestión declarativa de la infraestructura utilizando Git como fuente única de verdad
+- **CI/CD Automatizado**: Pipeline completo con análisis de calidad e integración continua
+- **Observabilidad**: Stack completo de monitoreo, trazabilidad y telemetría
+- **Patrones Avanzados de Despliegue**: Canary deployments con Istio y Flagger
+- **Optimización de Costos**: Análisis y gestión de costos en AWS con Kubecost
+- **Seguridad**: Análisis continuo con SonarCloud y mejores prácticas en Kubernetes
+
+##  Fases de Implementación
+
+### Fase 1: Docker Compose (Local)
+
+![Docker Compose](image/robot-shop-1.png)
+
+Implementación sencilla utilizando contenedores Docker gestionados con Docker Compose, ideal para desarrollo local y pruebas iniciales.
+
+**Características principales:**
+- Configuración completa en `docker-compose.yaml`
+- Inicialización rápida de todos los microservicios
+- No requiere clústeres Kubernetes
+
+### Fase 2: Kubernetes On-Premise
+
+![Kubernetes On-Premise](image/robot-shop-namespace.png)
+
+Despliegue en Kubernetes local con implementación de todas las características de orquestación y observabilidad esenciales.
+
+**Características principales:**
+- Manifiestos Kubernetes para todos los servicios
+- Configuración de recursos para optimización
+- Volúmenes persistentes para almacenamiento de datos
+- Stack completo de observabilidad
+- Despliegues progresivos con Istio y Flagger
+- Pruebas de carga automatizadas
+
+![Robot Shop Observabilidad](image/robot-shop-graphana-1.png)
+
+### Fase 3: Kubernetes EKS (Cloud)
+
+![AWS EKS](image/robot-shop-eks-2.png)
+
+Implementación completa en AWS EKS con infraestructura como código, observabilidad avanzada y optimización de recursos.
+
+**Características principales:**
+- Infraestructura como Código con Terraform
+- Segregación de cargas por tipo de nodo
+- Auto-scaling avanzado con Karpenter
+- Integración con servicios AWS (EBS, Load Balancer)
+- Monitoreo completo con análisis de costos
+- Despliegue y configuración automáticos con ArgoCD
+
+![Robot Shop en EKS](image/robot-shop-app-3.png)
+
+##  Arquitectura
+
+### Microservicios de Robot Shop
+
+La aplicación Robot Shop se compone de los siguientes microservicios:
+
+- **Web**: Frontend en AngularJS servido por Nginx
+- **Catalogue**: Servicio de catálogo de productos
+- **User**: Gestión de usuarios y autenticación
+- **Cart**: Carrito de compras
+- **Shipping**: Cálculo de costos de envío
+- **Payment**: Procesamiento de pagos
+- **Ratings**: Sistema de valoraciones
+- **Dispatch**: Gestión de envíos
+- **MongoDB**: Base de datos para catálogo y usuarios
+- **MySQL**: Base de datos para información de envíos
+- **Redis**: Almacenamiento para carritos activos
+- **RabbitMQ**: Procesamiento de la cola de pedidos
+
+### Herramientas de Observabilidad y Gestión
+
+- **Prometheus + Grafana**: Monitoreo y visualización de métricas
+- **Jaeger**: Trazabilidad distribuida
+- **Kiali**: Visualización de service mesh
+- **Loki + Promtail**: Agregación y visualización de logs
+- **Istio**: Service mesh para gestión avanzada de tráfico
+- **Flagger**: Despliegues progresivos y canary testing
+- **ArgoCD**: Implementación de GitOps
+- **Metrics Server**: Métricas para HPA
+- **Kubecost**: Análisis y optimización de costos (solo en EKS)
+
+### Infraestructura en AWS (Fase EKS)
+
+- **EKS**: Clúster Kubernetes gestionado
+- **Karpenter**: Auto-scaling avanzado
+- **EBS CSI Driver**: Almacenamiento persistente
+- **AWS Load Balancer Controller**: Balanceo de carga
+- **Node Groups**: Separación de nodos para infraestructura y aplicaciones
+
+##  Estructura del Repositorio
+
+```
+robot-shop/
+├── Infrastructure-cloud-EKS/        # Configuración para despliegue en AWS EKS
+│   ├── infra-aplicacion/            # Configuración de la aplicación en EKS
+│   │   ├── K8s/                     # Manifiestos Kubernetes para EKS
+│   │   └── argocd/                  # Configuración de ArgoCD
+│   ├── infra-node/                  # Componentes de infraestructura en EKS
+│   │   ├── Argocd-helm/             # Helm charts para ArgoCD
+│   │   ├── Flagger-helm/            # Helm charts para Flagger
+│   │   ├── Isitio-helm/             # Helm charts para Istio
+│   │   ├── Jagger/                  # Configuración de Jaeger
+│   │   ├── Kiali/                   # Configuración de Kiali
+│   │   ├── Loki-stack/              # Helm charts para Loki
+│   │   ├── Prometheus-stack/        # Helm charts para Prometheus
+│   │   ├── kubecost-helm/           # Helm charts para Kubecost
+│   │   └── metrics-server/          # Configuración de Metrics Server
+│   └── infra-terraform/             # Código Terraform para AWS
+│       ├── EBS/                     # Configuración de EBS
+│       ├── EKS/                     # Configuración de EKS
+│       ├── Karpenter/               # Configuración de Karpenter
+│       └── Loadbalancer-aws-nginx/  # Configuración de Load Balancer
+├── Infrastructure-onprem/           # Configuración para Kubernetes on-premise
+│   ├── Argo-cd-Operator/            # Configuración de ArgoCD
+│   ├── Flagger-operator/            # Configuración de Flagger y canary deployments
+│   ├── Istio-operator/              # Configuración de Istio
+│   ├── Jagger/                      # Configuración de Jaeger
+│   ├── K8s/                         # Manifiestos Kubernetes básicos
+│   ├── Kiali/                       # Configuración de Kiali
+│   ├── Prometheus-operator/         # Configuración de Prometheus
+│   ├── loadtest/                    # Pruebas de carga
+│   └── loki+promtail/               # Configuración de Loki y Promtail
+├── cart/                            # Servicio de carrito de compras
+├── catalogue/                       # Servicio de catálogo de productos
+├── dispatch/                        # Servicio de envío
+├── image/                           # Imágenes y capturas de pantalla
+├── load-gen/                        # Utilidad de generación de carga
+├── mongo/                           # Base de datos MongoDB
+├── mysql/                           # Base de datos MySQL
+├── payment/                         # Servicio de pagos
+├── ratings/                         # Servicio de calificaciones
+├── shipping/                        # Servicio de envíos
+├── user/                            # Servicio de usuarios
+├── web/                             # Frontend de la tienda
+├── docker-compose.yaml              # Configuración para despliegue local
+└── docker-compose3.yml              # Configuración alternativa de Docker Compose
+```
+
+##  Instrucciones de Despliegue
+
+### Fase 1: Docker Compose
+
+1. Clonar el repositorio:
+   ```bash
+   git clone https://github.com/Andherson333333/robot-shop.git
+   cd robot-shop
+   ```
+
+2. Iniciar aplicación con Docker Compose:
+   ```bash
+   docker-compose up -d
+   ```
+
+3. Acceder a la aplicación:
+   http://localhost:8080
+
+### Fase 2: Kubernetes On-Premise
+
+1. Configurar un cluster Kubernetes local (Minikube, Kind, etc.)
+   ```bash
+   minikube start --cpus=4 --memory=8192m --vm-driver=virtualbox
+   ```
+
+2. Aplicar los manifiestos básicos:
+   ```bash
+   kubectl apply -f Infrastructure-onprem/K8s/manifiestos/namespace.yaml
+   kubectl apply -f Infrastructure-onprem/K8s/manifiestos/
+   ```
+
+3. Instalar observabilidad y herramientas:
+   ```bash
+   # Instalar Istio
+   kubectl apply -f Infrastructure-onprem/Istio-operator/
+
+   # Instalar Prometheus
+   kubectl apply -f Infrastructure-onprem/Prometheus-operator/
+
+   # Instalar Jaeger
+   kubectl apply -f Infrastructure-onprem/Jagger/
+
+   # Instalar Kiali
+   kubectl apply -f Infrastructure-onprem/Kiali/
+
+   # Instalar Loki
+   kubectl apply -f Infrastructure-onprem/loki+promtail/
+   
+   # Instalar ArgoCD
+   kubectl apply -f Infrastructure-onprem/Argo-cd-Operator/
+   
+   # Configurar Flagger para canary deployments
+   kubectl apply -f Infrastructure-onprem/Flagger-operator/
+   ```
+
+4. Ejecutar pruebas de carga (opcional):
+   ```bash
+   kubectl apply -f Infrastructure-onprem/loadtest/loadtestCarga.yaml
+   ```
+
+5. Acceder a la aplicación:
+   ```bash
+   minikube service web -n robot-shop
+   ```
+
+### Fase 3: AWS EKS
+
+1. Provisionar infraestructura con Terraform:
+   ```bash
+   cd Infrastructure-cloud-EKS/infra-terraform/EKS
+   terraform init
+   terraform apply
+   
+   cd ../EBS
+   terraform init
+   terraform apply
+   
+   cd ../Karpenter
+   terraform init
+   terraform apply
+   
+   cd ../Loadbalancer-aws-nginx
+   terraform init
+   terraform apply
+   ```
+
+2. Configurar kubectl para el nuevo cluster:
+   ```bash
+   aws eks update-kubeconfig --name robot-shop-eks --region us-east-1
+   ```
+
+3. Instalar componentes de observabilidad mediante ArgoCD:
+   ```bash
+   kubectl apply -f Infrastructure-cloud-EKS/infra-node/Argocd-helm/argocd/
+   kubectl apply -f Infrastructure-cloud-EKS/infra-node/Prometheus-stack/argocd/
+   kubectl apply -f Infrastructure-cloud-EKS/infra-node/Loki-stack/argocd/
+   kubectl apply -f Infrastructure-cloud-EKS/infra-node/Isitio-helm/argocd/
+   kubectl apply -f Infrastructure-cloud-EKS/infra-node/Jagger/argocd/
+   kubectl apply -f Infrastructure-cloud-EKS/infra-node/Kiali/argocd/
+   kubectl apply -f Infrastructure-cloud-EKS/infra-node/Flagger-helm/argocd/
+   kubectl apply -f Infrastructure-cloud-EKS/infra-node/kubecost-helm/argocd/
+   kubectl apply -f Infrastructure-cloud-EKS/infra-node/metrics-server/argocd/
+   ```
+
+4. Desplegar la aplicación Robot Shop:
+   ```bash
+   kubectl apply -f Infrastructure-cloud-EKS/infra-aplicacion/argocd/argocd-robot-shop.yml
+   ```
+
+##  CI/CD
+
+![CI/CD Pipeline](image/robot-shop-argocd-1.png)
+
+El proyecto utiliza GitHub Actions para implementar un pipeline de CI/CD completo:
+
+- **Cancelación Automática de Flujos**: Cancela ejecuciones redundantes para optimizar recursos de CI
+- **Integración con SonarCloud**: Análisis de calidad y seguridad del código
+- **Construcción de Imágenes Docker**: Construcción automatizada y envío a Docker Hub
+- **Actualización de Manifiestos Kubernetes**: Actualización automática de archivos de despliegue con nuevas etiquetas de imagen
+- **Control de Modo Producción**: Variable de entorno PRODUCTION_MODE para controlar el manejo de errores
+
+### Flujo de Trabajo
+
+1. Los cambios se envían a GitHub mediante push o pull request
+2. GitHub Actions ejecuta análisis de código con SonarCloud
+3. Si se aprueban las pruebas, se construyen imágenes Docker y se envían a Docker Hub
+4. Los manifiestos de Kubernetes se actualizan automáticamente con las nuevas etiquetas de imagen
+5. ArgoCD detecta los cambios en los manifiestos y sincroniza el estado del cluster
+
+##  Observabilidad
+
+![Monitoreo con Grafana](image/robot-shop-graphana-2.png)
+
+### Herramientas Implementadas
+
+- **Prometheus + Grafana**: Recolección de métricas y visualización
+  - Dashboards para todos los servicios
+  - Alertas configurables
+  - Métricas personalizadas por servicio
+
+- **Jaeger**: Trazabilidad distribuida
+  ![Jaeger](image/robot-shop-jagger-1.png)
+  - Seguimiento de transacciones completas
+  - Análisis de latencia y rendimiento
+  - Identificación de cuellos de botella
+
+- **Kiali**: Visualización de service mesh
+  ![Kiali](image/robot-shop-kiali-1.png)
+  - Topología de servicios
+  - Análisis de tráfico
+  - Estado de los servicios en tiempo real
+
+- **Loki + Promtail**: Agregación de logs
+  ![Loki](image/robot-shop-loki-1.png)
+  - Centralización de logs
+  - Consultas y filtros avanzados
+  - Correlación con métricas
+
+- **Kubecost**: Análisis de costos (EKS)
+  - Desglose de costos por namespace/aplicación
+  - Recomendaciones de optimización
+  - Proyecciones de costos
+
+### URLs de Acceso
+
+#### Kubernetes On-Premise
+- Aplicación Robot Shop: http://localhost:80
+- Grafana: http://localhost:3000
+- Jaeger: http://localhost:16686
+- Kiali: http://localhost:20001
+
+#### AWS EKS
+- Aplicación Robot Shop: https://robotshop.[EKS_DOMAIN]
+- Grafana: https://grafana.[EKS_DOMAIN]
+- Jaeger: https://jaeger.[EKS_DOMAIN]
+- Kiali: https://kiali.[EKS_DOMAIN]
+- Kubecost: https://kubecost.[EKS_DOMAIN]
+
+##  Patrones de Despliegue Avanzados
+
+![Flagger Canary Deployment](image/robot-shop-flagger-3.png)
+
+### Canary Deployments con Flagger
+
+El proyecto implementa despliegues canary para todos los microservicios utilizando Flagger e Istio:
+
+```yaml
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: web
+  namespace: robot-shop
+spec:
+  provider: istio
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: web
+  progressDeadlineSeconds: 60
+  service:
+    port: 8080
+    targetPort: 8080
+  analysis:
+    interval: 30s
+    threshold: 10
+    maxWeight: 50
+    stepWeight: 10
+    metrics:
+    - name: request-success-rate
+      threshold: 99
+      interval: 30s
+    - name: request-duration
+      threshold: 500
+      interval: 30s
+```
+
+### Beneficios
+
+- **Reducción de riesgos**: Las nuevas versiones se prueban con un subconjunto de usuarios antes del despliegue completo
+- **Rollback automático**: Si se detectan errores, el sistema revierte automáticamente a la versión anterior
+- **Métricas de rendimiento**: Análisis continuo de tasas de éxito y latencia
+- **Despliegue gradual**: Control preciso sobre la velocidad de adopción de nuevas versiones
+
+### Pruebas de Carga
+
+Se incluyen configuraciones de prueba de carga para validar el rendimiento y la resiliencia:
+
+- **HTTP Load Test**: Pruebas de carga HTTP básicas
+- **TCP Load Test**: Pruebas de carga TCP para servicios internos
+- **Error Test**: Pruebas de inyección de errores para validar resiliencia
+- **Carga Sostenida**: Pruebas de carga sostenida para validar estabilidad
+
+##  Aplicación Original Robot Shop
+
+Stan's Robot Shop es una aplicación de microservicios creada por Instana/IBM como entorno de pruebas para técnicas de orquestación y monitorización. Incluye:
+
+- NodeJS (Express)
+- Java (Spring Boot)
+- Python (Flask)
 - Golang
 - PHP (Apache)
 - MongoDB
 - Redis
-- MySQL ([Maxmind](http://www.maxmind.com) data)
+- MySQL
 - RabbitMQ
 - Nginx
-- AngularJS (1.x)
+- AngularJS
 
-The various services in the sample application already include all required Instana components installed and configured. The Instana components provide automatic instrumentation for complete end to end [tracing](https://docs.instana.io/core_concepts/tracing/), as well as complete visibility into time series metrics for all the technologies.
+Este proyecto extiende significativamente la aplicación original al implementar un enfoque de despliegue progresivo con herramientas modernas de DevOps y GitOps.
 
-To see the application performance results in the Instana dashboard, you will first need an Instana account. Don't worry a [trial account](https://instana.com/trial?utm_source=github&utm_medium=robot_shop) is free.
+##  Resolución de Problemas
 
-## Build from Source
-To optionally build from source (you will need a newish version of Docker to do this) use Docker Compose. Optionally edit the `.env` file to specify an alternative image registry and version tag; see the official [documentation](https://docs.docker.com/compose/env-file/) for more information.
+### Problemas Comunes en Docker Compose
+- **Error al iniciar servicios**: Verificar puertos en uso y permisos de Docker
+- **Problemas de conectividad entre servicios**: Revisar la configuración de red en docker-compose.yaml
 
-To download the tracing module for Nginx, it needs a valid Instana agent key. Set this in the environment before starting the build.
+### Problemas Comunes en Kubernetes On-Premise
+- **PersistentVolumes en estado Pending**: Verificar la configuración de almacenamiento
+- **Pods en CrashLoopBackOff**: Revisar logs con `kubectl logs -f [pod-name]`
+- **Problemas con Istio**: Verificar la inyección del sidecar
 
-```shell
-$ export INSTANA_AGENT_KEY="<your agent key>"
-```
+### Problemas Comunes en EKS
+- **Errores en Terraform**: Verificar permisos de AWS y límites de servicio
+- **Problemas con LoadBalancer**: Revisar configuración de VPC y subredes
+- **Karpenter no escala**: Verificar la configuración de NodePool
 
-Now build all the images.
+##  Contribución
 
-```shell
-$ docker-compose build
-```
+Las contribuciones son bienvenidas. Por favor:
+1. Haga un fork del repositorio
+2. Cree una rama para su feature
+3. Envíe un pull request
 
-If you modified the `.env` file and changed the image registry, you need to push the images to that registry
+##  Licencia
 
-```shell
-$ docker-compose push
-```
-
-## Run Locally
-You can run it locally for testing.
-
-If you did not build from source, don't worry all the images are on Docker Hub. Just pull down those images first using:
-
-```shell
-$ docker-compose pull
-```
-
-Fire up Stan's Robot Shop with:
-
-```shell
-$ docker-compose up
-```
-
-If you want to fire up some load as well:
-
-```shell
-$ docker-compose -f docker-compose.yaml -f docker-compose-load.yaml up
-```
-
-If you are running it locally on a Linux host you can also run the Instana [agent](https://docs.instana.io/quick_start/agent_setup/container/docker/) locally, unfortunately the agent is currently not supported on Mac.
-
-There is also only limited support on ARM architectures at the moment.
-
-## Marathon / DCOS
-
-The manifests for robotshop are in the *DCOS/* directory. These manifests were built using a fresh install of DCOS 1.11.0. They should work on a vanilla HA or single instance install.
-
-You may install Instana via the DCOS package manager, instructions are here: https://github.com/dcos/examples/tree/master/instana-agent/1.9
-
-## Kubernetes
-You can run Kubernetes locally using [minikube](https://github.com/kubernetes/minikube) or on one of the many cloud providers.
-
-The Docker container images are all available on [Docker Hub](https://hub.docker.com/u/robotshop/).
-
-Install Stan's Robot Shop to your Kubernetes cluster using the [Helm](K8s/helm/README.md) chart.
-
-To deploy the Instana agent to Kubernetes, just use the [helm](https://github.com/instana/helm-charts) chart.
-
-## Accessing the Store
-If you are running the store locally via *docker-compose up* then, the store front is available on localhost port 8080 [http://localhost:8080](http://localhost:8080/)
-
-If you are running the store on Kubernetes via minikube then, find the IP address of Minikube and the Node Port of the web service.
-
-```shell
-$ minikube ip
-$ kubectl get svc web
-```
-
-If you are using a cloud Kubernetes / Openshift / Mesosphere then it will be available on the load balancer of that system.
-
-## Load Generation
-A separate load generation utility is provided in the `load-gen` directory. This is not automatically run when the application is started. The load generator is built with Python and [Locust](https://locust.io). The `build.sh` script builds the Docker image, optionally taking *push* as the first argument to also push the image to the registry. The registry and tag settings are loaded from the `.env` file in the parent directory. The script `load-gen.sh` runs the image, it takes a number of command line arguments. You could run the container inside an orchestration system (K8s) as well if you want to, an example descriptor is provided in K8s directory. For End-user Monitoring ,load is not automatically generated but by navigating through the Robotshop from the browser .For more details see the [README](load-gen/README.md) in the load-gen directory.  
-
-## Website Monitoring / End-User Monitoring
-
-### Docker Compose
-
-To enable Website Monioring / End-User Monitoring (EUM) see the official [documentation](https://docs.instana.io/website_monitoring/) for how to create a configuration. There is no need to inject the JavaScript fragment into the page, this will be handled automatically. Just make a note of the unique key and set the environment variable `INSTANA_EUM_KEY` and `INSTANA_EUM_REPORTING_URL` for the web image within `docker-compose.yaml`.
-
-### Kubernetes
-
-The Helm chart for installing Stan's Robot Shop supports setting the key and endpoint url required for website monitoring, see the [README](K8s/helm/README.md).
-
-## Prometheus
-
-The cart and payment services both have Prometheus metric endpoints. These are accessible on `/metrics`. The cart service provides:
-
-* Counter of the number of items added to the cart
-
-The payment services provides:
-
-* Counter of the number of items perchased
-* Histogram of the total number of items in each cart
-* Histogram of the total value of each cart
-
-To test the metrics use:
-
-```shell
-$ curl http://<host>:8080/api/cart/metrics
-$ curl http://<host>:8080/api/payment/metrics
-```
-
+Este proyecto está basado en Robot Shop de Instana/IBM y se distribuye bajo los mismos términos de licencia.
