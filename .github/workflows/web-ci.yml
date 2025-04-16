@@ -1,8 +1,6 @@
 name: Web Service CI 
-
 permissions:
   contents: write
-
 on:
   workflow_dispatch:
   push:
@@ -10,16 +8,13 @@ on:
       - 'web/**'
       - '.github/workflows/web-ci.yml'
     branches: [ "main", "master" ]
-
   pull_request:
     paths:
       - 'web/**'
       - '.github/workflows/web-ci.yml'
     branches: [ "main", "master" ]
-
 env:
   PRODUCTION_MODE: false
-
 jobs:
   cancel-redundant:
     runs-on: ubuntu-latest
@@ -28,7 +23,6 @@ jobs:
         uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{ github.token }}
-
   build-and-test:
     needs: cancel-redundant
     runs-on: ubuntu-latest
@@ -36,21 +30,18 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
       - name: Check static files
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         run: |
           cd /home/runner/work/robot-shop/robot-shop/web/static
           echo "Checking static files..."
           ls -R
-
       - name: Check script permissions
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         run: |
           cd /home/runner/work/robot-shop/robot-shop/web
           chmod +x entrypoint.sh
           ls -l entrypoint.sh
-
       - name: SonarCloud Scan
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         uses: SonarSource/sonarcloud-github-action@v2.1.1
@@ -65,13 +56,11 @@ jobs:
             -Dsonar.c.file.suffixes=-
             -Dsonar.cpp.file.suffixes=-
             -Dsonar.objc.file.suffixes=-
-
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Build and Push Docker image
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         uses: docker/build-push-action@v5
@@ -79,20 +68,26 @@ jobs:
           context: ./web
           push: true
           tags: andherson1039/rs-web:${{ github.sha }}
-
-      - name: Update Deployment File
+      - name: Update Deployment Files
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         run: |
+          # Actualizar archivo de despliegue para on-prem
           sed -i 's|image: andherson1039/rs-web:.*|image: andherson1039/rs-web|g' Infrastructure-onprem/K8s/manifiestos/web-deployment.yaml
           sed -i "s|image: andherson1039/rs-web|image: andherson1039/rs-web:${{ github.sha }}|g" Infrastructure-onprem/K8s/manifiestos/web-deployment.yaml
-          echo "Updated deployment file:"
+          echo "Updated on-prem deployment file:"
           cat Infrastructure-onprem/K8s/manifiestos/web-deployment.yaml
-
+          
+          # Actualizar archivo de despliegue para EKS
+          sed -i 's|image: andherson1039/rs-web:.*|image: andherson1039/rs-web|g' Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/web-deployment.yaml
+          sed -i "s|image: andherson1039/rs-web|image: andherson1039/rs-web:${{ github.sha }}|g" Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/web-deployment.yaml
+          echo "Updated EKS deployment file:"
+          cat Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/web-deployment.yaml
       - name: Commit and Push Changes
         continue-on-error: ${{ env.PRODUCTION_MODE != 'true' }}
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add Infrastructure-onprem/K8s/manifiestos/web-deployment.yaml
-          git commit -m "Update web image to ${{ github.sha }}"
+          git add Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/web-deployment.yaml
+          git commit -m "Update web image to ${{ github.sha }} in both on-prem and EKS deployments"
           git push
