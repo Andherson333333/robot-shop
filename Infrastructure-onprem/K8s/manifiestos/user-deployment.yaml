@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: user
-        image: andherson1039/rs-user:f646efbdf1318e0a3ae36d5f13fe56fc2ef6a3be
+        image: andherson1039/rs-user:95ea50b0bf63010abd6cef7891b92b59ff273e9e
         ports:
         - containerPort: 8080
         livenessProbe:
