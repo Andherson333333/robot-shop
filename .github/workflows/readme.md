@@ -11,6 +11,10 @@ Los flujos de trabajo de CI están diseñados para automatizar los procesos de c
 - Servicio de Usuarios (Node.js)
 - Servicio Web (Archivos Estáticos)
 
+![estructura](https://github.com/Andherson333333/robot-shop/blob/master/.github/imagenes/cd-2.png)
+
+![estructura](https://github.com/Andherson333333/robot-shop/blob/master/.github/imagenes/cd-1.png)
+
 ## Características Comunes
 Todos los flujos de trabajo incluyen:
 - **Cancelación Automática de Flujos**: Cancela ejecuciones redundantes para optimizar recursos de CI
@@ -91,9 +95,6 @@ Los workflows actualizan automáticamente los manifiestos de Kubernetes para dos
 - El CI de cada servicio está aislado a su directorio específico
 
 
-![estructura](https://github.com/Andherson333333/robot-shop/blob/master/.github/imagenes/cd-2.png)
-
-![estructura](https://github.com/Andherson333333/robot-shop/blob/master/.github/imagenes/cd-1.png)
 
 
 
