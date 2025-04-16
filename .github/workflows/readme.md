@@ -89,3 +89,11 @@ Los workflows actualizan automáticamente los manifiestos de Kubernetes para dos
 - Las etiquetas de imagen se basan en el SHA del commit de GitHub
 - Los commits automáticos actualizan archivos de despliegue K8s
 - El CI de cada servicio está aislado a su directorio específico
+
+
+![estructura](https://github.com/Andherson333333/robot-shop/blob/master/.github/imagenes/cd-2.png)
+
+![estructura](https://github.com/Andherson333333/robot-shop/blob/master/.github/imagenes/cd-1.png)
+
+
+
