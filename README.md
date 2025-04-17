@@ -296,9 +296,6 @@ Nuestro pipeline implementa:
 
 ## 🧰 Herramientas y Tecnologías
 
-## 🧰 Herramientas y Tecnologías
-
-
 <table>
 <tr>
   <td align="center"><img src="https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png" width="70px"/><br>Kubernetes</td>
