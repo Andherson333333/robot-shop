@@ -298,26 +298,28 @@ Nuestro pipeline implementa:
 
 ## 🧰 Herramientas y Tecnologías
 
+
 <table>
 <tr>
-  <td align="center"><img src="https://kubernetes.io/images/favicon.png" width="70px"/><br>Kubernetes</td>
-  <td align="center"><img src="https://istio.io/latest/img/istio-whitelogo-bluebackground-unframed.svg" width="70px"/><br>Istio</td>
-  <td align="center"><img src="https://prometheus.io/assets/favicon.png" width="70px"/><br>Prometheus</td>
-  <td align="center"><img src="https://argo-cd.readthedocs.io/en/stable/assets/logo.png" width="70px"/><br>ArgoCD</td>
+  <td align="center"><img src="https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png" width="70px"/><br>Kubernetes</td>
+  <td align="center"><img src="https://raw.githubusercontent.com/cncf/artwork/master/projects/istio/icon/color/istio-icon-color.png" width="70px"/><br>Istio</td>
+  <td align="center"><img src="https://raw.githubusercontent.com/cncf/artwork/master/projects/prometheus/icon/color/prometheus-icon-color.png" width="70px"/><br>Prometheus</td>
+  <td align="center"><img src="https://raw.githubusercontent.com/cncf/artwork/master/projects/argo/icon/color/argo-icon-color.png" width="70px"/><br>ArgoCD</td>
 </tr>
 <tr>
-  <td align="center"><img src="https://www.jaegertracing.io/img/jaeger-icon-color.png" width="70px"/><br>Jaeger</td>
-  <td align="center"><img src="https://flagger.app/logo.png" width="70px"/><br>Flagger</td>
-  <td align="center"><img src="https://grafana.com/static/img/logos/grafana-loki-logo.svg" width="70px"/><br>Loki</td>
-  <td align="center"><img src="https://grafana.com/static/img/menu/grafana2.svg" width="70px"/><br>Grafana</td>
-</tr>
+  <td align="center"><img src="https://raw.githubusercontent.com/cncf/artwork/master/projects/jaeger/icon/color/jaeger-icon-color.png" width="70px"/><br>Jaeger</td>
+  <td align="center"><img src="https://raw.githubusercontent.com/fluxcd/flagger/main/docs/logo/flagger-icon.png" width="70px"/><br>Flagger</td>
+  <td align="center"><img src="https://raw.githubusercontent.com/grafana/loki/master/docs/sources/logo.png" width="70px"/><br>Loki</td>
+  <td align="center"><img src="https://raw.githubusercontent.com/grafana/grafana/main/public/img/grafana_icon.svg" width="70px"/><br>Grafana</td>
 <tr>
   <td align="center"><img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" width="70px"/><br>Docker</td>
   <td align="center"><img src="https://www.terraform.io/img/logo-terraform-main.svg" width="70px"/><br>Terraform</td>
   <td align="center"><img src="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png" width="70px"/><br>AWS</td>
   <td align="center"><img src="https://www.kubecost.com/images/logo.svg" width="70px"/><br>Kubecost</td>
 </tr>
+</tr>
 </table>
+
 
 ## 📚 Aplicación Original Robot Shop
 
