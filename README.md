@@ -283,6 +283,7 @@ spec:
 
 <p align="center">
   <img src="image/robot-shop-argocd-2.png" alt="ArgoCD" width="800"/>
+  <img src="https://github.com/Andherson333333/robot-shop/blob/master/.github/imagenes/cd-3.png" width="800"/>
 </p>
 
 Nuestro pipeline implementa:
