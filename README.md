@@ -310,7 +310,7 @@ Nuestro pipeline implementa:
   <td align="center"><img src="https://raw.githubusercontent.com/grafana/grafana/main/public/img/grafana_icon.svg" width="70px"/><br>Grafana</td>
 <tr>
   <td align="center"><img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" width="70px"/><br>Docker</td>
-  <td align="center"><img src="https://raw.githubusercontent.com/hashicorp/terraform/master/website/public/img/logo-hashicorp.svg" width="70px"/><br>Terraform</td>
+  <td align="center"><img src="https://www.datocms-assets.com/2885/1620155116-brandhcterraformverticalcolor.svg" width="70px"/><br>Terraform</td>
   <td align="center"><img src="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png" width="70px"/><br>AWS</td>
   <td align="center"><img src="https://www.kubecost.com/images/logo.svg" width="70px"/><br>Kubecost</td>
 </tr>
