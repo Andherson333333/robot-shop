@@ -172,7 +172,7 @@ kubectl apply -f Infrastructure-cloud-EKS/infra-aplicacion/argocd/
 <tr>
   <td width="50%">
     <h3>Trazabilidad con Jaeger</h3>
-    <img src="image/robot-shop-jagger-1.png" alt="Jaeger" width="100%"/>
+    <img src="https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Jagger/imagenes/jagger-2.png" alt="Jaeger" width="100%"/>
   </td>
   <td width="50%">
     <h3>Service Mesh con Kiali</h3>
@@ -303,7 +303,7 @@ Nuestro pipeline implementa:
   <td align="center"><img src="https://raw.githubusercontent.com/cncf/artwork/master/projects/argo/icon/color/argo-icon-color.png" width="70px"/><br>ArgoCD</td>
 </tr>
 <tr>
-  <td align="center"><img src="https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Jagger/imagenes/jagger-2.png" width="70px"/><br>Jaeger</td>
+  <td align="center"><img src="https://raw.githubusercontent.com/cncf/artwork/master/projects/jaeger/icon/color/jaeger-icon-color.png" width="70px"/><br>Jaeger</td>
   <td align="center"><img src="https://raw.githubusercontent.com/fluxcd/flagger/main/docs/logo/flagger-icon.png" width="70px"/><br>Flagger</td>
   <td align="center"><img src="https://raw.githubusercontent.com/grafana/loki/master/docs/sources/logo.png" width="70px"/><br>Loki</td>
   <td align="center"><img src="https://raw.githubusercontent.com/grafana/grafana/main/public/img/grafana_icon.svg" width="70px"/><br>Grafana</td>
