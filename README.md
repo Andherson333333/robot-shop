@@ -37,7 +37,7 @@ Este proyecto implementa la aplicación **Robot Shop** en una progresión de tre
 ### Microservicios
 
 <p align="center">
-  <img src="image/robot-shop-app-3.png" alt="Arquitectura de Microservicios" width="800"/>
+  <img src="image/robot-shop-1.png" alt="Arquitectura de Microservicios" width="800"/>
 </p>
 
 Robot Shop consta de **10 microservicios interconectados**:
