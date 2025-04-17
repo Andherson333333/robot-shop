@@ -303,7 +303,7 @@ Nuestro pipeline implementa:
   <td align="center"><img src="https://raw.githubusercontent.com/cncf/artwork/master/projects/argo/icon/color/argo-icon-color.png" width="70px"/><br>ArgoCD</td>
 </tr>
 <tr>
-  <td align="center"><img src="https://raw.githubusercontent.com/cncf/artwork/master/projects/jaeger/icon/color/jaeger-icon-color.png" width="70px"/><br>Jaeger</td>
+  <td align="center"><img src="https://github.com/Andherson333333/robot-shop/blob/master/Infrastructure-cloud-EKS/infra-node/Jagger/imagenes/jagger-2.png" width="70px"/><br>Jaeger</td>
   <td align="center"><img src="https://raw.githubusercontent.com/fluxcd/flagger/main/docs/logo/flagger-icon.png" width="70px"/><br>Flagger</td>
   <td align="center"><img src="https://raw.githubusercontent.com/grafana/loki/master/docs/sources/logo.png" width="70px"/><br>Loki</td>
   <td align="center"><img src="https://raw.githubusercontent.com/grafana/grafana/main/public/img/grafana_icon.svg" width="70px"/><br>Grafana</td>
