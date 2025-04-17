@@ -23,7 +23,7 @@ Este proyecto implementa la aplicación **Robot Shop** en una progresión de tre
 <tr>
   <td width="33%" align="center"><h3>Docker Compose</h3><img src="image/robot-shop-1.png" alt="Docker" width="250"/></td>
   <td width="33%" align="center"><h3>Kubernetes On-Premise</h3><img src="image/robot-shop-namespace.png" alt="K8s" width="250"/></td>
-  <td width="33%" align="center"><h3>AWS EKS</h3><img src="image/robot-shop-eks-2.png" alt="EKS" width="250"/></td>
+  <td width="33%" align="center"><h3>AWS EKS</h3><img src="image/robot-shop-app-3.png" alt="EKS" width="250"/></td>
 </tr>
 <tr>
   <td><b>Local y Simple</b><br>Ideal para desarrollo, rápido de configurar, sin dependencias de Kubernetes.</td>
