@@ -309,6 +309,12 @@ Nuestro pipeline implementa:
   <td align="center"><img src="https://raw.githubusercontent.com/grafana/loki/master/docs/sources/logo.png" width="70px"/><br>Loki</td>
   <td align="center"><img src="https://raw.githubusercontent.com/grafana/grafana/main/public/img/grafana_icon.svg" width="70px"/><br>Grafana</td>
 </tr>
+<tr>
+  <td align="center"><img src="https://raw.githubusercontent.com/docker/docker.github.io/master/images/docker-icon.svg" width="70px"/><br>Docker</td>
+  <td align="center"><img src="https://raw.githubusercontent.com/hashicorp/terraform/main/.github/terraform.svg" width="70px"/><br>Terraform</td>
+  <td align="center"><img src="https://raw.githubusercontent.com/aws/aws-cli/v2/doc/image/aws_logo_small.png" width="70px"/><br>AWS</td>
+  <td align="center"><img src="https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/logo.png" width="70px"/><br>Kubecost</td>
+</tr>
 </table>
 
 ## 📚 Aplicación Original Robot Shop
