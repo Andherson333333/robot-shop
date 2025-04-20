@@ -31,7 +31,7 @@ cost-analyzer:
     livenessProbe:
       initialDelaySeconds: 120
 
-  # Desactivar el ingress integrado (lo crearemos separado)
+  # Desactivar el ingress 
   ingress:
     enabled: false
 
