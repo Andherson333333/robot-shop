@@ -128,4 +128,4 @@ jobs:
          git add Infrastructure-onprem/K8s/manifiestos/cart-deployment.yaml
          git add Infrastructure-cloud-EKS/infra-aplicacion/K8s/manfiestos/cart-deployment.yaml
          git commit -m "Update cart image to ${{ github.sha }} in both on-prem and EKS deployments"
-         git push
+         git push 
