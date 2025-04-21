@@ -1,0 +1,26 @@
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: shipping
+  namespace: robot-shop
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: shipping    # Points to shipping deployment
+  service:
+    port: 8080       # Service port
+  analysis:
+    interval: 30s    # Check interval
+    threshold: 5     # Number of failed checks before rollback
+    maxWeight: 50    # Maximum traffic percentage to new version
+    stepWeight: 10   # Traffic increment step
+    metrics:
+    - name: request-success-rate    # Success rate metric
+      thresholdRange:
+        min: 99    # Minimum 99% success rate
+      interval: 1m
+    - name: request-duration    # Response time metric
+      thresholdRange:
+        max: 500   # Maximum 500ms response time
+      interval: 1m
