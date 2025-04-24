@@ -23,6 +23,8 @@ This repository contains all the necessary infrastructure to deploy and manage t
 ├── infra-aplicacion     # Business applications
 ├── infra-node           # Observability and management tools
 └── infra-terraform      # AWS EKS base infrastructure
+└── ReadmeES.md          #Spanish version of this README
+
 ```
 
 ## Components
