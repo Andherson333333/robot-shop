@@ -24,6 +24,7 @@ This directory contains all the base infrastructure needed to deploy an EKS clus
 ├── EKS                      # EKS cluster and VPC definition
 ├── Karpenter                # Automatic node auto-scaling
 └── Loadbalancer-aws-nginx   # AWS LoadBalancer Controller and NGINX Ingress
+├── ReadmeES.md              # Spanish version
 ```
 
 ## Components
