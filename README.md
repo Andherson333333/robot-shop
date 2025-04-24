@@ -1,3 +1,5 @@
+Spanish version of this README is available as readmeES.md
+
 # 🤖 Robot Shop: Multi-Environment GitOps Implementation
 
 <p align="center">
