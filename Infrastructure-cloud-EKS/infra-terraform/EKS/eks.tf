@@ -6,14 +6,12 @@ module "eks" {
   enable_cluster_creator_admin_permissions = true
   cluster_endpoint_public_access          = true
   enable_irsa                             = true
-
-  # Configuración para evitar customer managed keys
+  # Configuration to avoid customer managed keys
   create_kms_key = false
   cluster_encryption_config = {
     resources = ["secrets"]
     provider_key_arn = "arn:aws:kms:${local.region}:${data.aws_caller_identity.current.account_id}:alias/aws/eks"
   }
-
   cluster_addons = {
     coredns                 = {}
     eks-pod-identity-agent  = {}
@@ -21,11 +19,9 @@ module "eks" {
     vpc-cni                 = {}
     aws-ebs-csi-driver     = {service_account_role_arn = module.eks-pod-identity.iam_role_arn}
   }
-
   vpc_id                   = module.vpc.vpc_id
   subnet_ids               = module.vpc.private_subnets
   control_plane_subnet_ids = module.vpc.intra_subnets
-
   # Istio security group rules
   node_security_group_additional_rules = {
     ingress_istio_webhook = {
@@ -61,22 +57,19 @@ module "eks" {
       source_cluster_security_group = true
     }
   }
-
   # Node groups configuration
   eks_managed_node_groups = {
-    # Nodo de infraestructura
+    # Infrastructure node
     Infrastructure = {
       instance_types = ["t3.medium"]
       min_size       = 1
       max_size       = 10
       desired_size   = 1
-
       labels = {
         "node-type" = "infrastructure"
         "workload-type" = "platform"
       }
-
-      # Taint para reservar para workloads de infraestructura
+      # Taint to reserve for infrastructure workloads
       taints = {
         workload-type = {
           key    = "workload-type"
@@ -86,7 +79,6 @@ module "eks" {
       }
     }
   }
-
   node_security_group_tags = merge(local.tags, {
     "karpenter.sh/discovery" = local.name
   })
