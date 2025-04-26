@@ -10,8 +10,8 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
 spec:
-  ingressClassName: nginx-external
-  #ingressClassName: nginx-internal
+  #ingressClassName: nginx-external
+  ingressClassName: nginx-internal
   tls:
   - hosts:
     - kiali.andherson33.click
