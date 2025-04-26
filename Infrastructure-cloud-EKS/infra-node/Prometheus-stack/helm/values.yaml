@@ -1,5 +1,5 @@
 kube-prometheus-stack:
-  # Configuración global para todos los componentes
+  # Global configuration for all components
   global:
     nodeSelector:
       node-type: infrastructure
@@ -8,10 +8,9 @@ kube-prometheus-stack:
     - key: "workload-type"
       value: "infrastructure"
       effect: "PreferNoSchedule"
-
   prometheusOperator:
     enabled: true
-    # Configuración para el operador
+    # Configuration for the operator
     nodeSelector:
       node-type: infrastructure
       workload-type: platform
@@ -19,13 +18,12 @@ kube-prometheus-stack:
     - key: "workload-type"
       value: "infrastructure"
       effect: "PreferNoSchedule"
-
   prometheus:
     enabled: true
-    # Configuración para Prometheus
+    # Configuration for Prometheus
     prometheusSpec:
       retention: "15d"
-      # Configuración de nodeSelector y tolerations para Prometheus
+      # NodeSelector and tolerations configuration for Prometheus
       nodeSelector:
         node-type: infrastructure
         workload-type: platform
@@ -33,7 +31,7 @@ kube-prometheus-stack:
       - key: "workload-type"
         value: "infrastructure"
         effect: "PreferNoSchedule"
-      # Selectores para evitar duplicados
+      # Selectors to avoid duplicates
       serviceMonitorSelector:
         matchLabels:
           release: prometheus-stack
@@ -48,11 +46,10 @@ kube-prometheus-stack:
             resources:
               requests:
                 storage: 10Gi
-
   grafana:
     enabled: true
     adminPassword: admin
-    # Configuración para Grafana
+    # Configuration for Grafana
     nodeSelector:
       node-type: infrastructure
       workload-type: platform
@@ -64,10 +61,9 @@ kube-prometheus-stack:
       enabled: true
       storageClassName: gp3-default
       size: 10Gi
-
   alertmanager:
     enabled: true
-    # Configuración para AlertManager
+    # Configuration for AlertManager
     alertmanagerSpec:
       nodeSelector:
         node-type: infrastructure
@@ -85,10 +81,9 @@ kube-prometheus-stack:
             resources:
               requests:
                 storage: 10Gi
-
-  # Configuraciones adicionales para otros componentes
+  # Additional configurations for other components
   kubeStateMetrics:
-    # Debe ejecutarse en nodos de infraestructura
+    # Must run on infrastructure nodes
     nodeSelector:
       node-type: infrastructure
       workload-type: platform
@@ -96,18 +91,17 @@ kube-prometheus-stack:
     - key: "workload-type"
       value: "infrastructure"
       effect: "PreferNoSchedule"
-
-  # Node Exporter debe ejecutarse en todos los nodos para recopilar métricas
+  # Node Exporter must run on all nodes to collect metrics
   nodeExporter:
     nodeSelector: {}  
     tolerations:
     - operator: "Exists"  
-
-# Configuración de ingress sin cambios
+# Ingress configuration unchanged
 ingress:
   prometheus:
     enabled: true
-    className: nginx-external
+    #className: nginx-external
+    className: nginx-internal
     host: dev1-prometheus.andherson33.click
     annotations:
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
@@ -119,7 +113,8 @@ ingress:
       port: 9090
   grafana:
     enabled: true
-    className: nginx-external
+    className: nginx-internal
+    #className: nginx-external
     host: dev1-grafana.andherson33.click
     annotations:
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
