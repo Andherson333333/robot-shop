@@ -14,7 +14,7 @@ loki-stack:
         effect: "PreferNoSchedule"
   promtail:
     enabled: true
-    # Añadimos un affinity para excluir los nodos de infraestructura
+    # Adding an affinity to exclude infrastructure nodes
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -24,7 +24,7 @@ loki-stack:
                   operator: NotIn
                   values:
                     - infrastructure
-    # Tolerations para permitir que se ejecute en nodos de aplicación
+    # Tolerations to allow running on application nodes
     tolerations:
       - operator: "Exists"
     config:
@@ -54,4 +54,3 @@ loki-stack:
     enabled: false
   logstash:
     enabled: false
-
