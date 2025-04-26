@@ -5,12 +5,10 @@ cost-analyzer:
       fqdn: http://prometheus-stack-kube-prom-prometheus.monitoring.svc:9090
     grafana:
       enabled: true
-
-  # Deshabilitar PodSecurityPolicy para compatibilidad
+  # Disable PodSecurityPolicy for compatibility
   podSecurityPolicy:
     enabled: false
-
-  # Configuración de recursos
+  # Resource configuration
   kubecostModel:
     resources:
       requests:
@@ -23,26 +21,21 @@ cost-analyzer:
       initialDelaySeconds: 120
     livenessProbe:
       initialDelaySeconds: 120
-
-  # Configuración del frontend
+  # Frontend configuration
   kubecostFrontend:
     readinessProbe:
       initialDelaySeconds: 120
     livenessProbe:
       initialDelaySeconds: 120
-
-  # Desactivar el ingress 
+  # Disable ingress
   ingress:
     enabled: false
-
-  # Configuración de tolerancias
+  # Tolerations configuration
   tolerations:
     - key: "workload-type"
       value: "infrastructure"
       effect: "PreferNoSchedule"
-
-  # Selector de nodos
+  # Node selector
   nodeSelector:
     node-type: infrastructure
     workload-type: platform
-
