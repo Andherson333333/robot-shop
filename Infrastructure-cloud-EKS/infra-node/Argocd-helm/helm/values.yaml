@@ -25,7 +25,8 @@ ingress:
   enabled: true
   name: argocd-ingress
   namespace: argocd
-  className: nginx-external
+  className: nginx-internal
+  #className: nginx-external
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
