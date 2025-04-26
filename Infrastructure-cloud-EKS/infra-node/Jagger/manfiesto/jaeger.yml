@@ -19,7 +19,7 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/port: "14269"
     spec:
-      # Configuración para ejecutar en nodos de infraestructura
+      # # Configuration to run on infrastructure nodes
       nodeSelector:
         node-type: infrastructure
         workload-type: platform
