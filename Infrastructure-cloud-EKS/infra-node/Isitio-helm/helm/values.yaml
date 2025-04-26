@@ -2,15 +2,13 @@ global:
   nodeSelector:
     node-type: infrastructure
     workload-type: platform
-  # Configuración de tolerancias para todos los componentes 
+  # Toleration configuration for all components 
   tolerations:
   - key: "workload-type"
     value: "infrastructure"
     effect: "NoSchedule"
-
 base:
   enabled: true
-
 istiod:
   meshConfig:
     enableTracing: true
