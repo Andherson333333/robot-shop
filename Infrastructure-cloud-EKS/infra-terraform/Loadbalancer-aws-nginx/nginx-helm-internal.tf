@@ -7,34 +7,28 @@ resource "helm_release" "internal-nginx" {
   namespace        = "ingress-nginx-internal"
   create_namespace = true
   version          = "4.12.0"
-
-  # Configuración para instalarse en nodos de infraestructura
+  # Configuration to install on infrastructure nodes
   set {
     name  = "controller.nodeSelector.node-type"
     value = "infrastructure"
   }
-
   set {
     name  = "controller.nodeSelector.workload-type"
     value = "platform"
   }
-
-  # Tolerations para el taint de infraestructura
+  # Tolerations for infrastructure taint
   set {
     name  = "controller.tolerations[0].key"
     value = "workload-type"
   }
-
   set {
     name  = "controller.tolerations[0].value"
     value = "infrastructure"
   }
-
   set {
     name  = "controller.tolerations[0].effect"
     value = "PreferNoSchedule"
   }
-
   # Ingress class configuration
   set {
     name  = "controller.ingressClassResource.name"
