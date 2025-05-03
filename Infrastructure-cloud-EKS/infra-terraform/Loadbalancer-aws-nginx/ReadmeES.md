@@ -1,4 +1,4 @@
-# Controladores de Ingress para EKS
+# Controladores de Loadbalancer para EKS
 
 ## Índice
 - [Descripción](#descripción)
@@ -58,6 +58,8 @@ La arquitectura separa el tráfico externo e interno mediante dos controladores 
 - **nginx-helm-internal.tf**: Configura el controlador NGINX interno
 
 ### Instalación
+
+Nota : Comando para buscar certificado ya configurado del acm aws  ```acm list-certificates --region us-east-1 ```
 
 1. **Requisitos**
    - Terraform ≥ 1.0.0
