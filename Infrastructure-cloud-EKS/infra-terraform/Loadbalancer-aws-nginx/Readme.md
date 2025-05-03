@@ -61,6 +61,8 @@ The architecture separates external and internal traffic through two independent
 
 ### Installation
 
+Note: Command to search for already configured ACM certificate aws acm list-certificates --region us-east-1
+
 1. **Requirements**
    - Terraform ≥ 1.0.0
    - AWS CLI configured
